@@ -20,12 +20,6 @@ version: 1.0.0+1
 environment:
   sdk: ">=2.16.0 <3.0.0"
 
-# Dependencies specify other packages that your package needs in order to work.
-# To automatically upgrade your package dependencies to the latest versions
-# consider running `flutter pub upgrade --major-versions`. Alternatively,
-# dependencies can be manually updated by changing the version numbers below to
-# the latest version available on pub.dev. To see which dependencies have newer
-# versions available, run `flutter pub outdated`.
 dependencies:
   flutter:
     sdk: flutter
@@ -48,13 +42,20 @@ dependencies:
   smooth_star_rating_null_safety: ^1.0.4+2
   google_maps_widget: ^0.0.9
 
+#  localization package
+  flutter_localizations: # Add this line
+    sdk: flutter
+  intl: ^0.17.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^1.0.0
 
+
 flutter:
   uses-material-design: true
+  generate: true
 
   assets:
     - assets/images/mno/
