@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>61485114230-kdphii1fcn8s8nj7ub0kpa4hg2j2973b.apps.googleusercontent.com</string>
+	<string>61485114230-1e5ncib8ja9pc6l6p1ktiuhebspnv57u.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.61485114230-kdphii1fcn8s8nj7ub0kpa4hg2j2973b</string>
+	<string>com.googleusercontent.apps.61485114230-1e5ncib8ja9pc6l6p1ktiuhebspnv57u</string>
 	<key>API_KEY</key>
 	<string>AIzaSyDYzYQJuhzW527IoOOl7YzCABEKcOMGX3I</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>co.tz.wexchange</string>
+	<string>co.tz.wexchange.afrisolutions</string>
 	<key>PROJECT_ID</key>
 	<string>wexchange-765f8</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:61485114230:ios:64ebcf4bc408f31ffbd057</string>
+	<string>1:61485114230:ios:a353fb7627410cebfbd057</string>
 </dict>
 </plist>
