@@ -16,8 +16,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 // import 'package:';
 
 Future<void> main() async {
-  //fixme::not initalizing porperly
-
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(
@@ -39,16 +37,18 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: weXchange(),
-      localizationsDelegates: [
+      localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: [
+      supportedLocales: const [
         Locale('en', ''), // English, no country code
         Locale('sw', ''), // Spanish, no country code
       ],
-      home: const Language(),
+      home: FirebaseAuth.instance.currentUser == null
+          ? const Language()
+          : const UserDashboard(),
       routes: {
         LandingScreen.id: (context) => const LandingScreen(),
         LoginScreen.id: (context) => const LoginScreen(),

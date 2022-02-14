@@ -50,9 +50,13 @@ class _VerifyPinState extends State<VerifyPin> {
             ),
           );
         },
-        codeSent: (String verificationID, int? respondToken) {},
+        codeSent: (String verificationID, int? respondToken) {
+          verificationCode = verificationID;
+        },
         timeout: const Duration(seconds: 90),
-        codeAutoRetrievalTimeout: (String verificationId) {});
+        codeAutoRetrievalTimeout: (String verificationId) {
+          verificationCode = verificationId;
+        });
   }
 
   @override
@@ -89,7 +93,6 @@ class _VerifyPinState extends State<VerifyPin> {
                 ),
               ),
               onSubmit: (pin) async {
-                print(pin);
                 try {
                   await _auth
                       .signInWithCredential(PhoneAuthProvider.credential(
@@ -102,9 +105,9 @@ class _VerifyPinState extends State<VerifyPin> {
                 } catch (e) {
                   FocusScope.of(context).unfocus();
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("Invalid code"),
-                      duration: Duration(seconds: 5),
+                    SnackBar(
+                      content: Text(e.toString()),
+                      duration: const Duration(seconds: 5),
                     ),
                   );
                 }

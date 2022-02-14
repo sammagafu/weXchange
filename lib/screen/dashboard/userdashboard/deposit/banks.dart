@@ -26,7 +26,6 @@ class _BanksWidgetState extends State<BanksWidget> {
                 .copyWith(color: kPrimaryColor),
           ),
         ),
-        const SizedBox(height: 18),
         Material(
           borderRadius: BorderRadius.circular(10),
           color: kContentColorLightTheme,

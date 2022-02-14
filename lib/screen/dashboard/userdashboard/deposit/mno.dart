@@ -26,7 +26,6 @@ class _MnoState extends State<Mno> {
                 .copyWith(color: kPrimaryColor),
           ),
         ),
-        const SizedBox(height: 45),
         Material(
           borderRadius: BorderRadius.circular(10),
           color: kContentColorLightTheme,

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:we_exchange/constants/constants.dart';
 import 'package:we_exchange/screen/welcomescreen/landingscreen.dart';
-    
+
 class Language extends StatefulWidget {
   const Language({Key? key}) : super(key: key);
 

@@ -1,15 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:we_exchange/constants/constants.dart';
-import 'package:we_exchange/screen/dashboard/admindashboard/agentdashboard.dart';
-import 'package:we_exchange/screen/dashboard/userdashboard/userdashboard.dart';
 import 'package:we_exchange/screen/registration/registerAgent.dart';
+import 'package:we_exchange/screen/registration/verifyPin.dart';
 
 class LoginScreen extends StatefulWidget {
   static String id = "Login Account";
+
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
@@ -17,19 +15,13 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
-  final CollectionReference _firestore =
-      FirebaseFirestore.instance.collection("user_profile");
   String errorMessage = '';
   final _formKey = GlobalKey<FormState>();
   TextEditingController phoneNumberController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
   bool _isObscure = true;
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       backgroundColor: kPrimaryColor,
       body: SingleChildScrollView(
@@ -47,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   color: kContentDarkTheme,
                   height: 85.0,
                 ),
-                const SizedBox(height: 50),
+                const SizedBox(height: 100),
                 TextFormField(
                   controller: phoneNumberController,
                   keyboardType: TextInputType.phone,
@@ -61,54 +53,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     }
                     return null;
                   },
-                  decoration: const InputDecoration(
-                    prefixIcon: Icon(
-                      Icons.phone_iphone,
-                      color: kContentDarkTheme,
-                    ),
-                    labelText: "Enter your phone number",
-                    labelStyle: TextStyle(color: kContentDarkTheme),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: kContentDarkTheme,
-                        width: 1,
-                      ),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: kContentDarkTheme,
-                        width: 1,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 18),
-                TextFormField(
-                  controller: passwordController,
-                  autofocus: false,
-                  obscureText: _isObscure,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return ("Please Enter your Password");
-                    }
-                  },
                   decoration: InputDecoration(
-                    prefixIcon: const Icon(
-                      Icons.lock,
-                      color: kContentDarkTheme,
-                    ),
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        _isObscure ? Icons.visibility : Icons.visibility_off,
+                    suffixIcon: const Icon(Icons.phone_iphone),
+                    prefixIcon: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Text(
+                        "+255",
+                        style: Theme.of(context).textTheme.bodyText2,
                       ),
-                      onPressed: () {
-                        setState(() {
-                          _isObscure = !_isObscure;
-                        });
-                      },
                     ),
-                      // child: Icon(Icons.remove_red_eye,color: kContentDarkTheme,)
-                    labelText: "Enter your password",
                     labelStyle: const TextStyle(color: kContentDarkTheme),
                     focusedBorder: const OutlineInputBorder(
                       borderSide: BorderSide(
@@ -139,7 +92,18 @@ class _LoginScreenState extends State<LoginScreen> {
                     NeumorphicButton(
                       margin: const EdgeInsets.only(top: 12),
                       padding: const EdgeInsets.all(25),
-                      onPressed: signIn,
+                      onPressed: () {
+                        final formState = _formKey.currentState;
+                        if (formState!.validate()) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => VerifyPin(
+                                        phoneNumber:
+                                            "+255${phoneNumberController.text.toString()}",
+                                      )));
+                        }
+                      },
                       style: const NeumorphicStyle(
                         lightSource: LightSource.topLeft,
                         shape: NeumorphicShape.flat,
@@ -194,37 +158,5 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
-  }
-
-  Future<void> signIn() async {
-    final formState = _formKey.currentState;
-    if (formState!.validate()) {
-      try {
-        UserCredential user = await FirebaseAuth.instance
-            .signInWithEmailAndPassword(
-                email: phoneNumberController.text, password: passwordController.text);
-        var userData = FirebaseAuth.instance.currentUser;
-
-        var userStatus =
-            await _firestore.where("uiid", isEqualTo: userData?.uid).get();
-        var is_agent = userStatus.docs.first.get("is_agent");
-        print(userStatus.docs.first.data());
-        if (is_agent == true) {
-          Navigator.pushNamed(context, AgentDashboard.id);
-        } else {
-          Navigator.pushNamed(context, UserDashboard.id);
-        }
-      } on FirebaseAuthException catch (err) {
-        if (err.code == 'user-not-found') {
-          setState(() {
-            errorMessage = "Wrong Email Entered please check";
-          });
-        } else if (err.code == 'wrong-password') {
-          setState(() {
-            errorMessage = "Wrong Password please try again";
-          });
-        }
-      }
-    }
   }
 }

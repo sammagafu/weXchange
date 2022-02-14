@@ -48,9 +48,6 @@ class _HomeState extends State<Home> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(
-            height: 25,
-          ),
           Align(
             alignment: Alignment.topLeft,
             child: Text(
@@ -172,7 +169,7 @@ class _HomeState extends State<Home> {
             child: StreamBuilder<QuerySnapshot>(
               stream: _db
                   .where("user", isEqualTo: _auth?.uid)
-                  .orderBy("request_time", descending: false)
+                  .orderBy("request_time", descending: true)
                   .limit(8)
                   .snapshots(),
               builder: (BuildContext context,

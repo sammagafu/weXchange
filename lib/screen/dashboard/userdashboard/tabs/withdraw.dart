@@ -19,9 +19,6 @@ class _WithdrawState extends State<Withdraw> {
       padding: const EdgeInsets.fromLTRB(15, 65, 15, 30),
       child: Column(
         children: [
-          const SizedBox(
-            height: 25,
-          ),
           Align(
             alignment: Alignment.topLeft,
             child: Text(
