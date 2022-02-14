@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 // import 'package:geolocator/geolocator.dart';
 // import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -289,7 +290,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
                                   ],
                                 );
                               }
-                              var userprofile = snapshot.data['agent'];
+                              var agent = snapshot.data['agent'];
                               return Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -313,21 +314,20 @@ class _SuccessScreenState extends State<SuccessScreen> {
                                   ),
                                   StreamBuilder(
                                       stream: FirebaseFirestore.instance
-                                          .collection('user_profile')
-                                          .where('uiid', isEqualTo: userprofile)
-                                          .limit(1)
+                                          .collection('users')
+                                          .doc(agent)
                                           .snapshots(),
                                       builder: (BuildContext context,
                                           AsyncSnapshot snapshot) {
                                         if (!snapshot.hasData) {
                                           return const CircularProgressIndicator();
                                         }
-                                        var phonenumber =
-                                            snapshot.data!.docs.first;
+                                        var phonenumber = snapshot.data;
+
+                                        // FirebaseAuth.instance.currentUser.
                                         return GestureDetector(
                                           onTap: () {
-                                            launch(
-                                                "tel:${phonenumber['phone_number']}");
+                                            launch("tel:");
                                           },
                                           child: const CircleAvatar(
                                             backgroundColor: kContentDarkTheme,
@@ -362,102 +362,104 @@ class _SuccessScreenState extends State<SuccessScreen> {
                       ),
                     );
                   }
-                  return Container(
-                    color: kPrimaryColor,
-                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-                    child: Column(
-                      children: [
-                        const SizedBox(height: 12),
-                        const Text("Transaction Details"),
-                        const SizedBox(height: 12),
-                        Container(
-                          height: 1,
-                          width: 100,
-                          color: kContentDarkTheme,
-                        ),
-                        const SizedBox(height: 12),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Service",
-                              style: Theme.of(context).textTheme.bodyText1,
-                            ),
-                            Text(
-                              snapshot.data!["service"],
-                              style: Theme.of(context).textTheme.bodyText1,
-                            )
-                          ],
-                        ),
-                        const SizedBox(height: 12),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Carrier",
-                              style: Theme.of(context).textTheme.bodyText1,
-                            ),
-                            Text(
-                              snapshot.data!["carrier"],
-                              style: Theme.of(context).textTheme.bodyText1,
-                            )
-                          ],
-                        ),
-                        const SizedBox(height: 12),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Amount",
-                              style: Theme.of(context).textTheme.bodyText1,
-                            ),
-                            Text(
-                              snapshot.data!["amount"],
-                              style: Theme.of(context).textTheme.bodyText1,
-                            )
-                          ],
-                        ),
-                        const SizedBox(height: 24),
-                        const Text("Charges"),
-                        const SizedBox(height: 12),
-                        Container(
-                          height: 1,
-                          width: 100,
-                          color: kContentDarkTheme,
-                        ),
-                        const SizedBox(height: 24),
-                        snapshot.data!["service"] == "withdraw"
-                            ? showWithdrawrates(
-                                double.parse(snapshot.data!["amount"]))
-                            : showDepositrates(
-                                double.parse(snapshot.data!["amount"])),
-                        const SizedBox(height: 24),
-                        TextButton(
-                          style: TextButton.styleFrom(
-                              padding: const EdgeInsets.all(8),
-                              backgroundColor: kSecondaryColor),
-                          onPressed: () {
-                            cancelTransaction();
-                            Navigator.pop(context, UserDashboard.id);
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                  return Expanded(
+                    child: Container(
+                      color: kPrimaryColor,
+                      padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 12),
+                          const Text("Transaction Details"),
+                          const SizedBox(height: 12),
+                          Container(
+                            height: 1,
+                            width: 100,
+                            color: kContentDarkTheme,
+                          ),
+                          const SizedBox(height: 12),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                "Cancell Transaction",
-                                style: Theme.of(context).textTheme.bodyText2,
+                                "Service",
+                                style: Theme.of(context).textTheme.bodyText1,
                               ),
-                              const Padding(
-                                  padding: EdgeInsets.fromLTRB(20, 0, 0, 0)),
-                              const Icon(
-                                Icons.cancel,
-                                color: kContentDarkTheme,
-                                size: 18,
+                              Text(
+                                snapshot.data!["service"],
+                                style: Theme.of(context).textTheme.bodyText1,
                               )
                             ],
                           ),
-                        ),
-                      ],
+                          const SizedBox(height: 12),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Carrier",
+                                style: Theme.of(context).textTheme.bodyText1,
+                              ),
+                              Text(
+                                snapshot.data!["carrier"],
+                                style: Theme.of(context).textTheme.bodyText1,
+                              )
+                            ],
+                          ),
+                          const SizedBox(height: 12),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Amount",
+                                style: Theme.of(context).textTheme.bodyText1,
+                              ),
+                              Text(
+                                snapshot.data!["amount"],
+                                style: Theme.of(context).textTheme.bodyText1,
+                              )
+                            ],
+                          ),
+                          const SizedBox(height: 24),
+                          const Text("Charges"),
+                          const SizedBox(height: 12),
+                          Container(
+                            height: 1,
+                            width: 100,
+                            color: kContentDarkTheme,
+                          ),
+                          const SizedBox(height: 24),
+                          snapshot.data!["service"] == "withdraw"
+                              ? showWithdrawrates(
+                                  double.parse(snapshot.data!["amount"]))
+                              : showDepositrates(
+                                  double.parse(snapshot.data!["amount"])),
+                          const SizedBox(height: 24),
+                          TextButton(
+                            style: TextButton.styleFrom(
+                                padding: const EdgeInsets.all(8),
+                                backgroundColor: kSecondaryColor),
+                            onPressed: () {
+                              cancelTransaction();
+                              Navigator.pop(context, UserDashboard.id);
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Cancell Transaction",
+                                  style: Theme.of(context).textTheme.bodyText2,
+                                ),
+                                const Padding(
+                                    padding: EdgeInsets.fromLTRB(20, 0, 0, 0)),
+                                const Icon(
+                                  Icons.cancel,
+                                  color: kContentDarkTheme,
+                                  size: 18,
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },
