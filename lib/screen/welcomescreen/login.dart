@@ -117,23 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 24),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    const Text("Forgot your password ?"),
-                    TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        "Reset Password",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyText2!
-                            .copyWith(color: kContentColorLightTheme),
-                      ),
-                    )
-                  ],
-                ),
+                const SizedBox(height: 40),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:we_exchange/constants/constants.dart';
 import 'package:we_exchange/screen/dashboard/admindashboard/tabs/activities.dart';
-import 'package:we_exchange/screen/dashboard/admindashboard/tabs/admin_dashboard.dart';
 import 'package:we_exchange/screen/dashboard/admindashboard/tabs/setting.dart';
 
 class AgentDashboard extends StatefulWidget {
@@ -15,7 +14,6 @@ class AgentDashboard extends StatefulWidget {
 class _AgentDashboardState extends State<AgentDashboard> {
   int selectedIndex = 0;
   final List<Widget> _widgetoption = [
-    const AdminDashboard(),
     const AdminActivities(),
     const AdminSettings()
   ];

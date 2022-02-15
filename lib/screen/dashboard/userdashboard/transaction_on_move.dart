@@ -4,8 +4,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:we_exchange/constants/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:we_exchange/screen/dashboard/admindashboard/agentdashboard.dart';
 import 'package:we_exchange/screen/dashboard/admindashboard/tabs/message.dart';
+import 'package:we_exchange/screen/dashboard/userdashboard/userdashboard.dart';
 
 class TransactionOnMove extends StatefulWidget {
   static final String id = "transaction on move";
@@ -165,7 +165,7 @@ class _TransactionOnMoveState extends State<TransactionOnMove> {
                               "is_active": false,
                               "status": "completed"
                             });
-                            Navigator.pushNamed(context, AgentDashboard.id);
+                            Navigator.pushNamed(context, UserDashboard.id);
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -185,7 +185,7 @@ class _TransactionOnMoveState extends State<TransactionOnMove> {
                 ],
               );
             } else {
-              return const Text("An error happed");
+              return const Text("An error happened");
             }
           }),
     );
