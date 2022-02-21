@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:we_exchange/constants/constants.dart';
+import 'package:we_exchange/screen/registration/verifyPinRegistration.dart';
 import 'package:we_exchange/screen/welcomescreen/login.dart';
 
 class RegisterUserAgent extends StatefulWidget {
@@ -115,7 +116,7 @@ class _RegisterUserAgentState extends State<RegisterUserAgent> {
                     ),
                   ),
                 ),
-                SizedBox(height: 32),
+                const SizedBox(height: 32),
                 TextFormField(
                   controller: phoneNumberController,
                   keyboardType: TextInputType.phone,
@@ -124,25 +125,28 @@ class _RegisterUserAgentState extends State<RegisterUserAgent> {
                       return ("Please Enter phone number");
                     }
                     if (!RegExp(r'(^(?:[+0]9)?[0-9]{10,12}$)')
-                        .hasMatch(value)) {
+                        .hasMatch("+255${value}")) {
                       return ("Enter the valid phone number");
                     }
                     return null;
                   },
-                  decoration: const InputDecoration(
-                    prefixIcon: Icon(
-                      Icons.phone_iphone,
-                      color: kContentDarkTheme,
+                  decoration: InputDecoration(
+                    suffixIcon: const Icon(Icons.phone_iphone),
+                    prefixIcon: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Text(
+                        "+255",
+                        style: Theme.of(context).textTheme.bodyText2,
+                      ),
                     ),
-                    labelText: "Enter your phone number",
-                    labelStyle: TextStyle(color: kContentDarkTheme),
-                    focusedBorder: OutlineInputBorder(
+                    labelStyle: const TextStyle(color: kContentDarkTheme),
+                    focusedBorder: const OutlineInputBorder(
                       borderSide: BorderSide(
                         color: kContentDarkTheme,
                         width: 1,
                       ),
                     ),
-                    enabledBorder: OutlineInputBorder(
+                    enabledBorder: const OutlineInputBorder(
                       borderSide: BorderSide(
                         color: kContentDarkTheme,
                         width: 1,
@@ -150,7 +154,7 @@ class _RegisterUserAgentState extends State<RegisterUserAgent> {
                     ),
                   ),
                 ),
-                SizedBox(height: 32),
+                const SizedBox(height: 32),
                 TextFormField(
                   controller: passwordController,
                   keyboardType: TextInputType.text,
@@ -165,7 +169,7 @@ class _RegisterUserAgentState extends State<RegisterUserAgent> {
                   },
                   onSaved: (value) {},
                   obscureText: _isObscure,
-                  decoration:  InputDecoration(
+                  decoration: InputDecoration(
                     prefixIcon: const Icon(
                       Icons.password,
                       color: kContentDarkTheme,
@@ -205,11 +209,20 @@ class _RegisterUserAgentState extends State<RegisterUserAgent> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Create account"),
+                    const Text("Create account"),
                     NeumorphicButton(
                       margin: EdgeInsets.only(top: 12),
                       padding: EdgeInsets.all(25),
-                      onPressed: createUserAgent,
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => VerifyUserRegistration(
+                                    name: fullnameController.text,
+                                    email: emailController.text,
+                                    phone: "+255${phoneNumberController.text}",
+                                    password: passwordController.text)));
+                      },
                       style: const NeumorphicStyle(
                         lightSource: LightSource.topLeft,
                         shape: NeumorphicShape.flat,
@@ -253,23 +266,23 @@ class _RegisterUserAgentState extends State<RegisterUserAgent> {
       ),
     );
   }
-
-  Future<void> createUserAgent() async {
-    final _formstate = _formKey.currentState;
-    if (_formstate!.validate()) {
-      try {
-        await _auth.createUserWithEmailAndPassword(
-            email: emailController.text, password: passwordController.text);
-        await _auth.currentUser!.updateDisplayName(fullnameController.text);
-        await Navigator.pushNamed(context, LoginScreen.id);
-      } on FirebaseAuthException catch (err) {
-        if (err.code == 'email-already-in-use') {
-          setState(() {
-            errorMessage =
-                "The email address is already in use by another account";
-          });
-        }
-      }
-    }
-  }
+  //
+  // Future<void> createUserAgent() async {
+  //   final _formstate = _formKey.currentState;
+  //   if (_formstate!.validate()) {
+  //     try {
+  //       await _auth.createUserWithEmailAndPassword(
+  //           email: emailController.text, password: passwordController.text);
+  //       await _auth.currentUser!.updateDisplayName(fullnameController.text);
+  //       await Navigator.pushNamed(context, LoginScreen.id);
+  //     } on FirebaseAuthException catch (err) {
+  //       if (err.code == 'email-already-in-use') {
+  //         setState(() {
+  //           errorMessage =
+  //               "The email address is already in use by another account";
+  //         });
+  //       }
+  //     }
+  //   }
+  // }
 }

@@ -144,6 +144,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
   @override
   void initState() {
+    print(FirebaseAuth.instance.currentUser?.phoneNumber);
     SystemChannels.textInput.invokeMethod('TextInput.hide');
     super.initState();
   }
@@ -151,7 +152,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: kPrimaryColor,
+      backgroundColor: kContentColorLightTheme,
       body: StreamBuilder<QuerySnapshot>(
           stream: _transaction,
           builder:
@@ -274,7 +275,13 @@ class _AdminDashboardState extends State<AdminDashboard> {
                       // Center(child: CircularProgressIndicator()),
                       const SizedBox(height: 24),
                       const Text(
-                        "Looking for clients please wait ...",
+                        "Looking for requests please wait ...",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: kPrimaryColor),
+                      ),
+                      const SizedBox(height: 5),
+                      const Text(
+                        "Accept requests transact and get commission",
                         textAlign: TextAlign.center,
                         style: TextStyle(color: kPrimaryColor),
                       ),

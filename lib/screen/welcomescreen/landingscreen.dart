@@ -40,7 +40,7 @@ class _LandingScreenState extends State<LandingScreen> {
             height: 45,
           ),
           Text(
-            "Connects you to the nearby mobile agent",
+            "Mobile Money Simplified",
             style: Theme.of(context).textTheme.headline3,
             textAlign: TextAlign.center,
           ),
