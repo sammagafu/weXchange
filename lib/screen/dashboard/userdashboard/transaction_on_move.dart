@@ -6,6 +6,7 @@ import 'package:we_exchange/constants/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:we_exchange/screen/dashboard/admindashboard/tabs/message.dart';
 import 'package:we_exchange/screen/dashboard/userdashboard/userdashboard.dart';
+import 'package:google_maps_widget/google_maps_widget.dart';
 
 class TransactionOnMove extends StatefulWidget {
   static final String id = "transaction on move";
@@ -51,7 +52,7 @@ class _TransactionOnMoveState extends State<TransactionOnMove> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: StreamBuilder(
-          stream: _transaction.doc(widget.data.toString()).snapshots(),
+          stream: _transaction.doc(widget.data).snapshots(),
           builder: (BuildContext builder, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
               var user_ = snapshot.data['user'];
@@ -67,34 +68,14 @@ class _TransactionOnMoveState extends State<TransactionOnMove> {
                             longitude,
                             snapshot.data.latitude,
                             snapshot.data.longitude);
-                        print("the distance between is $distanceInMeters");
-                        final Marker _clientsLocation = Marker(
-                            markerId: const MarkerId('_clientlocation'),
-                            infoWindow:
-                                const InfoWindow(title: "Client's location"),
-                            icon: BitmapDescriptor.defaultMarkerWithHue(
-                                BitmapDescriptor.hueBlue),
-                            position: LatLng(latitude, longitude));
-                        final Marker _myLocation = Marker(
-                            markerId: const MarkerId('_mylocation'),
-                            infoWindow: const InfoWindow(title: "My Location"),
-                            icon: BitmapDescriptor.defaultMarkerWithHue(
-                                BitmapDescriptor.hueBlue),
-                            position: LatLng(snapshot.data.latitude,
-                                snapshot.data.longitude));
                         return Positioned.fill(
                           child: Opacity(
                             opacity: .9,
-                            child: GoogleMap(
-                              myLocationButtonEnabled: false,
-                              zoomControlsEnabled: true,
-                              mapType: MapType.normal,
-                              initialCameraPosition: CameraPosition(
-                                target: LatLng(latitude, longitude),
-                                tilt: 59.440717697143555,
-                                zoom: 16,
-                              ),
-                              markers: {_clientsLocation, _myLocation},
+                            child: GoogleMapsWidget(
+                              apiKey: "AIzaSyDaf3ZfW1IA-QS-469Ud2ZHnxONavHmeL0",
+                              sourceLatLng: LatLng(latitude, longitude),
+                              destinationLatLng: LatLng(snapshot.data.latitude,
+                                  snapshot.data.longitude),
                             ),
                           ),
                         );
@@ -107,15 +88,15 @@ class _TransactionOnMoveState extends State<TransactionOnMove> {
                         StreamBuilder(
                             stream: FirebaseFirestore.instance
                                 .collection("user_profile")
-                                .where('uiid', isEqualTo: user_)
+                                .doc(user_)
                                 .snapshots(),
                             builder:
                                 (BuildContext context, AsyncSnapshot snapshot) {
                               if (snapshot.hasData) {
-                                var _phone = snapshot.data!.docs.first;
+                                var _phone = snapshot.data;
                                 return GestureDetector(
                                   onTap: () {
-                                    launch("tel:${_phone['phone_number']}");
+                                    launch("tel:${_phone!['phone']}");
                                   },
                                   child: const CircleAvatar(
                                     backgroundColor: kPrimaryColor,

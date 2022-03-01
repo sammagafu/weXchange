@@ -1,6 +1,8 @@
 import UIKit
 import Flutter
 import Firebase
+import GoogleMaps
+
 
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate {
@@ -8,9 +10,10 @@ import Firebase
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
+  GMSServices.provideAPIKey("AIzaSyDaf3ZfW1IA-QS-469Ud2ZHnxONavHmeL0")
     FirebaseApp.configure()
     GeneratedPluginRegistrant.register(with: self)
-      
+
       if #available(iOS 10.0, *) {
         // For iOS 10 display notification (sent via APNS)
         UNUserNotificationCenter.current().delegate = self
@@ -27,8 +30,7 @@ import Firebase
       }
 
       application.registerForRemoteNotifications()
-
-    
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 }
+//

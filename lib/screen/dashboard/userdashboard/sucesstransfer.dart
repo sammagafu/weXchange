@@ -156,8 +156,8 @@ class _SuccessScreenState extends State<SuccessScreen> {
       body: Stack(
         children: [
           DraggableScrollableSheet(
-            initialChildSize: 0.6,
-            maxChildSize: 0.8,
+            initialChildSize: 0.7,
+            maxChildSize: 0.7,
             minChildSize: 0.25,
             builder: (context, scrollController) {
               return StreamBuilder(
@@ -167,7 +167,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
                   if (snapshot.data!["status"] == "completed") {
                     return Container(
                       color: kPrimaryColor,
-                      padding: const EdgeInsets.fromLTRB(20, 20, 20, 45),
+                      padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                       child: Column(
                         children: [
                           const SizedBox(height: 12),
@@ -182,7 +182,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
                           ),
                           const SizedBox(height: 42),
                           SmoothStarRating(
-                              size: 40,
+                              size: 30,
                               rating: rating,
                               halfFilledIconData: Icons.star_half,
                               filledIconData: Icons.star,
@@ -200,7 +200,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
                           const Spacer(),
                           ElevatedButton(
                             onPressed: () {
-                              Navigator.pop(context, UserDashboard.id);
+                              Navigator.pushNamed(context, UserDashboard.id);
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -314,20 +314,19 @@ class _SuccessScreenState extends State<SuccessScreen> {
                                   StreamBuilder(
                                       stream: FirebaseFirestore.instance
                                           .collection('user_profile')
-                                          .where('uiid', isEqualTo: userprofile)
-                                          .limit(1)
+                                          .doc(userprofile)
                                           .snapshots(),
                                       builder: (BuildContext context,
                                           AsyncSnapshot snapshot) {
                                         if (!snapshot.hasData) {
                                           return const CircularProgressIndicator();
                                         }
-                                        var phonenumber =
-                                            snapshot.data!.docs.first;
+                                        var data = snapshot.data;
+                                        // print(data['phoneNumber']);
+                                        // print(snapshot.data.do);
                                         return GestureDetector(
                                           onTap: () {
-                                            launch(
-                                                "tel:${phonenumber['phone_number']}");
+                                            launch("tel:${data['phone']}");
                                           },
                                           child: const CircleAvatar(
                                             backgroundColor: kContentDarkTheme,
@@ -438,7 +437,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
                               backgroundColor: kSecondaryColor),
                           onPressed: () {
                             cancelTransaction();
-                            Navigator.pop(context, UserDashboard.id);
+                            Navigator.pushNamed(context, UserDashboard.id);
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,

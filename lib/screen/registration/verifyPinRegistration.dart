@@ -1,21 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pin_put/pin_put.dart';
 import 'package:we_exchange/constants/constants.dart';
 import 'package:we_exchange/screen/dashboard/userdashboard/userdashboard.dart';
+import 'package:we_exchange/screen/updateProfile.dart';
 
 class VerifyUserRegistration extends StatefulWidget {
-  VerifyUserRegistration(
-      {Key? key,
-      required this.name,
-      required this.email,
-      required this.phone,
-      required this.password})
+  VerifyUserRegistration({Key? key, required this.name, required this.phone})
       : super(key: key);
   String name;
-  String email;
   String phone;
-  String password;
 
   @override
   _VerifyUserRegistrationState createState() => _VerifyUserRegistrationState();
@@ -23,6 +18,7 @@ class VerifyUserRegistration extends StatefulWidget {
 
 class _VerifyUserRegistrationState extends State<VerifyUserRegistration> {
   final _auth = FirebaseAuth.instance;
+  final _profile = FirebaseFirestore.instance.collection("user_profile");
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final TextEditingController _pinPutController = TextEditingController();
   final FocusNode _pinPutFocusNode = FocusNode();
@@ -48,7 +44,8 @@ class _VerifyUserRegistrationState extends State<VerifyUserRegistration> {
           await _auth.signInWithCredential(credential).then((value) {
             if (value.user != null) {
               value.user!.updateDisplayName(widget.name);
-              Navigator.pushNamed(context, UserDashboard.id);
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => UpdateUserProfile()));
             }
           });
         },
@@ -72,6 +69,7 @@ class _VerifyUserRegistrationState extends State<VerifyUserRegistration> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kSecondaryColor,
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
@@ -119,7 +117,15 @@ class _VerifyUserRegistrationState extends State<VerifyUserRegistration> {
                           verificationId: verificationCode!, smsCode: pin))
                       .then((value) {
                     if (value.user != null) {
+                      //
+                      // .doc(value.user!.uid)
+                      // .set('fullname':widget.name,'phoneNumber':widget.phone);
                       Navigator.pushNamed(context, UserDashboard.id);
+                      value.user!.updateDisplayName(widget.name);
+                      _profile.doc(value.user!.uid).set({
+                        "phone": widget.phone,
+                        "fullname": widget.name,
+                      });
                     }
                   });
                 } catch (e) {

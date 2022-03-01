@@ -45,19 +45,6 @@ class _AdminDashboardState extends State<AdminDashboard> {
               ),
             ],
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Withraw Charges",
-                style: Theme.of(context).textTheme.bodyText1,
-              ),
-              Text(
-                "3000",
-                style: Theme.of(context).textTheme.bodyText1,
-              ),
-            ],
-          ),
         ],
       );
     }
@@ -75,7 +62,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
           ),
         ],
       );
-    } else {
+    }
+    if (amount > 50000) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -122,7 +110,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
           ),
         ],
       );
-    } else {
+    }
+    if (amount > 50000) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -144,7 +133,6 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
   @override
   void initState() {
-    print(FirebaseAuth.instance.currentUser?.phoneNumber);
     SystemChannels.textInput.invokeMethod('TextInput.hide');
     super.initState();
   }
@@ -152,7 +140,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kContentColorLightTheme,
+      backgroundColor: kdarkwhite,
       body: StreamBuilder<QuerySnapshot>(
           stream: _transaction,
           builder:
@@ -180,7 +168,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                         child: Row(
                           children: [
                             Text(
-                              "$_currentUserProfile",
+                              "${FirebaseAuth.instance.currentUser!.displayName}",
                               style: Theme.of(context)
                                   .textTheme
                                   .headline5!
@@ -195,7 +183,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                       Container(
                         height: 1,
                         color: kPrimaryColor,
-                        width: MediaQuery.of(context).size.width * .5,
+                        width: MediaQuery.of(context).size.width * .35,
                       ),
                       const SizedBox(
                         height: 18,
@@ -273,16 +261,16 @@ class _AdminDashboardState extends State<AdminDashboard> {
                         ],
                       ),
                       // Center(child: CircularProgressIndicator()),
-                      const SizedBox(height: 24),
+                      const SizedBox(height: 45),
                       const Text(
                         "Looking for requests please wait ...",
                         textAlign: TextAlign.center,
                         style: TextStyle(color: kPrimaryColor),
                       ),
-                      const SizedBox(height: 5),
+                      const SizedBox(height: 15),
                       const Text(
                         "Accept requests transact and get commission",
-                        textAlign: TextAlign.center,
+                        // textAlign: TextAlign.center,
                         style: TextStyle(color: kPrimaryColor),
                       ),
                     ],
@@ -290,6 +278,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                 );
               }
               var _transactionData = snapshot.data!.docs.first;
+              print(_transactionData);
               var _requestingUser = _transactionData["user"];
 
               if (_requestingUser = _transactionData["user"] !=

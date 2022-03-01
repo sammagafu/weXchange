@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:we_exchange/constants/constants.dart';
+import 'package:we_exchange/screen/updateProfile.dart';
 import 'package:we_exchange/screen/welcomescreen/login.dart';
 
 class Setting extends StatefulWidget {
@@ -80,7 +81,12 @@ class _SettingState extends State<Setting> {
               height: 24,
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => UpdateUserProfile()));
+              },
               style: TextButton.styleFrom(
                 backgroundColor: Colors.grey,
                 padding: const EdgeInsets.fromLTRB(40, 15, 20, 15),
