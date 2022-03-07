@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:we_exchange/constants/constants.dart';
+import 'package:we_exchange/generated/l10n.dart';
 import 'package:we_exchange/screen/registration/registerAgent.dart';
 import 'package:we_exchange/screen/registration/verifyPin.dart';
 
@@ -35,11 +36,11 @@ class _LoginScreenState extends State<LoginScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  "Welcome",
+                  S.of(context).welcome,
                   style: Theme.of(context).textTheme.headline3,
                 ),
                 Text(
-                  "Login to your Account",
+                  S.of(context).ihaveaccount,
                   style: Theme.of(context).textTheme.headline5,
                 ),
                 const SizedBox(height: 32),
@@ -84,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text("Create account"),
+                    Text(S.of(context).login),
                     NeumorphicButton(
                       margin: EdgeInsets.only(top: 12),
                       padding: EdgeInsets.all(25),
@@ -120,7 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Row(
                     children: [
                       Text(
-                        "Create account",
+                        S.of(context).caccount,
                         style: Theme.of(context).textTheme.headline5,
                       ),
                       const Padding(padding: EdgeInsets.fromLTRB(20, 0, 0, 0)),

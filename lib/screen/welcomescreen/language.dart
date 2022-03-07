@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
+import 'package:we_exchange/LanguageChangeProvider.dart';
 import 'package:we_exchange/constants/constants.dart';
+import 'package:we_exchange/generated/l10n.dart';
 import 'package:we_exchange/screen/welcomescreen/landingscreen.dart';
 
 class Language extends StatefulWidget {
@@ -11,7 +14,7 @@ class Language extends StatefulWidget {
 }
 
 class _LanguageState extends State<Language> {
-  String default_language = 'English';
+  String default_language = 'sw';
   var language = [
     'English',
     'Swahili',
@@ -20,9 +23,9 @@ class _LanguageState extends State<Language> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    body:SafeArea(
-      // color: kContentDarkTheme,
-      child: Column(
+      body: SafeArea(
+        // color: kContentDarkTheme,
+        child: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -34,39 +37,60 @@ class _LanguageState extends State<Language> {
                 height: 100.0,
               ),
             ),
-            Expanded(child: Text('Welcome to weXchage App, \n  your language', style: Theme.of(context).textTheme.headline5!.copyWith(color: kPrimaryColor),textAlign: TextAlign.center,)),
+            Expanded(
+                child: Text(
+              S.of(context).welcometext,
+              style: Theme.of(context)
+                  .textTheme
+                  .headline5!
+                  .copyWith(color: kPrimaryColor),
+              textAlign: TextAlign.center,
+            )),
             Padding(
-
               padding: const EdgeInsets.fromLTRB(45, 10, 45, 10),
               child: DropdownButton(
                 dropdownColor: kSecondaryColor,
-                onChanged: (value){
+                onChanged: (value) {
+                  if (value == "English") {
+                    context.read<LanguageChangeProvider>().changeLocale("en");
+                  } else if (value == "Swahili") {
+                    context.read<LanguageChangeProvider>().changeLocale("sw");
+                  }
                   Navigator.pushNamed(context, LandingScreen.id);
                 },
                 isExpanded: true,
-                hint: Text("Choose your language",style: Theme.of(context).textTheme.bodyText2!.copyWith(color: kSecondaryColor),),
+                hint: Text(
+                  "Choose your language",
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText2!
+                      .copyWith(color: kSecondaryColor),
+                ),
                 iconSize: 30.0,
                 elevation: 4,
-                icon: const Icon(Icons.language,color: kSecondaryColor,),
+                icon: const Icon(
+                  Icons.language,
+                  color: kSecondaryColor,
+                ),
                 // value: default_language,
-                items: language
-                    .map((String val) {
+                items: language.map((String val) {
                   return DropdownMenuItem(
                     value: val,
-                    child: Text(
-                      val, style: Theme.of(context)
+                    child: Text(val,
+                        style: Theme.of(context)
                             .textTheme
                             .bodyText2!
-                            .copyWith(color: kPrimaryColor)
-                    ),
+                            .copyWith(color: kPrimaryColor)),
                   );
                 }).toList(),
               ),
             ),
-            const SizedBox(height: 180,),
+            const SizedBox(
+              height: 180,
+            ),
           ],
+        ),
       ),
-    ),
     );
   }
 }

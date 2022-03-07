@@ -36,9 +36,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>This app needs access to location when in the background so as to know the distance between agents.</string>
+	<string>weXchange App needs access to location when in the background so as to show a nearby person in need of mobile money service</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>weXchange App uses your location to determine the distance between you and person either sending or receiving money</string>
+	<string>weXchange App uses your location to recommend to a nearby person in need of mobile money service</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

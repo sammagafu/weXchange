@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:we_exchange/constants/constants.dart';
+import 'package:we_exchange/generated/l10n.dart';
 import 'package:we_exchange/screen/dashboard/userdashboard/tabs/detailpage/withdraw/banks.dart';
 import 'package:we_exchange/servicesProvided/banks.dart';
 
@@ -19,7 +20,7 @@ class _BanksWidgetState extends State<BanksWidget> {
         Align(
           alignment: Alignment.topLeft,
           child: Text(
-            "Banks",
+            S.of(context).bank,
             style: Theme.of(context).textTheme.bodyText1,
           ),
         ),

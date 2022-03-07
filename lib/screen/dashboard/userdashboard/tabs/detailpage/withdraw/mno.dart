@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:we_exchange/constants/constants.dart';
+import 'package:we_exchange/generated/l10n.dart';
 import 'package:we_exchange/screen/dashboard/userdashboard/sucesstransfer.dart';
 
 class WithdrawDetail extends StatefulWidget {
@@ -28,7 +29,7 @@ class _WithdrawDetailState extends State<WithdrawDetail> {
         appBar: AppBar(
           backgroundColor: kPrimaryColor,
           elevation: 0,
-          title: Text("Withdraw ${widget.mno.name} Agent".toLowerCase()),
+          title: Text(S.of(context).withdraw),
         ),
         body: Container(
           padding: const EdgeInsets.fromLTRB(15, 45, 15, 80),

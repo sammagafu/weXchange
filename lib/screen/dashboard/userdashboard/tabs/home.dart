@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:we_exchange/constants/constants.dart';
+import 'package:we_exchange/generated/l10n.dart';
 import 'package:we_exchange/screen/dashboard/userdashboard/transaction_on_move.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:we_exchange/screen/dashboard/userdashboard/tabs/withdraw.dart';
@@ -156,7 +157,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                       Align(
                         alignment: Alignment.topLeft,
                         child: Text(
-                          "Welcome",
+                          S.of(context).welcome,
                           style: Theme.of(context)
                               .textTheme
                               .headline2!
@@ -192,7 +193,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Go Offline",
+                            S.of(context).goonline,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyText2!
@@ -221,7 +222,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                 child: Column(
                                   children: [
                                     Text(
-                                      "Withdraw",
+                                      S.of(context).withdraw,
                                       style:
                                           Theme.of(context).textTheme.headline5,
                                     ),
@@ -246,7 +247,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                 child: Column(
                                   children: [
                                     Text(
-                                      "Deposit",
+                                      S.of(context).deposit,
                                       style: Theme.of(context)
                                           .textTheme
                                           .headline5
@@ -262,14 +263,14 @@ class _AdminDashboardState extends State<AdminDashboard> {
                       ),
                       // Center(child: CircularProgressIndicator()),
                       const SizedBox(height: 45),
-                      const Text(
-                        "Looking for requests please wait ...",
+                      Text(
+                        S.of(context).lookingforclinets,
                         textAlign: TextAlign.center,
-                        style: TextStyle(color: kPrimaryColor),
+                        style: const TextStyle(color: kPrimaryColor),
                       ),
                       const SizedBox(height: 15),
-                      const Text(
-                        "Accept requests transact and get commission",
+                      Text(
+                        S.of(context).acceptnearn,
                         // textAlign: TextAlign.center,
                         style: TextStyle(color: kPrimaryColor),
                       ),
@@ -278,7 +279,6 @@ class _AdminDashboardState extends State<AdminDashboard> {
                 );
               }
               var _transactionData = snapshot.data!.docs.first;
-              print(_transactionData);
               var _requestingUser = _transactionData["user"];
 
               if (_requestingUser = _transactionData["user"] !=

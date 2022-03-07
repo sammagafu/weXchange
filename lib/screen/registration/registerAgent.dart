@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:we_exchange/constants/constants.dart';
+import 'package:we_exchange/generated/l10n.dart';
 import 'package:we_exchange/screen/registration/verifyPinRegistration.dart';
 import 'package:we_exchange/screen/welcomescreen/login.dart';
 
@@ -37,11 +38,14 @@ class _RegisterUserAgentState extends State<RegisterUserAgent> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  "Welcome",
+                  S.of(context).welcome,
                   style: Theme.of(context).textTheme.headline3,
                 ),
+                const SizedBox(
+                  height: 30,
+                ),
                 Text(
-                  "Create an Account",
+                  S.of(context).caccount,
                   style: Theme.of(context).textTheme.headline5,
                 ),
                 TextFormField(
@@ -58,20 +62,20 @@ class _RegisterUserAgentState extends State<RegisterUserAgent> {
                     return null;
                   },
                   onSaved: (value) {},
-                  decoration: const InputDecoration(
-                    prefixIcon: Icon(
+                  decoration: InputDecoration(
+                    prefixIcon: const Icon(
                       Icons.person,
                       color: kContentDarkTheme,
                     ),
-                    labelText: "Enter your full name",
+                    labelText: S.of(context).fullname,
                     labelStyle: TextStyle(color: kContentDarkTheme),
-                    focusedBorder: OutlineInputBorder(
+                    focusedBorder: const OutlineInputBorder(
                       borderSide: BorderSide(
                         color: kContentDarkTheme,
                         width: 1,
                       ),
                     ),
-                    enabledBorder: OutlineInputBorder(
+                    enabledBorder: const OutlineInputBorder(
                       borderSide: BorderSide(
                         color: kContentDarkTheme,
                         width: 1,
@@ -121,7 +125,7 @@ class _RegisterUserAgentState extends State<RegisterUserAgent> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text("Create account"),
+                    Text(S.of(context).caccount),
                     NeumorphicButton(
                       margin: EdgeInsets.only(top: 12),
                       padding: EdgeInsets.all(25),
@@ -158,7 +162,7 @@ class _RegisterUserAgentState extends State<RegisterUserAgent> {
                   child: Row(
                     children: [
                       Text(
-                        "I have Account Log in",
+                        S.of(context).ihaveaccount,
                         style: Theme.of(context).textTheme.headline5,
                       ),
                       const Padding(padding: EdgeInsets.fromLTRB(20, 0, 0, 0)),

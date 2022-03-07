@@ -1,0 +1,23 @@
+{
+  "welcometext": "welcome to weXchange App, Choose your Language",
+  "slogan": "Mobile Money Simplified",
+  "caccount":"Create Account",
+  "login": "Ingia",
+  "disclaimer": "Currently this app doesn't handle any transaction",
+  "welcome": "Welcome",
+  "fullname": "Enter your full name",
+  "ihaveaccount":"I have account, Login",
+  "loginbtn":"Login to your account",
+  "home":"Home",
+  "deposit":"Deposit",
+  "withdraw":"Withdraw",
+  "activities":"Transactions",
+  "settings":"Transactions",
+  "goonline": "Go Offline",
+  "lookingforclinets": "Looking for requests please wait ...",
+  "acceptnearn": "Accept requests transact and get commission",
+  "mno": "Mobile Network Operators",
+  "bank": "Banks",
+  "updateprofile": "Update Profile",
+  "logout": "Logout"
+}

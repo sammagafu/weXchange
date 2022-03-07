@@ -3,16 +3,17 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:we_exchange/constants/constants.dart';
+import 'package:we_exchange/generated/l10n.dart';
 import 'package:we_exchange/screen/dashboard/userdashboard/sucesstransfer.dart';
 
-class WithdrawDetail extends StatefulWidget {
+class MnoDepositDetail extends StatefulWidget {
   final mno;
-  const WithdrawDetail(this.mno);
+  const MnoDepositDetail(this.mno);
   @override
   _WithdrawDetailState createState() => _WithdrawDetailState();
 }
 
-class _WithdrawDetailState extends State<WithdrawDetail> {
+class _WithdrawDetailState extends State<MnoDepositDetail> {
   final _formKey = GlobalKey<FormState>();
   final _auth = FirebaseAuth.instance.currentUser;
 
@@ -33,7 +34,7 @@ class _WithdrawDetailState extends State<WithdrawDetail> {
         appBar: AppBar(
           backgroundColor: kPrimaryColor,
           elevation: 0,
-          title: Text("Deposit ${widget.mno.name} Agent".toLowerCase()),
+          title: Text(S.of(context).deposit),
         ),
         body: Container(
           padding: const EdgeInsets.fromLTRB(15, 45, 15, 30),

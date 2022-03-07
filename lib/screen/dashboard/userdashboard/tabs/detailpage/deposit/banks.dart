@@ -3,17 +3,18 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:we_exchange/constants/constants.dart';
+import 'package:we_exchange/generated/l10n.dart';
 import 'package:we_exchange/screen/dashboard/userdashboard/sucesstransfer.dart';
 
-class WithdrawBank extends StatefulWidget {
+class DepositDetailBanks extends StatefulWidget {
   final banks;
-  const WithdrawBank(this.banks);
+  const DepositDetailBanks(this.banks);
 
   @override
   _WithdrawBankState createState() => _WithdrawBankState();
 }
 
-class _WithdrawBankState extends State<WithdrawBank> {
+class _WithdrawBankState extends State<DepositDetailBanks> {
   final _auth = FirebaseAuth.instance.currentUser;
   final CollectionReference _transaction =
       FirebaseFirestore.instance.collection('transaction');
@@ -27,7 +28,8 @@ class _WithdrawBankState extends State<WithdrawBank> {
       appBar: AppBar(
         backgroundColor: kPrimaryColor,
         elevation: 0,
-        title: Text("Deposit to ${widget.banks.name} Agent".toLowerCase()),
+        // ${widget.banks.name}".toLowerCase()
+        title: Text(S.of(context).deposit),
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(15, 45, 15, 30),

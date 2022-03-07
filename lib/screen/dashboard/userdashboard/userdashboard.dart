@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:we_exchange/constants/constants.dart';
+import 'package:we_exchange/generated/l10n.dart';
 import 'package:we_exchange/screen/dashboard/admindashboard/tabs/activities.dart';
 import 'package:we_exchange/screen/dashboard/userdashboard/tabs/deposit.dart';
 import 'package:we_exchange/screen/dashboard/userdashboard/tabs/home.dart';
@@ -37,26 +38,26 @@ class _UserDashboardState extends State<UserDashboard> {
         unselectedItemColor: kContentDarkTheme,
         showUnselectedLabels: true,
         fixedColor: kPrimaryColor,
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: "Home",
+            icon: const Icon(Icons.home),
+            label: S.of(context).home,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.arrow_circle_up),
-            label: "Deposit",
+            icon: const Icon(Icons.arrow_circle_up),
+            label: S.of(context).deposit,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.arrow_circle_down),
-            label: "Withdraw",
+            icon: const Icon(Icons.arrow_circle_down),
+            label: S.of(context).withdraw,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.access_time),
-            label: "Activities",
+            icon: const Icon(Icons.access_time),
+            label: S.of(context).activities,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: "Setting",
+            icon: const Icon(Icons.settings),
+            label: S.of(context).settings,
           ),
         ],
         currentIndex: selectedIndex,

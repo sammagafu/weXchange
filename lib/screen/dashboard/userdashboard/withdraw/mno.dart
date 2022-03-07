@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:we_exchange/constants/constants.dart';
+import 'package:we_exchange/generated/l10n.dart';
 import 'package:we_exchange/screen/dashboard/userdashboard/tabs/detailpage/withdraw/mno.dart';
 import 'package:we_exchange/servicesProvided/mno.dart';
 
@@ -19,7 +20,7 @@ class _MnoState extends State<Mno> {
         Align(
           alignment: Alignment.topLeft,
           child: Text(
-            "Mobile Network Operators",
+            S.of(context).withdraw,
             style: Theme.of(context).textTheme.bodyText1,
           ),
         ),
@@ -46,7 +47,7 @@ class _MnoState extends State<Mno> {
                 child: Column(
                   children: [
                     Padding(
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       child: CircleAvatar(
                         backgroundColor: kContentDarkTheme,
                         radius: 40,
@@ -54,7 +55,7 @@ class _MnoState extends State<Mno> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(top: 1),
+                      padding: const EdgeInsets.only(top: 1),
                       child: Text(
                         mno[index].name,
                         style: Theme.of(context).textTheme.headline6,

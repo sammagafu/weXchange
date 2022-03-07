@@ -69,3 +69,5 @@ flutter:
       fonts:
         - asset: assets/poppins/Poppins-Regular.ttf
         - asset: assets/poppins/Poppins-Bold.ttf
+flutter_intl:
+  enabled: true

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:we_exchange/constants/constants.dart';
+import 'package:we_exchange/generated/l10n.dart';
 import 'package:we_exchange/screen/updateProfile.dart';
 import 'package:we_exchange/screen/welcomescreen/login.dart';
 
@@ -34,7 +35,7 @@ class _SettingState extends State<Setting> {
               height: 25,
             ),
             Text(
-              "Settings",
+              S.of(context).settings,
               style: Theme.of(context)
                   .textTheme
                   .headline2!
@@ -64,7 +65,7 @@ class _SettingState extends State<Setting> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text("Go Offline"),
+                    Text(S.of(context).goonline),
                     Switch(
                       value: _isagent,
                       onChanged: (value) {
@@ -95,7 +96,7 @@ class _SettingState extends State<Setting> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Update Profile",
+                    S.of(context).updateprofile,
                     style: Theme.of(context).textTheme.bodyText2,
                   ),
                   const Icon(
@@ -108,26 +109,6 @@ class _SettingState extends State<Setting> {
             const SizedBox(
               height: 24,
             ),
-            TextButton(
-              onPressed: () {},
-              style: TextButton.styleFrom(
-                backgroundColor: Colors.grey,
-                padding: const EdgeInsets.fromLTRB(40, 15, 20, 15),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Change Password",
-                    style: Theme.of(context).textTheme.bodyText2,
-                  ),
-                  const Icon(
-                    Icons.arrow_forward_ios,
-                    color: kContentDarkTheme,
-                  )
-                ],
-              ),
-            ),
             const Spacer(),
             TextButton(
               onPressed: _signOut,
@@ -139,7 +120,7 @@ class _SettingState extends State<Setting> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Logout",
+                    S.of(context).logout,
                     style: Theme.of(context).textTheme.bodyText2,
                   ),
                 ],

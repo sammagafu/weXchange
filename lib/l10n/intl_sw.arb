@@ -1,0 +1,23 @@
+{
+  "welcometext": "Karibu weXchange App,Chagua lugha yako",
+  "slogan": "Pesa mtandaoni ULIPO",
+  "caccount":"Fungua Akaunti",
+  "login": "Ingia",
+  "disclaimer": "Kwa sasa programu hii haishughulikii muamala wowote",
+  "welcome": "Karibu",
+  "fullname": "Ingiza Majina yako kamili",
+  "ihaveaccount":"Nina akaunti, Ingia",
+  "loginbtn":"Ingia kwenye akaunti yako",
+  "home":"Nyumbani",
+  "deposit":"Kuweka",
+  "withdraw":"Kutoa",
+  "activities":"Miamala",
+  "settings":"Mipangilio",
+  "goonline": "Toka mtandaoni",
+  "lookingforclinets": "Tunatafuta maombi tafadhali subiri...",
+  "acceptnearn": "Kubali maombi na upate kamisheni",
+  "mno": "Mitandao ya simu",
+  "bank": "Banki",
+  "updateprofile": "Sahihisha maelezo mafupi",
+  "logout": "Toka"
+}
