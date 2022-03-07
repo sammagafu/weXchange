@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:we_exchange/constants/constants.dart';
+import 'package:we_exchange/generated/l10n.dart';
 import 'package:we_exchange/screen/dashboard/admindashboard/tabs/message.dart';
 import 'package:we_exchange/screen/dashboard/userdashboard/userdashboard.dart';
 
@@ -47,12 +48,18 @@ class _SuccessScreenState extends State<SuccessScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Charges",
-                style: Theme.of(context).textTheme.bodyText1,
+                S.of(context).depositcharges,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
               ),
               Text(
                 "3000",
-                style: Theme.of(context).textTheme.bodyText1,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
               ),
             ],
           ),
@@ -60,12 +67,18 @@ class _SuccessScreenState extends State<SuccessScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Withraw Charges",
-                style: Theme.of(context).textTheme.bodyText1,
+                S.of(context).totalpay,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
               ),
               Text(
-                "3000",
-                style: Theme.of(context).textTheme.bodyText1,
+                (amount + 3000).toString(),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
               ),
             ],
           ),
@@ -73,30 +86,89 @@ class _SuccessScreenState extends State<SuccessScreen> {
       );
     }
     if (amount > 20000 && amount < 50000) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      return Column(
         children: [
-          Text(
-            "Withdraw Charges",
-            style: Theme.of(context).textTheme.bodyText1,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                S.of(context).depositcharges,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+              Text(
+                "5000",
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+            ],
           ),
-          Text(
-            "5000",
-            style: Theme.of(context).textTheme.bodyText1,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                S.of(context).totalpay,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+              Text(
+                (amount + 5000).toString(),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+            ],
           ),
         ],
       );
-    } else {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    }
+    if (amount > 50000) {
+      return Column(
         children: [
-          Text(
-            "Withdraw Charges",
-            style: Theme.of(context).textTheme.bodyText1,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                S.of(context).depositcharges,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+              Text(
+                "6000",
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+            ],
           ),
-          Text(
-            "6000",
-            style: Theme.of(context).textTheme.bodyText1,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                S.of(context).totalpay,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+              Text(
+                (amount + 6000).toString(),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+            ],
           ),
         ],
       );
@@ -105,45 +177,133 @@ class _SuccessScreenState extends State<SuccessScreen> {
 
   showDepositrates(amount) {
     if (amount < 20000) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      return Column(
         children: [
-          Text(
-            "Deposit Charges",
-            style: Theme.of(context).textTheme.bodyText1,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                S.of(context).depositcharges,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+              Text(
+                "2000",
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+            ],
           ),
-          Text(
-            "2000",
-            style: Theme.of(context).textTheme.bodyText1,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                S.of(context).totalpay,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+              Text(
+                (amount + 2000).toString(),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+            ],
           ),
         ],
       );
     }
     if (amount > 20000 && amount < 50000) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      return Column(
         children: [
-          Text(
-            "Deposit Charges",
-            style: Theme.of(context).textTheme.bodyText1,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                S.of(context).depositcharges,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+              Text(
+                "3000",
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+            ],
           ),
-          Text(
-            "3000",
-            style: Theme.of(context).textTheme.bodyText1,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                S.of(context).totalpay,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+              Text(
+                (amount + 3000).toString(),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+            ],
           ),
         ],
       );
-    } else {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    }
+    if (amount > 50000) {
+      return Column(
         children: [
-          Text(
-            "Deposit Charges",
-            style: Theme.of(context).textTheme.bodyText1,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                S.of(context).depositcharges,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+              Text(
+                "4000",
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+            ],
           ),
-          Text(
-            "4000",
-            style: Theme.of(context).textTheme.bodyText1,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                S.of(context).totalpay,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+              Text(
+                (amount + 4000).toString(),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+            ],
           ),
         ],
       );
@@ -176,8 +336,8 @@ class _SuccessScreenState extends State<SuccessScreen> {
                             size: 80,
                             color: kContentDarkTheme,
                           ),
-                          const Text(
-                            "Thanks for choosing us, Please rate the service",
+                          Text(
+                            S.of(context).rate,
                             textAlign: TextAlign.center,
                           ),
                           const SizedBox(height: 42),
@@ -204,12 +364,12 @@ class _SuccessScreenState extends State<SuccessScreen> {
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: const [
-                                Text("Go back"),
-                                SizedBox(
+                              children: [
+                                Text(S.of(context).goback),
+                                const SizedBox(
                                   width: 24,
                                 ),
-                                Icon(Icons.cancel)
+                                const Icon(Icons.cancel)
                               ],
                             ),
                           ),
@@ -225,7 +385,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
                       child: Column(
                         children: [
                           const SizedBox(height: 12),
-                          const Text("Ongoing transaction"),
+                          Text(S.of(context).transactionInfo),
                           const SizedBox(height: 12),
                           Container(
                             height: 1,
@@ -237,7 +397,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                "Service",
+                                S.of(context).service,
                                 style: Theme.of(context).textTheme.bodyText1,
                               ),
                               Text(
@@ -251,7 +411,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                "Carrier",
+                                S.of(context).serviceprovider,
                                 style: Theme.of(context).textTheme.bodyText1,
                               ),
                               Text(
@@ -265,7 +425,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                "Amount",
+                                S.of(context).depositamount,
                                 style: Theme.of(context).textTheme.bodyText1,
                               ),
                               Text(
@@ -283,9 +443,9 @@ class _SuccessScreenState extends State<SuccessScreen> {
                                 return Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
-                                  children: const [
-                                    Text('Connecting to nearby agent'),
-                                    CircularProgressIndicator(),
+                                  children: [
+                                    Text(S.of(context).connecting),
+                                    const CircularProgressIndicator(),
                                   ],
                                 );
                               }
@@ -343,7 +503,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
                             },
                           ),
                           const SizedBox(height: 24),
-                          const Text("Charges"),
+                          Text(S.of(context).charges),
                           const SizedBox(height: 12),
                           Container(
                             height: 1,
@@ -367,7 +527,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
                     child: Column(
                       children: [
                         const SizedBox(height: 12),
-                        const Text("Transaction Details"),
+                        Text(S.of(context).transactionInfo),
                         const SizedBox(height: 12),
                         Container(
                           height: 1,
@@ -379,13 +539,20 @@ class _SuccessScreenState extends State<SuccessScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "Service",
+                              S.of(context).service,
                               style: Theme.of(context).textTheme.bodyText1,
                             ),
-                            Text(
-                              snapshot.data!["service"],
-                              style: Theme.of(context).textTheme.bodyText1,
-                            )
+                            snapshot.data!["service"] == "deposit"
+                                ? Text(
+                                    S.of(context).deposit,
+                                    style:
+                                        Theme.of(context).textTheme.bodyText1,
+                                  )
+                                : Text(
+                                    S.of(context).withdraw,
+                                    style:
+                                        Theme.of(context).textTheme.bodyText1,
+                                  )
                           ],
                         ),
                         const SizedBox(height: 12),
@@ -393,7 +560,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "Carrier",
+                              S.of(context).serviceprovider,
                               style: Theme.of(context).textTheme.bodyText1,
                             ),
                             Text(
@@ -407,7 +574,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "Amount",
+                              S.of(context).depositamount,
                               style: Theme.of(context).textTheme.bodyText1,
                             ),
                             Text(
@@ -417,7 +584,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
                           ],
                         ),
                         const SizedBox(height: 24),
-                        const Text("Charges"),
+                        Text(S.of(context).charges),
                         const SizedBox(height: 12),
                         Container(
                           height: 1,
@@ -443,7 +610,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                "Cancell Transaction",
+                                S.of(context).cancelTransaction,
                                 style: Theme.of(context).textTheme.bodyText2,
                               ),
                               const Padding(

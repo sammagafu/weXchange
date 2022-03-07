@@ -22,16 +22,28 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "accept": MessageLookupByLibrary.simpleMessage("Accept Request"),
         "acceptnearn": MessageLookupByLibrary.simpleMessage(
             "Accept requests transact and get commission"),
         "activities": MessageLookupByLibrary.simpleMessage("Transactions"),
         "bank": MessageLookupByLibrary.simpleMessage("Banks"),
         "caccount": MessageLookupByLibrary.simpleMessage("Create Account"),
+        "cancelTransaction":
+            MessageLookupByLibrary.simpleMessage("Cancell Transaction"),
+        "charges": MessageLookupByLibrary.simpleMessage("Charges"),
+        "connecting":
+            MessageLookupByLibrary.simpleMessage("Connecting to nearby user"),
+        "decline": MessageLookupByLibrary.simpleMessage("Decline Request"),
         "deposit": MessageLookupByLibrary.simpleMessage("Deposit"),
+        "depositamount": MessageLookupByLibrary.simpleMessage("Amount"),
+        "depositcharges": MessageLookupByLibrary.simpleMessage(
+            "Deposit Charges & Commissions"),
         "disclaimer": MessageLookupByLibrary.simpleMessage(
             "Currently this app doesn\'t handle any transaction"),
+        "finish": MessageLookupByLibrary.simpleMessage("Finish Transaction"),
         "fullname":
             MessageLookupByLibrary.simpleMessage("Enter your full name"),
+        "goback": MessageLookupByLibrary.simpleMessage("Go Back"),
         "goonline": MessageLookupByLibrary.simpleMessage("Go Offline"),
         "home": MessageLookupByLibrary.simpleMessage("Home"),
         "ihaveaccount":
@@ -43,9 +55,20 @@ class MessageLookup extends MessageLookupByLibrary {
         "lookingforclinets": MessageLookupByLibrary.simpleMessage(
             "Looking for requests please wait ..."),
         "mno": MessageLookupByLibrary.simpleMessage("Mobile Network Operators"),
+        "ongoing": MessageLookupByLibrary.simpleMessage("Ongoing transaction"),
+        "rate": MessageLookupByLibrary.simpleMessage(
+            "Thanks for choosing us, Please rate the service"),
+        "service": MessageLookupByLibrary.simpleMessage("Service"),
+        "serviceprovider":
+            MessageLookupByLibrary.simpleMessage("Service Provider"),
         "settings": MessageLookupByLibrary.simpleMessage("Transactions"),
         "slogan":
             MessageLookupByLibrary.simpleMessage("Mobile Money Simplified"),
+        "totalpay": MessageLookupByLibrary.simpleMessage("Total amount to pay"),
+        "totalreceive":
+            MessageLookupByLibrary.simpleMessage("Total amount to receive"),
+        "transactionInfo":
+            MessageLookupByLibrary.simpleMessage("Transaction information"),
         "updateprofile": MessageLookupByLibrary.simpleMessage("Update Profile"),
         "welcome": MessageLookupByLibrary.simpleMessage("Welcome"),
         "welcometext": MessageLookupByLibrary.simpleMessage(

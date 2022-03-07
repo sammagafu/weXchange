@@ -22,16 +22,28 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "accept": MessageLookupByLibrary.simpleMessage("Kubali Ombi"),
         "acceptnearn": MessageLookupByLibrary.simpleMessage(
             "Kubali maombi na upate kamisheni"),
         "activities": MessageLookupByLibrary.simpleMessage("Miamala"),
         "bank": MessageLookupByLibrary.simpleMessage("Banki"),
         "caccount": MessageLookupByLibrary.simpleMessage("Fungua Akaunti"),
+        "cancelTransaction":
+            MessageLookupByLibrary.simpleMessage("Ghairi Shughuli"),
+        "charges": MessageLookupByLibrary.simpleMessage("Makato"),
+        "connecting": MessageLookupByLibrary.simpleMessage(
+            "Inaunganisha kwa mtumiaji aliye karibu"),
+        "decline": MessageLookupByLibrary.simpleMessage("Kataa Ombi"),
         "deposit": MessageLookupByLibrary.simpleMessage("Kuweka"),
+        "depositamount": MessageLookupByLibrary.simpleMessage("Kiasi"),
+        "depositcharges":
+            MessageLookupByLibrary.simpleMessage("Malipo na kamisheni"),
         "disclaimer": MessageLookupByLibrary.simpleMessage(
             "Kwa sasa programu hii haishughulikii muamala wowote"),
+        "finish": MessageLookupByLibrary.simpleMessage("Maliza Shughuli"),
         "fullname":
             MessageLookupByLibrary.simpleMessage("Ingiza Majina yako kamili"),
+        "goback": MessageLookupByLibrary.simpleMessage("Rudi Nyuma"),
         "goonline": MessageLookupByLibrary.simpleMessage("Toka mtandaoni"),
         "home": MessageLookupByLibrary.simpleMessage("Nyumbani"),
         "ihaveaccount":
@@ -43,8 +55,19 @@ class MessageLookup extends MessageLookupByLibrary {
         "lookingforclinets": MessageLookupByLibrary.simpleMessage(
             "Tunatafuta maombi tafadhali subiri..."),
         "mno": MessageLookupByLibrary.simpleMessage("Mitandao ya simu"),
+        "ongoing": MessageLookupByLibrary.simpleMessage("Ongoing transaction"),
+        "rate": MessageLookupByLibrary.simpleMessage(
+            "Asante kwa kutuchagua, Tafadhali kadiria huduma"),
+        "service": MessageLookupByLibrary.simpleMessage("Huduma"),
+        "serviceprovider": MessageLookupByLibrary.simpleMessage("Mtoa huduma"),
         "settings": MessageLookupByLibrary.simpleMessage("Mipangilio"),
         "slogan": MessageLookupByLibrary.simpleMessage("Pesa mtandaoni ULIPO"),
+        "totalpay":
+            MessageLookupByLibrary.simpleMessage("Jumla ya kiasi cha kulipa"),
+        "totalreceive":
+            MessageLookupByLibrary.simpleMessage("Jumla ya kiasi cha kupokea"),
+        "transactionInfo":
+            MessageLookupByLibrary.simpleMessage("Taarifa za muamala"),
         "updateprofile":
             MessageLookupByLibrary.simpleMessage("Sahihisha maelezo mafupi"),
         "welcome": MessageLookupByLibrary.simpleMessage("Karibu"),

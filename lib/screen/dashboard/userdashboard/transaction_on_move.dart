@@ -4,6 +4,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:we_exchange/constants/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:we_exchange/generated/l10n.dart';
 import 'package:we_exchange/screen/dashboard/admindashboard/tabs/message.dart';
 import 'package:we_exchange/screen/dashboard/userdashboard/userdashboard.dart';
 import 'package:google_maps_widget/google_maps_widget.dart';
@@ -60,6 +61,7 @@ class _TransactionOnMoveState extends State<TransactionOnMove> {
               double longitude = snapshot.data['users_location'].longitude;
               return Stack(
                 children: [
+                  // Todo::add this to home too
                   FutureBuilder(
                       future: _determinePosition(),
                       builder: (BuildContext builder, AsyncSnapshot snapshot) {
@@ -152,7 +154,7 @@ class _TransactionOnMoveState extends State<TransactionOnMove> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                "Finish Transaction",
+                                S.of(context).finish,
                                 style: Theme.of(context).textTheme.bodyText2,
                               ),
                               const Icon(

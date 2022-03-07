@@ -19,5 +19,21 @@
   "mno": "Mobile Network Operators",
   "bank": "Banks",
   "updateprofile": "Update Profile",
-  "logout": "Logout"
+  "logout": "Logout",
+  "serviceprovider": "Service Provider",
+  "service": "Service",
+  "depositamount": "Amount",
+  "depositcharges" : "Deposit Charges & Commissions",
+  "accept": "Accept Request",
+  "decline": "Decline Request",
+  "charges": "Charges",
+  "transactionInfo": "Transaction information",
+  "ongoing": "Ongoing transaction",
+  "totalpay": "Total amount to pay",
+  "totalreceive": "Total amount to receive",
+  "finish": "Finish Transaction",
+  "rate": "Thanks for choosing us, Please rate the service",
+  "goback": "Go Back",
+  "connecting":"Connecting to nearby user",
+  "cancelTransaction": "Cancell Transaction"
 }

@@ -19,5 +19,21 @@
   "mno": "Mitandao ya simu",
   "bank": "Banki",
   "updateprofile": "Sahihisha maelezo mafupi",
-  "logout": "Toka"
+  "logout": "Toka",
+  "serviceprovider": "Mtoa huduma",
+  "service": "Huduma",
+  "depositamount": "Kiasi",
+  "depositcharges" : "Malipo na kamisheni",
+  "accept": "Kubali Ombi",
+  "decline": "Kataa Ombi",
+  "charges": "Makato",
+  "transactionInfo": "Taarifa za muamala",
+  "ongoing": "Ongoing transaction",
+  "totalpay": "Jumla ya kiasi cha kulipa",
+  "totalreceive": "Jumla ya kiasi cha kupokea",
+  "finish": "Maliza Shughuli",
+  "rate": "Asante kwa kutuchagua, Tafadhali kadiria huduma",
+  "goback": "Rudi Nyuma",
+  "connecting":"Inaunganisha kwa mtumiaji aliye karibu",
+  "cancelTransaction": "Ghairi Shughuli"
 }

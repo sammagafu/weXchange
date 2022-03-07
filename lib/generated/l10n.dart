@@ -259,6 +259,166 @@ class S {
       args: [],
     );
   }
+
+  /// `Service Provider`
+  String get serviceprovider {
+    return Intl.message(
+      'Service Provider',
+      name: 'serviceprovider',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Service`
+  String get service {
+    return Intl.message(
+      'Service',
+      name: 'service',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Amount`
+  String get depositamount {
+    return Intl.message(
+      'Amount',
+      name: 'depositamount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deposit Charges & Commissions`
+  String get depositcharges {
+    return Intl.message(
+      'Deposit Charges & Commissions',
+      name: 'depositcharges',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Accept Request`
+  String get accept {
+    return Intl.message(
+      'Accept Request',
+      name: 'accept',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Decline Request`
+  String get decline {
+    return Intl.message(
+      'Decline Request',
+      name: 'decline',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Charges`
+  String get charges {
+    return Intl.message(
+      'Charges',
+      name: 'charges',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Transaction information`
+  String get transactionInfo {
+    return Intl.message(
+      'Transaction information',
+      name: 'transactionInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ongoing transaction`
+  String get ongoing {
+    return Intl.message(
+      'Ongoing transaction',
+      name: 'ongoing',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total amount to pay`
+  String get totalpay {
+    return Intl.message(
+      'Total amount to pay',
+      name: 'totalpay',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total amount to receive`
+  String get totalreceive {
+    return Intl.message(
+      'Total amount to receive',
+      name: 'totalreceive',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Finish Transaction`
+  String get finish {
+    return Intl.message(
+      'Finish Transaction',
+      name: 'finish',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Thanks for choosing us, Please rate the service`
+  String get rate {
+    return Intl.message(
+      'Thanks for choosing us, Please rate the service',
+      name: 'rate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Go Back`
+  String get goback {
+    return Intl.message(
+      'Go Back',
+      name: 'goback',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Connecting to nearby user`
+  String get connecting {
+    return Intl.message(
+      'Connecting to nearby user',
+      name: 'connecting',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancell Transaction`
+  String get cancelTransaction {
+    return Intl.message(
+      'Cancell Transaction',
+      name: 'cancelTransaction',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

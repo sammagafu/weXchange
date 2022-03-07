@@ -37,12 +37,18 @@ class _AdminDashboardState extends State<AdminDashboard> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Charges",
-                style: Theme.of(context).textTheme.bodyText1,
+                S.of(context).depositcharges,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
               ),
               Text(
                 "3000",
-                style: Theme.of(context).textTheme.bodyText1,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
               ),
             ],
           ),
@@ -54,12 +60,14 @@ class _AdminDashboardState extends State<AdminDashboard> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            "Withdraw Charges",
-            style: Theme.of(context).textTheme.bodyText1,
+            S.of(context).depositcharges,
+            style:
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
           ),
           Text(
             "5000",
-            style: Theme.of(context).textTheme.bodyText1,
+            style:
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
           ),
         ],
       );
@@ -69,12 +77,14 @@ class _AdminDashboardState extends State<AdminDashboard> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            "Withdraw Charges",
-            style: Theme.of(context).textTheme.bodyText1,
+            S.of(context).depositcharges,
+            style:
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
           ),
           Text(
             "6000",
-            style: Theme.of(context).textTheme.bodyText1,
+            style:
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
           ),
         ],
       );
@@ -87,12 +97,14 @@ class _AdminDashboardState extends State<AdminDashboard> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            "Deposit Charges",
-            style: Theme.of(context).textTheme.bodyText1,
+            S.of(context).depositcharges,
+            style:
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
           ),
           Text(
             "2000",
-            style: Theme.of(context).textTheme.bodyText1,
+            style:
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
           ),
         ],
       );
@@ -102,12 +114,14 @@ class _AdminDashboardState extends State<AdminDashboard> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            "Deposit Charges",
-            style: Theme.of(context).textTheme.bodyText1,
+            S.of(context).depositcharges,
+            style:
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
           ),
           Text(
             "3000",
-            style: Theme.of(context).textTheme.bodyText1,
+            style:
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
           ),
         ],
       );
@@ -117,12 +131,14 @@ class _AdminDashboardState extends State<AdminDashboard> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            "Deposit Charges",
-            style: Theme.of(context).textTheme.bodyText1,
+            S.of(context).depositcharges,
+            style:
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
           ),
           Text(
             "4000",
-            style: Theme.of(context).textTheme.bodyText1,
+            style:
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
           ),
         ],
       );
@@ -301,7 +317,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                         child: Column(
                           children: [
                             Text(
-                              "Transaction information",
+                              S.of(context).transactionInfo,
                               style: Theme.of(context).textTheme.bodyText1,
                             ),
                             const SizedBox(
@@ -311,7 +327,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Text("Service provider"),
+                                Text(S.of(context).serviceprovider),
                                 Text(_transactionData["carrier"]),
                               ],
                             ),
@@ -319,16 +335,17 @@ class _AdminDashboardState extends State<AdminDashboard> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Text("Service"),
-                                Text(_transactionData["service"]),
+                                Text(S.of(context).service),
+                                _transactionData["service"] == "deposit"
+                                    ? Text(S.of(context).deposit)
+                                    : Text(S.of(context).withdraw)
                               ],
                             ),
                             const Separator(),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                    "Amount to ${_transactionData["service"]}"),
+                                Text(S.of(context).depositamount),
                                 Text(_transactionData["amount"]),
                               ],
                             ),
@@ -374,7 +391,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Text(
-                                    "Accept ",
+                                    S.of(context).accept,
                                     style:
                                         Theme.of(context).textTheme.headline5,
                                   ),
@@ -389,6 +406,34 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                 ],
                               ),
                             ),
+                            const SizedBox(height: 12),
+                            TextButton(
+                              onPressed: () {
+                                FlutterRingtonePlayer.stop();
+                              },
+                              style: TextButton.styleFrom(
+                                  padding: const EdgeInsets.all(8),
+                                  backgroundColor: kErrorColor),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    S.of(context).decline,
+                                    style:
+                                        Theme.of(context).textTheme.headline5,
+                                  ),
+                                  const Padding(
+                                      padding:
+                                          EdgeInsets.fromLTRB(20, 0, 0, 0)),
+                                  const Icon(
+                                    Icons.cancel,
+                                    color: kContentDarkTheme,
+                                    size: 18,
+                                  )
+                                ],
+                              ),
+                            )
                           ],
                         ),
                       );
