@@ -16,21 +16,23 @@ class _MnoState extends State<Mno> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: 18),
+        const SizedBox(height: 18),
         Align(
           alignment: Alignment.topLeft,
           child: Text(
-            S.of(context).withdraw,
-            style: Theme.of(context).textTheme.bodyText1,
+            S.of(context).mno,
+            style: Theme.of(context)
+                .textTheme
+                .bodyText1!
+                .copyWith(color: kPrimaryColor),
           ),
         ),
-        SizedBox(height: 18),
         Material(
-          // borderRadius: BorderRadius.circular(10),
-          color: kPrimaryColor,
-          elevation: 2,
+          borderRadius: BorderRadius.circular(10),
+          color: kContentColorLightTheme,
+          elevation: 7,
           child: Container(
-            padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
+            padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
             height: 180,
             child: ListView.builder(
               // padding: EdgeInsets.only(left: 10.0),
@@ -41,7 +43,7 @@ class _MnoState extends State<Mno> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => WithdrawDetail(mno[index]),
+                        builder: (context) => WithdrawDetailMno(mno[index]),
                       ));
                 },
                 child: Column(

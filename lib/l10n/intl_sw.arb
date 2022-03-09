@@ -35,5 +35,8 @@
   "rate": "Asante kwa kutuchagua, Tafadhali kadiria huduma",
   "goback": "Rudi Nyuma",
   "connecting":"Inaunganisha kwa mtumiaji aliye karibu",
-  "cancelTransaction": "Ghairi Shughuli"
+  "cancelTransaction": "Ghairi Shughuli",
+  "enteramount": "Ingiza Kiasi",
+  "limitamount" : "Kiwango cha juu zaidi ni TZS 100,000",
+  "distancebtn": "Umbali kati yako na mteja"
 }

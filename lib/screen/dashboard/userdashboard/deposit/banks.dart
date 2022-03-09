@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:we_exchange/constants/constants.dart';
 import 'package:we_exchange/generated/l10n.dart';
-import 'package:we_exchange/screen/dashboard/userdashboard/tabs/deposit.dart';
 import 'package:we_exchange/screen/dashboard/userdashboard/tabs/detailpage/deposit/banks.dart';
 import 'package:we_exchange/servicesProvided/banks.dart';
 
@@ -17,7 +16,7 @@ class _BanksWidgetState extends State<BanksWidget> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const SizedBox(height: 45),
+        const SizedBox(height: 18),
         Align(
           alignment: Alignment.topLeft,
           child: Text(

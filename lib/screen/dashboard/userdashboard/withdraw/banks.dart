@@ -21,17 +21,20 @@ class _BanksWidgetState extends State<BanksWidget> {
           alignment: Alignment.topLeft,
           child: Text(
             S.of(context).bank,
-            style: Theme.of(context).textTheme.bodyText1,
+            style: Theme.of(context)
+                .textTheme
+                .bodyText1!
+                .copyWith(color: kPrimaryColor),
           ),
         ),
-        const SizedBox(height: 18),
+        // const SizedBox(height: 18),
         Material(
-          // borderRadius: BorderRadius.circular(10),
-          color: kPrimaryColor,
-          elevation: 2,
+          borderRadius: BorderRadius.circular(10),
+          color: kContentColorLightTheme,
+          elevation: 7,
           child: Container(
-            padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
-            height: 180,
+            padding: const EdgeInsets.fromLTRB(0, 20, 0, 10),
+            height: 170,
             child: ListView.builder(
               // padding: EdgeInsets.only(left: 10.0),
               scrollDirection: Axis.horizontal,
@@ -47,7 +50,7 @@ class _BanksWidgetState extends State<BanksWidget> {
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(12),
                       child: CircleAvatar(
                         backgroundColor: kContentDarkTheme,
                         radius: 40,

@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:we_exchange/UserPreference.dart';
 import 'package:we_exchange/constants/constants.dart';
 import 'package:we_exchange/generated/l10n.dart';
 import 'package:we_exchange/screen/updateProfile.dart';
@@ -67,12 +69,11 @@ class _SettingState extends State<Setting> {
                   children: [
                     Text(S.of(context).goonline),
                     Switch(
-                      value: _isagent,
-                      onChanged: (value) {
-                        setState(() {
-                          _isagent = true;
-                        });
+                      onChanged: (bool value) {
+                        Provider.of<GoOffline>(context).toogleStatus(value);
                       },
+                      value: Provider.of<GoOffline>(context, listen: true)
+                          .userStatus,
                     ),
                   ],
                 ),

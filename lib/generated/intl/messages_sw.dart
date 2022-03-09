@@ -40,6 +40,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Malipo na kamisheni"),
         "disclaimer": MessageLookupByLibrary.simpleMessage(
             "Kwa sasa programu hii haishughulikii muamala wowote"),
+        "distancebtn":
+            MessageLookupByLibrary.simpleMessage("Umbali kati yako na mteja"),
+        "enteramount": MessageLookupByLibrary.simpleMessage("Ingiza Kiasi"),
         "finish": MessageLookupByLibrary.simpleMessage("Maliza Shughuli"),
         "fullname":
             MessageLookupByLibrary.simpleMessage("Ingiza Majina yako kamili"),
@@ -48,6 +51,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "home": MessageLookupByLibrary.simpleMessage("Nyumbani"),
         "ihaveaccount":
             MessageLookupByLibrary.simpleMessage("Nina akaunti, Ingia"),
+        "limitamount": MessageLookupByLibrary.simpleMessage(
+            "Kiwango cha juu zaidi ni TZS 100,000"),
         "login": MessageLookupByLibrary.simpleMessage("Ingia"),
         "loginbtn":
             MessageLookupByLibrary.simpleMessage("Ingia kwenye akaunti yako"),

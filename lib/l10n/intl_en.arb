@@ -2,7 +2,7 @@
   "welcometext": "welcome to weXchange App, Choose your Language",
   "slogan": "Mobile Money Simplified",
   "caccount":"Create Account",
-  "login": "Ingia",
+  "login": "Login",
   "disclaimer": "Currently this app doesn't handle any transaction",
   "welcome": "Welcome",
   "fullname": "Enter your full name",
@@ -12,7 +12,7 @@
   "deposit":"Deposit",
   "withdraw":"Withdraw",
   "activities":"Transactions",
-  "settings":"Transactions",
+  "settings":"Settings",
   "goonline": "Go Offline",
   "lookingforclinets": "Looking for requests please wait ...",
   "acceptnearn": "Accept requests transact and get commission",
@@ -35,5 +35,8 @@
   "rate": "Thanks for choosing us, Please rate the service",
   "goback": "Go Back",
   "connecting":"Connecting to nearby user",
-  "cancelTransaction": "Cancell Transaction"
+  "cancelTransaction": "Cancell Transaction",
+  "enteramount": "Enter amount",
+  "limitamount" : "The maximum amount is TZS 100,000",
+  "distancebtn": "Distance between you & customer"
 }

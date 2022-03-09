@@ -6,14 +6,14 @@ import 'package:we_exchange/constants/constants.dart';
 import 'package:we_exchange/generated/l10n.dart';
 import 'package:we_exchange/screen/dashboard/userdashboard/sucesstransfer.dart';
 
-class WithdrawDetail extends StatefulWidget {
+class WithdrawDetailMno extends StatefulWidget {
   final mno;
-  const WithdrawDetail(this.mno);
+  const WithdrawDetailMno(this.mno);
   @override
-  _WithdrawDetailState createState() => _WithdrawDetailState();
+  _WithdrawDetailMnoState createState() => _WithdrawDetailMnoState();
 }
 
-class _WithdrawDetailState extends State<WithdrawDetail> {
+class _WithdrawDetailMnoState extends State<WithdrawDetailMno> {
   final _auth = FirebaseAuth.instance.currentUser;
   final CollectionReference _transaction =
       FirebaseFirestore.instance.collection('transaction');
@@ -42,20 +42,20 @@ class _WithdrawDetailState extends State<WithdrawDetail> {
                 TextFormField(
                   controller: amountController,
                   keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    prefixIcon: Icon(
+                  decoration: InputDecoration(
+                    prefixIcon: const Icon(
                       Icons.money,
                       color: kContentDarkTheme,
                     ),
-                    labelText: "Enter amount",
+                    labelText: S.of(context).enteramount,
                     labelStyle: TextStyle(color: kContentDarkTheme),
-                    focusedBorder: OutlineInputBorder(
+                    focusedBorder: const OutlineInputBorder(
                       borderSide: BorderSide(
                         color: kContentDarkTheme,
                         width: 1,
                       ),
                     ),
-                    enabledBorder: OutlineInputBorder(
+                    enabledBorder: const OutlineInputBorder(
                       borderSide: BorderSide(
                         color: kContentDarkTheme,
                         width: 1,
@@ -70,12 +70,12 @@ class _WithdrawDetailState extends State<WithdrawDetail> {
                   },
                 ),
                 const SizedBox(height: 24),
-                const Text("The maximum withdraw is TZS 100,000"),
+                Text(S.of(context).limitamount),
                 const SizedBox(height: 24),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text("Complete withdraw"),
+                    Text(S.of(context).withdraw),
                     NeumorphicButton(
                       margin: const EdgeInsets.only(top: 12),
                       padding: const EdgeInsets.all(25),

@@ -80,10 +80,10 @@ class S {
     );
   }
 
-  /// `Ingia`
+  /// `Login`
   String get login {
     return Intl.message(
-      'Ingia',
+      'Login',
       name: 'login',
       desc: '',
       args: [],
@@ -180,10 +180,10 @@ class S {
     );
   }
 
-  /// `Transactions`
+  /// `Settings`
   String get settings {
     return Intl.message(
-      'Transactions',
+      'Settings',
       name: 'settings',
       desc: '',
       args: [],
@@ -415,6 +415,36 @@ class S {
     return Intl.message(
       'Cancell Transaction',
       name: 'cancelTransaction',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter amount`
+  String get enteramount {
+    return Intl.message(
+      'Enter amount',
+      name: 'enteramount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The maximum amount is TZS 100,000`
+  String get limitamount {
+    return Intl.message(
+      'The maximum amount is TZS 100,000',
+      name: 'limitamount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Distance between you & customer`
+  String get distancebtn {
+    return Intl.message(
+      'Distance between you & customer',
+      name: 'distancebtn',
       desc: '',
       args: [],
     );

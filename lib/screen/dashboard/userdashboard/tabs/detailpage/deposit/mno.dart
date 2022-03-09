@@ -10,10 +10,10 @@ class MnoDepositDetail extends StatefulWidget {
   final mno;
   const MnoDepositDetail(this.mno);
   @override
-  _WithdrawDetailState createState() => _WithdrawDetailState();
+  _MnoDepositDetail createState() => _MnoDepositDetail();
 }
 
-class _WithdrawDetailState extends State<MnoDepositDetail> {
+class _MnoDepositDetail extends State<MnoDepositDetail> {
   final _formKey = GlobalKey<FormState>();
   final _auth = FirebaseAuth.instance.currentUser;
 

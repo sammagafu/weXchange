@@ -46,20 +46,20 @@ class _WithdrawBankState extends State<WithdrawBank> {
               TextFormField(
                 controller: amountController,
                 keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                  prefixIcon: Icon(
+                decoration: InputDecoration(
+                  prefixIcon: const Icon(
                     Icons.money,
                     color: kContentDarkTheme,
                   ),
-                  labelText: "Enter amount",
+                  labelText: S.of(context).enteramount,
                   labelStyle: TextStyle(color: kContentDarkTheme),
-                  focusedBorder: OutlineInputBorder(
+                  focusedBorder: const OutlineInputBorder(
                     borderSide: BorderSide(
                       color: kContentDarkTheme,
                       width: 1,
                     ),
                   ),
-                  enabledBorder: OutlineInputBorder(
+                  enabledBorder: const OutlineInputBorder(
                     borderSide: BorderSide(
                       color: kContentDarkTheme,
                       width: 1,
@@ -74,12 +74,12 @@ class _WithdrawBankState extends State<WithdrawBank> {
                 },
               ),
               const SizedBox(height: 24),
-              const Text("The maximum withdraw is TZS 100,000"),
+              Text(S.of(context).limitamount),
               const SizedBox(height: 24),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text("Complete withdraw"),
+                  Text(S.of(context).withdraw),
                   NeumorphicButton(
                     margin: const EdgeInsets.only(top: 12),
                     padding: const EdgeInsets.all(25),

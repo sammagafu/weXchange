@@ -40,6 +40,9 @@ class MessageLookup extends MessageLookupByLibrary {
             "Deposit Charges & Commissions"),
         "disclaimer": MessageLookupByLibrary.simpleMessage(
             "Currently this app doesn\'t handle any transaction"),
+        "distancebtn": MessageLookupByLibrary.simpleMessage(
+            "Distance between you & customer"),
+        "enteramount": MessageLookupByLibrary.simpleMessage("Enter amount"),
         "finish": MessageLookupByLibrary.simpleMessage("Finish Transaction"),
         "fullname":
             MessageLookupByLibrary.simpleMessage("Enter your full name"),
@@ -48,7 +51,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "home": MessageLookupByLibrary.simpleMessage("Home"),
         "ihaveaccount":
             MessageLookupByLibrary.simpleMessage("I have account, Login"),
-        "login": MessageLookupByLibrary.simpleMessage("Ingia"),
+        "limitamount": MessageLookupByLibrary.simpleMessage(
+            "The maximum amount is TZS 100,000"),
+        "login": MessageLookupByLibrary.simpleMessage("Login"),
         "loginbtn":
             MessageLookupByLibrary.simpleMessage("Login to your account"),
         "logout": MessageLookupByLibrary.simpleMessage("Logout"),
@@ -61,7 +66,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "service": MessageLookupByLibrary.simpleMessage("Service"),
         "serviceprovider":
             MessageLookupByLibrary.simpleMessage("Service Provider"),
-        "settings": MessageLookupByLibrary.simpleMessage("Transactions"),
+        "settings": MessageLookupByLibrary.simpleMessage("Settings"),
         "slogan":
             MessageLookupByLibrary.simpleMessage("Mobile Money Simplified"),
         "totalpay": MessageLookupByLibrary.simpleMessage("Total amount to pay"),

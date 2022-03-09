@@ -42,8 +42,10 @@ dependencies:
   smooth_star_rating_null_safety: ^1.0.4+2
   google_maps_widget: ^0.0.9
   pinput: ^1.2.0
+  flutter_secure_storage: ^5.0.2
 
-#  localization package
+
+  #  localization package
   flutter_localizations: # Add this line
     sdk: flutter
   intl: ^0.17.0

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:we_exchange/constants/constants.dart';
 import 'package:we_exchange/generated/l10n.dart';
 import 'package:we_exchange/screen/dashboard/admindashboard/agentdashboard.dart';
-import 'package:we_exchange/screen/dashboard/userdashboard/deposit/mno.dart';
-import 'package:we_exchange/screen/dashboard/userdashboard/deposit/banks.dart';
+import 'package:we_exchange/screen/dashboard/userdashboard/withdraw/mno.dart';
+import 'package:we_exchange/screen/dashboard/userdashboard/withdraw/banks.dart';
 import 'package:we_exchange/screen/dashboard/userdashboard/userdashboard.dart';
 
 class Withdraw extends StatefulWidget {

@@ -2,11 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:we_exchange/constants/constants.dart';
 import 'package:we_exchange/generated/l10n.dart';
 import 'package:we_exchange/screen/dashboard/userdashboard/transaction_on_move.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:we_exchange/screen/dashboard/userdashboard/tabs/withdraw.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'deposit.dart';
 
@@ -19,8 +21,7 @@ class AdminDashboard extends StatefulWidget {
 
 class _AdminDashboardState extends State<AdminDashboard> {
   // late var requestingUser;
-  final bool _isuser = false;
-  final _currentUserProfile = FirebaseAuth.instance.currentUser?.displayName;
+  final _storage = const FlutterSecureStorage();
   final Stream<QuerySnapshot> _transaction = FirebaseFirestore.instance
       .collection('transaction')
       .where("is_active", isEqualTo: true)
@@ -52,39 +53,112 @@ class _AdminDashboardState extends State<AdminDashboard> {
               ),
             ],
           ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                S.of(context).totalpay,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+              Text(
+                (amount + 3000).toString(),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+            ],
+          ),
         ],
       );
     }
     if (amount > 20000 && amount < 50000) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      return Column(
         children: [
-          Text(
-            S.of(context).depositcharges,
-            style:
-                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                S.of(context).depositcharges,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+              Text(
+                "5000",
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+            ],
           ),
-          Text(
-            "5000",
-            style:
-                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                S.of(context).totalpay,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+              Text(
+                (amount + 5000).toString(),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+            ],
           ),
         ],
       );
     }
     if (amount > 50000) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      return Column(
         children: [
-          Text(
-            S.of(context).depositcharges,
-            style:
-                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                S.of(context).depositcharges,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+              Text(
+                "6000",
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+            ],
           ),
-          Text(
-            "6000",
-            style:
-                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                S.of(context).totalpay,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+              Text(
+                (amount + 6000).toString(),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+            ],
           ),
         ],
       );
@@ -93,56 +167,171 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
   showDepositrates(amount) {
     if (amount < 20000) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      return Column(
         children: [
-          Text(
-            S.of(context).depositcharges,
-            style:
-                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                S.of(context).depositcharges,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+              Text(
+                "2000",
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+            ],
           ),
-          Text(
-            "2000",
-            style:
-                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                S.of(context).totalpay,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+              Text(
+                (amount + 2000).toString(),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+            ],
           ),
         ],
       );
     }
     if (amount > 20000 && amount < 50000) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      return Column(
         children: [
-          Text(
-            S.of(context).depositcharges,
-            style:
-                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                S.of(context).depositcharges,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+              Text(
+                "3000",
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+            ],
           ),
-          Text(
-            "3000",
-            style:
-                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                S.of(context).totalpay,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+              Text(
+                (amount + 3000).toString(),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+            ],
           ),
         ],
       );
     }
     if (amount > 50000) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      return Column(
         children: [
-          Text(
-            S.of(context).depositcharges,
-            style:
-                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                S.of(context).depositcharges,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+              Text(
+                "4000",
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+            ],
           ),
-          Text(
-            "4000",
-            style:
-                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                S.of(context).totalpay,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+              Text(
+                (amount + 4000).toString(),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+            ],
           ),
         ],
       );
     }
+  }
+
+//declined trip variable
+  String? _declinedTrip;
+  Future<String?> _getDeclinedTrips() async {
+    return _declinedTrip = await _storage.read(key: "declinedTrip");
+  }
+
+  Future<Position> _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Test if location services are enabled.
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    return await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
   }
 
   final CollectionReference ttrips =
@@ -151,6 +340,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
   @override
   void initState() {
     SystemChannels.textInput.invokeMethod('TextInput.hide');
+    _getDeclinedTrips();
+    print(_declinedTrip);
     super.initState();
   }
 
@@ -201,25 +392,6 @@ class _AdminDashboardState extends State<AdminDashboard> {
                         height: 1,
                         color: kPrimaryColor,
                         width: MediaQuery.of(context).size.width * .35,
-                      ),
-                      const SizedBox(
-                        height: 18,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            S.of(context).goonline,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText2!
-                                .copyWith(color: Colors.black),
-                          ),
-                          Switch(
-                            onChanged: (bool value) {},
-                            value: false,
-                          ),
-                        ],
                       ),
                       const SizedBox(height: 12),
                       Row(
@@ -288,7 +460,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                       Text(
                         S.of(context).acceptnearn,
                         // textAlign: TextAlign.center,
-                        style: TextStyle(color: kPrimaryColor),
+                        style: const TextStyle(color: kPrimaryColor),
                       ),
                     ],
                   ),
@@ -297,11 +469,14 @@ class _AdminDashboardState extends State<AdminDashboard> {
               var _transactionData = snapshot.data!.docs.first;
               var _requestingUser = _transactionData["user"];
 
+              double latitude = _transactionData['users_location'].latitude;
+              double longitude = _transactionData['users_location'].longitude;
+
               if (_requestingUser = _transactionData["user"] !=
                   FirebaseAuth.instance.currentUser!.uid) {
                 return DraggableScrollableSheet(
-                    initialChildSize: 0.6,
-                    maxChildSize: 0.8,
+                    initialChildSize: 0.8,
+                    maxChildSize: 0.9,
                     minChildSize: 0.25,
                     builder: (BuildContext buildContext,
                         ScrollController controller) {
@@ -350,11 +525,41 @@ class _AdminDashboardState extends State<AdminDashboard> {
                               ],
                             ),
                             const Separator(),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(S.of(context).distancebtn,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1!
+                                        .copyWith(fontSize: 14)),
+                                FutureBuilder(
+                                    future: _determinePosition(),
+                                    builder: (BuildContext builder,
+                                        AsyncSnapshot snapshot) {
+                                      if (!snapshot.hasData) {
+                                        return const CircularProgressIndicator();
+                                      } else {
+                                        double distanceInMeters =
+                                            (Geolocator.distanceBetween(
+                                                    latitude,
+                                                    longitude,
+                                                    snapshot.data.latitude,
+                                                    snapshot.data.longitude) /
+                                                1000);
+                                        return Text(
+                                            "${distanceInMeters.toInt().toString()} KM");
+                                      }
+                                    }),
+                              ],
+                            ),
+                            const Separator(),
                             _transactionData["service"] == "withdraw"
                                 ? showWithdrawrates(
                                     double.parse(_transactionData["amount"]))
                                 : showDepositrates(
                                     double.parse(_transactionData["amount"])),
+                            const Separator(),
                             const Spacer(),
                             TextButton(
                               onPressed: () {
@@ -409,7 +614,9 @@ class _AdminDashboardState extends State<AdminDashboard> {
                             const SizedBox(height: 12),
                             TextButton(
                               onPressed: () {
-                                FlutterRingtonePlayer.stop();
+                                _storage.write(
+                                    key: "declinedTrip",
+                                    value: _transactionData.id.toString());
                               },
                               style: TextButton.styleFrom(
                                   padding: const EdgeInsets.all(8),

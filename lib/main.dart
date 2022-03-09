@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:we_exchange/LanguageChangeProvider.dart';
+import 'package:we_exchange/UserPreference.dart';
 import 'package:we_exchange/screen/dashboard/admindashboard/agentdashboard.dart';
 import 'package:we_exchange/screen/dashboard/userdashboard/tabs/deposit.dart';
 import 'package:we_exchange/screen/dashboard/userdashboard/tabs/withdraw.dart';
@@ -23,9 +24,9 @@ Future<void> main() async {
   runApp(
     MultiProvider(
       providers: [
-        StreamProvider.value(
-            value: FirebaseAuth.instance.authStateChanges(),
-            initialData: FirebaseAuth.instance.currentUser),
+        ChangeNotifierProvider(
+          create: (context) => GoOffline(),
+        )
       ],
       child: const MyApp(),
     ),
