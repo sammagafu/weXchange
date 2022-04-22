@@ -2,14 +2,14 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-// import 'package:geolocator/geolocator.dart';
-// import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:we_exchange/constants/constants.dart';
 import 'package:we_exchange/generated/l10n.dart';
 import 'package:we_exchange/screen/dashboard/admindashboard/tabs/message.dart';
 import 'package:we_exchange/screen/dashboard/userdashboard/userdashboard.dart';
+import 'package:geolocator/geolocator.dart';
 
 class SuccessScreen extends StatefulWidget {
   final data;
@@ -35,6 +35,14 @@ class _SuccessScreenState extends State<SuccessScreen> {
         })
         .then((value) => print("Trip Cancelled"))
         .catchError((error) => print("Trip Cancelled: $error"));
+  }
+
+  Future<void> confirmLocation(latitude, longitude) {
+    return _transaction
+        .doc(widget.data)
+        .update({"users_location": GeoPoint(latitude, longitude)})
+        .then((value) => print("Transaction Updated"))
+        .catchError((error) => ("Transaction Cancelled: $error"));
   }
 
   final CollectionReference ttrips =
@@ -310,25 +318,54 @@ class _SuccessScreenState extends State<SuccessScreen> {
     }
   }
 
+  Future<Position> _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Test if location services are enabled.
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    return await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          DraggableScrollableSheet(
-            initialChildSize: 0.7,
-            maxChildSize: 0.7,
-            minChildSize: 0.25,
-            builder: (context, scrollController) {
-              return StreamBuilder(
+      backgroundColor: kPrimaryColor,
+      body: FutureBuilder(
+        future: _determinePosition(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.hasData) {
+            confirmLocation(snapshot.data.latitude, snapshot.data.longitude);
+            return StreamBuilder(
                 stream: _transaction.doc(widget.data).snapshots(),
                 builder: (BuildContext context,
                     AsyncSnapshot<DocumentSnapshot> snapshot) {
                   if (snapshot.data!["status"] == "completed") {
                     return Container(
                       color: kPrimaryColor,
-                      padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                      padding: const EdgeInsets.fromLTRB(50, 10, 20, 50),
                       child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           const SizedBox(height: 12),
                           const Icon(
@@ -340,7 +377,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
                             S.of(context).rate,
                             textAlign: TextAlign.center,
                           ),
-                          const SizedBox(height: 42),
+                          const SizedBox(height: 24),
                           SmoothStarRating(
                               size: 30,
                               rating: rating,
@@ -357,7 +394,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
                                   rating = value;
                                 });
                               }),
-                          const Spacer(),
+                          const SizedBox(height: 72),
                           ElevatedButton(
                             onPressed: () {
                               Navigator.pushNamed(context, UserDashboard.id);
@@ -377,12 +414,14 @@ class _SuccessScreenState extends State<SuccessScreen> {
                       ),
                     );
                   }
+
                   if (snapshot.data!["status"] == "ongoing") {
                     var amount = snapshot.data!["amount"];
                     return Container(
                       color: kPrimaryColor,
                       padding: const EdgeInsets.fromLTRB(20, 20, 20, 45),
                       child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           const SizedBox(height: 12),
                           Text(S.of(context).transactionInfo),
@@ -482,8 +521,6 @@ class _SuccessScreenState extends State<SuccessScreen> {
                                           return const CircularProgressIndicator();
                                         }
                                         var data = snapshot.data;
-                                        // print(data['phoneNumber']);
-                                        // print(snapshot.data.do);
                                         return GestureDetector(
                                           onTap: () {
                                             launch("tel:${data['phone']}");
@@ -525,6 +562,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
                     color: kPrimaryColor,
                     padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const SizedBox(height: 12),
                         Text(S.of(context).transactionInfo),
@@ -626,11 +664,10 @@ class _SuccessScreenState extends State<SuccessScreen> {
                       ],
                     ),
                   );
-                },
-              );
-            },
-          ),
-        ],
+                });
+          } else
+            return Center(child: const CircularProgressIndicator());
+        },
       ),
     );
   }

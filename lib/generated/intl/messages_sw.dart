@@ -29,11 +29,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "bank": MessageLookupByLibrary.simpleMessage("Banki"),
         "caccount": MessageLookupByLibrary.simpleMessage("Fungua Akaunti"),
         "cancelTransaction":
-            MessageLookupByLibrary.simpleMessage("Ghairi Shughuli"),
+            MessageLookupByLibrary.simpleMessage("Sitisha Muamala"),
         "charges": MessageLookupByLibrary.simpleMessage("Makato"),
         "connecting": MessageLookupByLibrary.simpleMessage(
             "Inaunganisha kwa mtumiaji aliye karibu"),
-        "decline": MessageLookupByLibrary.simpleMessage("Kataa Ombi"),
+        "decline": MessageLookupByLibrary.simpleMessage("Kubatilisha Ombi"),
         "deposit": MessageLookupByLibrary.simpleMessage("Kuweka"),
         "depositamount": MessageLookupByLibrary.simpleMessage("Kiasi"),
         "depositcharges":
@@ -43,7 +43,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "distancebtn":
             MessageLookupByLibrary.simpleMessage("Umbali kati yako na mteja"),
         "enteramount": MessageLookupByLibrary.simpleMessage("Ingiza Kiasi"),
-        "finish": MessageLookupByLibrary.simpleMessage("Maliza Shughuli"),
+        "finish": MessageLookupByLibrary.simpleMessage("Kamilisha Shughuli"),
         "fullname":
             MessageLookupByLibrary.simpleMessage("Ingiza Majina yako kamili"),
         "goback": MessageLookupByLibrary.simpleMessage("Rudi Nyuma"),
@@ -52,7 +52,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "ihaveaccount":
             MessageLookupByLibrary.simpleMessage("Nina akaunti, Ingia"),
         "limitamount": MessageLookupByLibrary.simpleMessage(
-            "Kiwango cha juu zaidi ni TZS 100,000"),
+            "Kiwango cha juu zaidi cha kutoa au kuweka ni TZS 100,000"),
         "login": MessageLookupByLibrary.simpleMessage("Ingia"),
         "loginbtn":
             MessageLookupByLibrary.simpleMessage("Ingia kwenye akaunti yako"),
@@ -78,6 +78,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "welcome": MessageLookupByLibrary.simpleMessage("Karibu"),
         "welcometext": MessageLookupByLibrary.simpleMessage(
             "Karibu weXchange App,Chagua lugha yako"),
-        "withdraw": MessageLookupByLibrary.simpleMessage("Kutoa")
+        "withdraw": MessageLookupByLibrary.simpleMessage("Kutoa"),
+        "withdrawcharges": MessageLookupByLibrary.simpleMessage(
+            "Malipo na kamisheni + Yakutolea")
       };
 }

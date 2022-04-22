@@ -8,6 +8,7 @@ import 'package:we_exchange/generated/l10n.dart';
 import 'package:we_exchange/screen/dashboard/admindashboard/tabs/message.dart';
 import 'package:we_exchange/screen/dashboard/userdashboard/userdashboard.dart';
 import 'package:google_maps_widget/google_maps_widget.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class TransactionOnMove extends StatefulWidget {
   static final String id = "transaction on move";
@@ -61,27 +62,17 @@ class _TransactionOnMoveState extends State<TransactionOnMove> {
               double longitude = snapshot.data['users_location'].longitude;
               return Stack(
                 children: [
-                  // Todo::add this to home too
-                  FutureBuilder(
-                      future: _determinePosition(),
-                      builder: (BuildContext builder, AsyncSnapshot snapshot) {
-                        double distanceInMeters = Geolocator.distanceBetween(
-                            latitude,
-                            longitude,
-                            snapshot.data.latitude,
-                            snapshot.data.longitude);
-                        return Positioned.fill(
-                          child: Opacity(
-                            opacity: .9,
-                            child: GoogleMapsWidget(
-                              apiKey: "AIzaSyDaf3ZfW1IA-QS-469Ud2ZHnxONavHmeL0",
-                              sourceLatLng: LatLng(latitude, longitude),
-                              destinationLatLng: LatLng(snapshot.data.latitude,
-                                  snapshot.data.longitude),
-                            ),
+                  Positioned.fill(
+                    child: Opacity(
+                        opacity: .9,
+                        child: GoogleMap(
+                          mapType: MapType.hybrid,
+                          initialCameraPosition: CameraPosition(
+                            target: LatLng(latitude, longitude),
+                            zoom: 16.4746,
                           ),
-                        );
-                      }),
+                        )),
+                  ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(20, 100, 20, 0),
                     child: Row(

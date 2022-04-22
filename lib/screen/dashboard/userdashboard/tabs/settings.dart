@@ -46,13 +46,6 @@ class _SettingState extends State<Setting> {
             const SizedBox(
               height: 6,
             ),
-            Text(
-              "Account Settings",
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyText2!
-                  .copyWith(color: kPrimaryColor),
-            ),
             const SizedBox(
               height: 24,
             ),
@@ -72,7 +65,7 @@ class _SettingState extends State<Setting> {
                       onChanged: (bool value) {
                         Provider.of<GoOffline>(context).toogleStatus(value);
                       },
-                      value: Provider.of<GoOffline>(context, listen: true)
+                      value: Provider.of<GoOffline>(context, listen: false)
                           .userStatus,
                     ),
                   ],

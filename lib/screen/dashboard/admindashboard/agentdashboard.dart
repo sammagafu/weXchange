@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:we_exchange/constants/constants.dart';
 import 'package:we_exchange/screen/dashboard/admindashboard/tabs/activities.dart';
 import 'package:we_exchange/screen/dashboard/admindashboard/tabs/setting.dart';
+import 'package:we_exchange/services/location.dart';
 
 class AgentDashboard extends StatefulWidget {
   static String id = 'agent dashboard';
@@ -22,6 +23,15 @@ class _AgentDashboardState extends State<AgentDashboard> {
     setState(() {
       selectedIndex = index;
     });
+  }
+
+  final location = Location();
+
+  @override
+  void initState() {
+    location.getCurrentLocation();
+    print("my location");
+    super.initState();
   }
 
   @override

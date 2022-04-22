@@ -300,6 +300,16 @@ class S {
     );
   }
 
+  /// `Withdraw Charges`
+  String get withdrawcharges {
+    return Intl.message(
+      'Withdraw Charges',
+      name: 'withdrawcharges',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Accept Request`
   String get accept {
     return Intl.message(
@@ -410,10 +420,10 @@ class S {
     );
   }
 
-  /// `Cancell Transaction`
+  /// `Cancel Transaction`
   String get cancelTransaction {
     return Intl.message(
-      'Cancell Transaction',
+      'Cancel Transaction',
       name: 'cancelTransaction',
       desc: '',
       args: [],
@@ -430,10 +440,10 @@ class S {
     );
   }
 
-  /// `The maximum amount is TZS 100,000`
+  /// `The maximum amount for depost/withdraw is TZS 100,000`
   String get limitamount {
     return Intl.message(
-      'The maximum amount is TZS 100,000',
+      'The maximum amount for depost/withdraw is TZS 100,000',
       name: 'limitamount',
       desc: '',
       args: [],

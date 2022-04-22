@@ -5,6 +5,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:we_exchange/constants/constants.dart';
 import 'package:we_exchange/generated/l10n.dart';
 import 'package:we_exchange/screen/dashboard/userdashboard/sucesstransfer.dart';
+import 'package:we_exchange/services/location.dart';
 
 class MnoDepositDetail extends StatefulWidget {
   final mno;
@@ -20,12 +21,6 @@ class _MnoDepositDetail extends State<MnoDepositDetail> {
   final CollectionReference _transaction =
       FirebaseFirestore.instance.collection('transaction');
   TextEditingController amountController = TextEditingController();
-
-  @override
-  void initState() {
-    _determinePosition();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,41 +99,9 @@ class _MnoDepositDetail extends State<MnoDepositDetail> {
         ));
   }
 
-  Future<Position> _determinePosition() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    // Test if location services are enabled.
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
-    }
-
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
-      }
-    }
-
-    if (permission == LocationPermission.deniedForever) {
-      // Permissions are denied forever, handle appropriately.
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
-    }
-
-    // When we reach here, permissions are granted and we can
-    // continue accessing the position of the device.
-    return await Geolocator.getCurrentPosition();
-  }
-
   Future<void> deposit() async {
     final formState = _formKey.currentState;
     if (formState!.validate()) {
-      Position position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high);
-
       return _transaction
           .add({
             "amount": amountController.text,
@@ -148,8 +111,8 @@ class _MnoDepositDetail extends State<MnoDepositDetail> {
             "request_time": DateTime.now(),
             "service": "deposit",
             "user": _auth!.uid,
-            "status": "started",
-            "users_location": GeoPoint(position.latitude, position.longitude)
+            "status": "started"
+            //todo:: add location to another screen
           })
           .then((value) => Navigator.push(context,
               MaterialPageRoute(builder: (context) => SuccessScreen(value.id))))

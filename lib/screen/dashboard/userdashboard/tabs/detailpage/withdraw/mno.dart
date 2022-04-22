@@ -5,6 +5,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:we_exchange/constants/constants.dart';
 import 'package:we_exchange/generated/l10n.dart';
 import 'package:we_exchange/screen/dashboard/userdashboard/sucesstransfer.dart';
+import 'package:we_exchange/services/location.dart';
 
 class WithdrawDetailMno extends StatefulWidget {
   final mno;
@@ -101,32 +102,7 @@ class _WithdrawDetailMnoState extends State<WithdrawDetailMno> {
 
   Future<void> withdraw() async {
     final formState = _formKey.currentState;
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
-    }
-
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
-      }
-    }
-
-    if (permission == LocationPermission.deniedForever) {
-      // Permissions are denied forever, handle appropriately.
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
-    }
-
     if (formState!.validate()) {
-      Position position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high);
-
       return _transaction
           .add({
             "amount": amountController.text,
@@ -137,7 +113,7 @@ class _WithdrawDetailMnoState extends State<WithdrawDetailMno> {
             "service": "withdraw",
             "user": _auth!.uid,
             "status": "started",
-            "users_location": GeoPoint(position.latitude, position.longitude)
+            // "users_location": GeoPoint(location.latitude, location.latitude)
           })
           .then((value) => Navigator.push(context,
               MaterialPageRoute(builder: (context) => SuccessScreen(value.id))))

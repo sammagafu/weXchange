@@ -24,6 +24,7 @@
   "service": "Service",
   "depositamount": "Amount",
   "depositcharges" : "Deposit Charges & Commissions",
+  "withdrawcharges" : "Withdraw Charges",
   "accept": "Accept Request",
   "decline": "Decline Request",
   "charges": "Charges",
@@ -35,8 +36,8 @@
   "rate": "Thanks for choosing us, Please rate the service",
   "goback": "Go Back",
   "connecting":"Connecting to nearby user",
-  "cancelTransaction": "Cancell Transaction",
+  "cancelTransaction": "Cancel Transaction",
   "enteramount": "Enter amount",
-  "limitamount" : "The maximum amount is TZS 100,000",
+  "limitamount" : "The maximum amount for depost/withdraw is TZS 100,000",
   "distancebtn": "Distance between you & customer"
 }

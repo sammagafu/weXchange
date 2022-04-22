@@ -29,7 +29,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "bank": MessageLookupByLibrary.simpleMessage("Banks"),
         "caccount": MessageLookupByLibrary.simpleMessage("Create Account"),
         "cancelTransaction":
-            MessageLookupByLibrary.simpleMessage("Cancell Transaction"),
+            MessageLookupByLibrary.simpleMessage("Cancel Transaction"),
         "charges": MessageLookupByLibrary.simpleMessage("Charges"),
         "connecting":
             MessageLookupByLibrary.simpleMessage("Connecting to nearby user"),
@@ -52,7 +52,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "ihaveaccount":
             MessageLookupByLibrary.simpleMessage("I have account, Login"),
         "limitamount": MessageLookupByLibrary.simpleMessage(
-            "The maximum amount is TZS 100,000"),
+            "The maximum amount for depost/withdraw is TZS 100,000"),
         "login": MessageLookupByLibrary.simpleMessage("Login"),
         "loginbtn":
             MessageLookupByLibrary.simpleMessage("Login to your account"),
@@ -78,6 +78,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "welcome": MessageLookupByLibrary.simpleMessage("Welcome"),
         "welcometext": MessageLookupByLibrary.simpleMessage(
             "welcome to weXchange App, Choose your Language"),
-        "withdraw": MessageLookupByLibrary.simpleMessage("Withdraw")
+        "withdraw": MessageLookupByLibrary.simpleMessage("Withdraw"),
+        "withdrawcharges":
+            MessageLookupByLibrary.simpleMessage("Withdraw Charges")
       };
 }
