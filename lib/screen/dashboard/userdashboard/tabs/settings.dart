@@ -75,34 +75,34 @@ class _SettingState extends State<Setting> {
             const SizedBox(
               height: 24,
             ),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => UpdateUserProfile()));
-              },
-              style: TextButton.styleFrom(
-                backgroundColor: Colors.grey,
-                padding: const EdgeInsets.fromLTRB(40, 15, 20, 15),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    S.of(context).updateprofile,
-                    style: Theme.of(context).textTheme.bodyText2,
-                  ),
-                  const Icon(
-                    Icons.arrow_forward_ios,
-                    color: kContentDarkTheme,
-                  )
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 24,
-            ),
+            // TextButton(
+            //   onPressed: () {
+            //     Navigator.push(
+            //         context,
+            //         MaterialPageRoute(
+            //             builder: (context) => UpdateUserProfile()));
+            //   },
+            //   style: TextButton.styleFrom(
+            //     backgroundColor: Colors.grey,
+            //     padding: const EdgeInsets.fromLTRB(40, 15, 20, 15),
+            //   ),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //     children: [
+            //       Text(
+            //         S.of(context).updateprofile,
+            //         style: Theme.of(context).textTheme.bodyText2,
+            //       ),
+            //       const Icon(
+            //         Icons.arrow_forward_ios,
+            //         color: kContentDarkTheme,
+            //       )
+            //     ],
+            //   ),
+            // ),
+            // const SizedBox(
+            //   height: 24,
+            // ),
             const Spacer(),
             TextButton(
               onPressed: _signOut,

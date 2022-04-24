@@ -66,7 +66,9 @@ class _MnoDepositDetail extends State<MnoDepositDetail> {
                     if (value!.isEmpty) {
                       return ("Please Amount");
                     }
-                    if (value.length > 6) {}
+                    if (double.parse(value) > 100000) {
+                      return (S.of(context).limitamount);
+                    }
                   },
                 ),
                 const SizedBox(height: 24),
@@ -111,8 +113,8 @@ class _MnoDepositDetail extends State<MnoDepositDetail> {
             "request_time": DateTime.now(),
             "service": "deposit",
             "user": _auth!.uid,
-            "status": "started"
-            //todo:: add location to another screen
+            "status": "started",
+            "users_location": GeoPoint(-6.7640978, 39.2484818)
           })
           .then((value) => Navigator.push(context,
               MaterialPageRoute(builder: (context) => SuccessScreen(value.id))))

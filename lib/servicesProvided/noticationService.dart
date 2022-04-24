@@ -16,7 +16,7 @@ class NotificationService {
 
   Future<void> initNotification() async {
     final AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('@drawable/ic_launcher');
+        AndroidInitializationSettings('@drawable/ic_launcher ');
 
     final IOSInitializationSettings initializationSettingsIOS =
         IOSInitializationSettings(

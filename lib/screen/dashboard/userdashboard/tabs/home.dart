@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:we_exchange/constants/constants.dart';
@@ -179,10 +180,40 @@ class _AdminDashboardState extends State<AdminDashboard> {
     }
   }
 
+  Future<void> setupInteractedMessage() async {
+    RemoteMessage? initialMessage =
+        await FirebaseMessaging.instance.getInitialMessage();
+
+    if (initialMessage != null) {
+      _handleMessage(initialMessage);
+    }
+
+    FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+  }
+
+  void _handleMessage(RemoteMessage message) {
+    if (message.data['type'] == 'chat') {
+      Navigator.pushNamed(
+        context,
+        Deposit.id,
+      );
+    }
+  }
+
 //declined trip variable
   String? _declinedTrip;
   Future<String?> _getDeclinedTrips() async {
     return _declinedTrip = await _storage.read(key: "declinedTrip");
+  }
+
+  Future<void> _addDeclinedTrips(trip) async {
+    return await _storage.write(key: "declinedTrip", value: trip);
+  }
+
+  @override
+  void initState() {
+    _getDeclinedTrips();
+    super.initState();
   }
 
   @override
@@ -201,181 +232,171 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
               double latitude = _transactionData['users_location'].latitude;
               double longitude = _transactionData['users_location'].longitude;
+
               if (_declinedTrip == _transactionData.id &&
                   _requestingUser == _auth?.uid) {
                 return const TripDetails();
-              }
-
-              return DraggableScrollableSheet(
-                  initialChildSize: 0.8,
-                  maxChildSize: 0.8,
-                  minChildSize: 0.25,
-                  builder:
-                      (BuildContext buildContext, ScrollController controller) {
-                    FlutterRingtonePlayer.play(
-                      android: AndroidSounds.notification,
-                      ios: const IosSound(1023),
-                      looping: true,
-                      volume: 1.0,
-                    );
-                    NotificationService().showNotification(
-                        1,
-                        "You have a request",
-                        "Some requested for your service",
-                        10);
-                    return Container(
-                      color: kPrimaryColor,
-                      padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
-                      child: Column(
+              } else {
+                FlutterRingtonePlayer.play(
+                  android: AndroidSounds.notification,
+                  ios: const IosSound(1023),
+                  looping: true,
+                  volume: 1.0,
+                );
+                NotificationService().showNotification(1, "You have a request",
+                    "Some requested for your service", 20);
+                return Container(
+                  color: kPrimaryColor,
+                  padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        S.of(context).transactionInfo,
+                        style: Theme.of(context).textTheme.bodyText1,
+                      ),
+                      const SizedBox(
+                        height: 24,
+                      ),
+                      const Separator(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            S.of(context).transactionInfo,
-                            style: Theme.of(context).textTheme.bodyText1,
-                          ),
-                          const SizedBox(
-                            height: 24,
-                          ),
-                          const Separator(),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(S.of(context).serviceprovider),
-                              Text(_transactionData["carrier"]),
-                            ],
-                          ),
-                          const Separator(),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(S.of(context).service),
-                              _transactionData["service"] == "deposit"
-                                  ? Text(S.of(context).deposit)
-                                  : Text(S.of(context).withdraw)
-                            ],
-                          ),
-                          const Separator(),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(S.of(context).depositamount),
-                              Text(_transactionData["amount"]),
-                            ],
-                          ),
-                          const Separator(),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(S.of(context).distancebtn,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1!
-                                      .copyWith(fontSize: 14)),
-                              FutureBuilder(
-                                  future: _determinePosition(),
-                                  builder: (BuildContext builder,
-                                      AsyncSnapshot snapshot) {
-                                    if (!snapshot.hasData) {
-                                      return const CircularProgressIndicator();
-                                    } else {
-                                      double distanceInMeters =
-                                          (Geolocator.distanceBetween(
-                                                  latitude,
-                                                  longitude,
-                                                  snapshot.data.latitude,
-                                                  snapshot.data.longitude) /
-                                              1000);
-                                      return Text(
-                                          "${distanceInMeters.toInt().toString()} KM");
-                                    }
-                                  }),
-                            ],
-                          ),
-                          const Separator(),
-                          _transactionData["service"] == "withdraw"
-                              ? showWithdrawrates(
-                                  double.parse(_transactionData["amount"]))
-                              : showDepositrates(
-                                  double.parse(_transactionData["amount"])),
-                          const SizedBox(height: 12),
-                          TextButton(
-                            onPressed: () {
-                              FirebaseFirestore.instance
-                                  .collection('transaction')
-                                  .doc(_transactionData.id)
-                                  .update({
-                                'status': "ongoing",
-                                'is_active': false,
-                                'agent': FirebaseAuth.instance.currentUser!.uid
-                              });
-
-                              ttrips.doc(_transactionData.id).set({
-                                'agent': FirebaseAuth.instance.currentUser!.uid,
-                                'transaction': _transactionData.id,
-                                "accepted_time": Timestamp.now(),
-                              });
-                              FlutterRingtonePlayer.stop();
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      TransactionOnMove(_transactionData.id),
-                                ),
-                              );
-                            },
-                            style: TextButton.styleFrom(
-                                padding: const EdgeInsets.all(8),
-                                backgroundColor: kSecondaryColor),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Accept ",
-                                  style: Theme.of(context).textTheme.headline5,
-                                ),
-                                const Padding(
-                                    padding: EdgeInsets.fromLTRB(20, 0, 0, 0)),
-                                const Icon(
-                                  Icons.done,
-                                  color: kContentDarkTheme,
-                                  size: 18,
-                                )
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 12),
-                          TextButton(
-                            onPressed: () {
-                              _storage.write(
-                                  key: "declinedTrip",
-                                  value: _transactionData.id.toString());
-                              Navigator.pushNamed(context, UserDashboard.id);
-                            },
-                            style: TextButton.styleFrom(
-                                padding: const EdgeInsets.all(8),
-                                backgroundColor: kErrorColor),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  S.of(context).decline,
-                                  style: Theme.of(context).textTheme.headline5,
-                                ),
-                                const Padding(
-                                    padding: EdgeInsets.fromLTRB(20, 0, 0, 0)),
-                                const Icon(
-                                  Icons.cancel,
-                                  color: kContentDarkTheme,
-                                  size: 18,
-                                )
-                              ],
-                            ),
-                          )
+                          Text(S.of(context).serviceprovider),
+                          Text(_transactionData["carrier"]),
                         ],
                       ),
-                    );
-                  });
+                      const Separator(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(S.of(context).service),
+                          _transactionData["service"] == "deposit"
+                              ? Text(S.of(context).deposit)
+                              : Text(S.of(context).withdraw)
+                        ],
+                      ),
+                      const Separator(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(S.of(context).depositamount),
+                          Text(_transactionData["amount"]),
+                        ],
+                      ),
+                      const Separator(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(S.of(context).distancebtn,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1!
+                                  .copyWith(fontSize: 14)),
+                          FutureBuilder(
+                              future: _determinePosition(),
+                              builder: (BuildContext builder,
+                                  AsyncSnapshot snapshot) {
+                                if (!snapshot.hasData) {
+                                  return const CircularProgressIndicator();
+                                } else {
+                                  double distanceInMeters =
+                                      (Geolocator.distanceBetween(
+                                              latitude,
+                                              longitude,
+                                              snapshot.data.latitude,
+                                              snapshot.data.longitude) /
+                                          1000);
+                                  return Text(
+                                      "${distanceInMeters.toInt().toString()} KM");
+                                }
+                              }),
+                        ],
+                      ),
+                      const Separator(),
+                      _transactionData["service"] == "withdraw"
+                          ? showWithdrawrates(
+                              double.parse(_transactionData["amount"]))
+                          : showDepositrates(
+                              double.parse(_transactionData["amount"])),
+                      const SizedBox(height: 12),
+                      TextButton(
+                        onPressed: () {
+                          FirebaseFirestore.instance
+                              .collection('transaction')
+                              .doc(_transactionData.id)
+                              .update({
+                            'status': "ongoing",
+                            'is_active': false,
+                            'agent': FirebaseAuth.instance.currentUser!.uid
+                          });
+
+                          ttrips.doc(_transactionData.id).set({
+                            'agent': FirebaseAuth.instance.currentUser!.uid,
+                            'transaction': _transactionData.id,
+                            "accepted_time": Timestamp.now(),
+                          });
+                          FlutterRingtonePlayer.stop();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  TransactionOnMove(_transactionData.id),
+                            ),
+                          );
+                        },
+                        style: TextButton.styleFrom(
+                            padding: const EdgeInsets.all(8),
+                            backgroundColor: kSecondaryColor),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Accept ",
+                              style: Theme.of(context).textTheme.headline5,
+                            ),
+                            const Padding(
+                                padding: EdgeInsets.fromLTRB(20, 0, 0, 0)),
+                            const Icon(
+                              Icons.done,
+                              color: kContentDarkTheme,
+                              size: 18,
+                            )
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      TextButton(
+                        onPressed: () {
+                          _addDeclinedTrips(_transactionData.id.toString());
+                        },
+                        style: TextButton.styleFrom(
+                            padding: const EdgeInsets.all(8),
+                            backgroundColor: kErrorColor),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              S.of(context).decline,
+                              style: Theme.of(context).textTheme.headline5,
+                            ),
+                            const Padding(
+                                padding: EdgeInsets.fromLTRB(20, 0, 0, 0)),
+                            const Icon(
+                              Icons.cancel,
+                              color: kContentDarkTheme,
+                              size: 18,
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              }
+              return Container();
             } else {
               return const Center(child: CircularProgressIndicator());
             }
@@ -460,26 +481,6 @@ class _TripDetailsState extends State<TripDetails> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(context, Withdraw.id);
-                  },
-                  child: Material(
-                    borderRadius: BorderRadius.circular(10),
-                    color: kContentColorLightTheme,
-                    elevation: 5,
-                    child: Padding(
-                      padding: const EdgeInsets.all(18),
-                      child: Text(
-                        S.of(context).withdraw,
-                        style: Theme.of(context).textTheme.headline5,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                GestureDetector(
-                  onTap: () {
                     Navigator.pushNamed(context, Deposit.id);
                   },
                   child: Material(
@@ -490,6 +491,26 @@ class _TripDetailsState extends State<TripDetails> {
                       padding: const EdgeInsets.all(18),
                       child: Text(
                         S.of(context).deposit,
+                        style: Theme.of(context).textTheme.headline5,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, Withdraw.id);
+                  },
+                  child: Material(
+                    borderRadius: BorderRadius.circular(10),
+                    color: kContentColorLightTheme,
+                    elevation: 5,
+                    child: Padding(
+                      padding: const EdgeInsets.all(18),
+                      child: Text(
+                        S.of(context).withdraw,
                         style: Theme.of(context).textTheme.headline5,
                       ),
                     ),

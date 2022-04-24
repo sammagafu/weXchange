@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:we_exchange/constants/constants.dart';
@@ -22,32 +23,17 @@ class TransactionOnMove extends StatefulWidget {
 
 class _TransactionOnMoveState extends State<TransactionOnMove> {
   final _transaction = FirebaseFirestore.instance.collection('transaction');
-  Future<Position> _determinePosition() async {
-    bool serviceEnabled;
-    LocationPermission permission;
+  late BitmapDescriptor _markerIcon;
 
-    // Test if location services are enabled.
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
-    }
+  void _setMarker() async {
+    _markerIcon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(5, 5)), 'assets/images/agent.png');
+  }
 
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
-      }
-    }
-
-    if (permission == LocationPermission.deniedForever) {
-      // Permissions are denied forever, handle appropriately.
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
-    }
-
-    return await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
+  @override
+  void initState() {
+    _setMarker();
+    super.initState();
   }
 
   @override
@@ -60,17 +46,29 @@ class _TransactionOnMoveState extends State<TransactionOnMove> {
               var user_ = snapshot.data['user'];
               double latitude = snapshot.data['users_location'].latitude;
               double longitude = snapshot.data['users_location'].longitude;
+
+              List<Marker> _markers = [];
+
+              _markers.add(Marker(
+                  markerId: MarkerId('clientsLocation'),
+                  position: LatLng(latitude, longitude),
+                  infoWindow: InfoWindow(title: 'Client is here'),
+                  icon: _markerIcon));
+
               return Stack(
                 children: [
                   Positioned.fill(
                     child: Opacity(
                         opacity: .9,
                         child: GoogleMap(
-                          mapType: MapType.hybrid,
+                          mapType: MapType.normal,
+                          myLocationButtonEnabled: false,
                           initialCameraPosition: CameraPosition(
                             target: LatLng(latitude, longitude),
                             zoom: 16.4746,
                           ),
+                          onCameraMove: null,
+                          markers: Set<Marker>.of(_markers),
                         )),
                   ),
                   Padding(

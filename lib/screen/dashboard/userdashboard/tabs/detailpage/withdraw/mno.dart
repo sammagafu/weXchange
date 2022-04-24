@@ -67,7 +67,9 @@ class _WithdrawDetailMnoState extends State<WithdrawDetailMno> {
                     if (value!.isEmpty) {
                       return ("Please Amount");
                     }
-                    if (value.length > 6) {}
+                    if (double.parse(value) > 100000) {
+                      return (S.of(context).limitamount);
+                    }
                   },
                 ),
                 const SizedBox(height: 24),
@@ -113,7 +115,7 @@ class _WithdrawDetailMnoState extends State<WithdrawDetailMno> {
             "service": "withdraw",
             "user": _auth!.uid,
             "status": "started",
-            // "users_location": GeoPoint(location.latitude, location.latitude)
+            "users_location": GeoPoint(-6.7640978, 39.2484818)
           })
           .then((value) => Navigator.push(context,
               MaterialPageRoute(builder: (context) => SuccessScreen(value.id))))

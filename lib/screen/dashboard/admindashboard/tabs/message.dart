@@ -52,7 +52,7 @@ class _MessageState extends State<Message> {
             StreamBuilder<QuerySnapshot>(
               stream: _message
                   .where('trip', isEqualTo: widget.data)
-                  .orderBy("textingtime", descending: true)
+                  .orderBy("textingtime", descending: false)
                   .snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
