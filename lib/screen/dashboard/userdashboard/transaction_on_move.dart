@@ -50,9 +50,9 @@ class _TransactionOnMoveState extends State<TransactionOnMove> {
               List<Marker> _markers = [];
 
               _markers.add(Marker(
-                  markerId: MarkerId('clientsLocation'),
+                  markerId: const MarkerId('clientsLocation'),
                   position: LatLng(latitude, longitude),
-                  infoWindow: InfoWindow(title: 'Client is here'),
+                  infoWindow: const InfoWindow(title: 'Client is here'),
                   icon: _markerIcon));
 
               return Stack(

@@ -21,8 +21,8 @@ import 'package:we_exchange/generated/l10n.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  NotificationService().initNotification();
   await Firebase.initializeApp();
+
   runApp(
     MultiProvider(
       providers: [
