@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:we_exchange/constants/constants.dart';
+import 'package:we_exchange/generated/l10n.dart';
 
 class AdminActivities extends StatefulWidget {
   const AdminActivities({Key? key}) : super(key: key);
@@ -30,7 +31,7 @@ class _AdminActivitiesState extends State<AdminActivities> {
           Align(
             alignment: Alignment.topLeft,
             child: Text(
-              "Activities",
+              S.of(context).activities,
               style: Theme.of(context).textTheme.headline2,
             ),
           ),
@@ -57,7 +58,9 @@ class _AdminActivitiesState extends State<AdminActivities> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            data['service'],
+                            data['service'] == "deposit"
+                                ? S.of(context).deposit
+                                : S.of(context).withdraw,
                             style: Theme.of(context).textTheme.headline5,
                           ),
                           Text(data['carrier']),

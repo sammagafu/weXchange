@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:we_exchange/constants/constants.dart';
+import 'package:we_exchange/generated/l10n.dart';
 import 'package:we_exchange/screen/dashboard/userdashboard/tabs/detailpage/withdraw/mno.dart';
 import 'package:we_exchange/servicesProvided/mno.dart';
 
@@ -15,21 +16,23 @@ class _MnoState extends State<Mno> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: 18),
+        const SizedBox(height: 18),
         Align(
           alignment: Alignment.topLeft,
           child: Text(
-            "Mobile Network Operators",
-            style: Theme.of(context).textTheme.bodyText1,
+            S.of(context).mno,
+            style: Theme.of(context)
+                .textTheme
+                .bodyText1!
+                .copyWith(color: kPrimaryColor),
           ),
         ),
-        SizedBox(height: 18),
         Material(
-          // borderRadius: BorderRadius.circular(10),
-          color: kPrimaryColor,
-          elevation: 2,
+          borderRadius: BorderRadius.circular(10),
+          color: kContentColorLightTheme,
+          elevation: 7,
           child: Container(
-            padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
+            padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
             height: 180,
             child: ListView.builder(
               // padding: EdgeInsets.only(left: 10.0),
@@ -40,13 +43,13 @@ class _MnoState extends State<Mno> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => WithdrawDetail(mno[index]),
+                        builder: (context) => WithdrawDetailMno(mno[index]),
                       ));
                 },
                 child: Column(
                   children: [
                     Padding(
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       child: CircleAvatar(
                         backgroundColor: kContentDarkTheme,
                         radius: 40,
@@ -54,7 +57,7 @@ class _MnoState extends State<Mno> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(top: 1),
+                      padding: const EdgeInsets.only(top: 1),
                       child: Text(
                         mno[index].name,
                         style: Theme.of(context).textTheme.headline6,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:we_exchange/constants/constants.dart';
+import 'package:we_exchange/generated/l10n.dart';
 import 'package:we_exchange/screen/registration/registerAgent.dart';
 import 'package:we_exchange/screen/welcomescreen/login.dart';
 import 'package:geolocator/geolocator.dart';
@@ -40,14 +41,13 @@ class _LandingScreenState extends State<LandingScreen> {
             height: 45,
           ),
           Text(
-            "Connects you to the nearby mobile agent",
+            S.of(context).slogan,
             style: Theme.of(context).textTheme.headline3,
             textAlign: TextAlign.center,
           ),
           const Spacer(),
           TextButton(
             onPressed: () {
-              //changed to register agent directly
               Navigator.pushNamed(context, RegisterUserAgent.id);
             },
             style: TextButton.styleFrom(
@@ -57,7 +57,7 @@ class _LandingScreenState extends State<LandingScreen> {
             child: Row(
               children: [
                 Text(
-                  "Creeate an account",
+                  S.of(context).caccount,
                   style: Theme.of(context).textTheme.headline5,
                 ),
                 const Padding(padding: EdgeInsets.fromLTRB(20, 0, 0, 0)),
@@ -80,7 +80,7 @@ class _LandingScreenState extends State<LandingScreen> {
             child: Row(
               children: [
                 Text(
-                  "Login",
+                  S.of(context).login,
                   style: Theme.of(context).textTheme.headline5,
                 ),
                 const Padding(padding: EdgeInsets.fromLTRB(20, 0, 0, 0)),
@@ -92,11 +92,18 @@ class _LandingScreenState extends State<LandingScreen> {
               ],
             ),
           ),
-          const SizedBox(height: 20),
-          Text(
-            "This app does not do any transaction",
-            style: Theme.of(context).textTheme.bodyText1,
+          const Spacer(
+            flex: 2,
           ),
+          Text(
+            S.of(context).disclaimer,
+            textAlign: TextAlign.center,
+            style:
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+          ),
+          const Spacer(
+            flex: 1,
+          )
         ],
       ),
     );

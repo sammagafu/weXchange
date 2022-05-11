@@ -1,19 +1,18 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-// import 'package:geolocator/geolocator.dart';
+import 'package:geolocator/geolocator.dart';
 // import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:we_exchange/constants/constants.dart';
+import 'package:we_exchange/generated/l10n.dart';
 import 'package:we_exchange/screen/dashboard/admindashboard/tabs/message.dart';
 import 'package:we_exchange/screen/dashboard/userdashboard/userdashboard.dart';
 
 class SuccessScreen extends StatefulWidget {
   final data;
-
   const SuccessScreen(this.data);
 
   @override
@@ -23,22 +22,58 @@ class SuccessScreen extends StatefulWidget {
 class _SuccessScreenState extends State<SuccessScreen> {
   PageController controller = PageController();
   final CollectionReference _transaction =
-      FirebaseFirestore.instance.collection('transaction');
+  FirebaseFirestore.instance.collection('transaction');
   double rating = 0;
   Future<void> cancelTransaction() {
     return _transaction
         .doc(widget.data)
         .update({
-          'is_active': false,
-          'is_completed': false,
-          'status': 'cancelled',
-        })
+      'is_active': false,
+      'is_completed': false,
+      'status': 'cancelled',
+    })
         .then((value) => print("Trip Cancelled"))
         .catchError((error) => print("Trip Cancelled: $error"));
   }
 
+  Future<void> confirmLocation(latitude, longitude) {
+    return _transaction
+        .doc(widget.data)
+        .update({"users_location": GeoPoint(latitude, longitude)})
+        .then((value) => print("Transaction Updated"))
+        .catchError((error) => ("Transaction Cancelled: $error"));
+  }
+
+  Future<Position> _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Test if location services are enabled.
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    return await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+  }
+
   final CollectionReference ttrips =
-      FirebaseFirestore.instance.collection("transaction_trips");
+  FirebaseFirestore.instance.collection("transaction_trips");
   final chargers = 0;
   showWithdrawrates(amount) {
     if (amount < 20000) {
@@ -48,12 +83,18 @@ class _SuccessScreenState extends State<SuccessScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Charges",
-                style: Theme.of(context).textTheme.bodyText1,
+                S.of(context).depositcharges,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
               ),
               Text(
                 "3000",
-                style: Theme.of(context).textTheme.bodyText1,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
               ),
             ],
           ),
@@ -61,12 +102,18 @@ class _SuccessScreenState extends State<SuccessScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Withraw Charges",
-                style: Theme.of(context).textTheme.bodyText1,
+                S.of(context).totalpay,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
               ),
               Text(
-                "3000",
-                style: Theme.of(context).textTheme.bodyText1,
+                (amount + 3000).toString(),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
               ),
             ],
           ),
@@ -74,30 +121,89 @@ class _SuccessScreenState extends State<SuccessScreen> {
       );
     }
     if (amount > 20000 && amount < 50000) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      return Column(
         children: [
-          Text(
-            "Withdraw Charges",
-            style: Theme.of(context).textTheme.bodyText1,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                S.of(context).depositcharges,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+              Text(
+                "5000",
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+            ],
           ),
-          Text(
-            "5000",
-            style: Theme.of(context).textTheme.bodyText1,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                S.of(context).totalpay,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+              Text(
+                (amount + 5000).toString(),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+            ],
           ),
         ],
       );
-    } else {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    }
+    if (amount > 50000) {
+      return Column(
         children: [
-          Text(
-            "Withdraw Charges",
-            style: Theme.of(context).textTheme.bodyText1,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                S.of(context).depositcharges,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+              Text(
+                "6000",
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+            ],
           ),
-          Text(
-            "6000",
-            style: Theme.of(context).textTheme.bodyText1,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                S.of(context).totalpay,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+              Text(
+                (amount + 6000).toString(),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+            ],
           ),
         ],
       );
@@ -106,16 +212,45 @@ class _SuccessScreenState extends State<SuccessScreen> {
 
   showDepositrates(amount) {
     if (amount < 20000) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      return Column(
         children: [
-          Text(
-            "Deposit Charges",
-            style: Theme.of(context).textTheme.bodyText1,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                S.of(context).depositcharges,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+              Text(
+                "2000",
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+            ],
           ),
-          Text(
-            "2000",
-            style: Theme.of(context).textTheme.bodyText1,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                S.of(context).totalpay,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+              Text(
+                (amount + 2000).toString(),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14),
+              ),
+            ],
           ),
         ],
       );
@@ -153,321 +288,342 @@ class _SuccessScreenState extends State<SuccessScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          DraggableScrollableSheet(
-            initialChildSize: 0.6,
-            maxChildSize: 0.8,
-            minChildSize: 0.25,
-            builder: (context, scrollController) {
-              return StreamBuilder(
-                stream: _transaction.doc(widget.data).snapshots(),
-                builder: (BuildContext context,
-                    AsyncSnapshot<DocumentSnapshot> snapshot) {
-                  if (snapshot.data!["status"] == "completed") {
-                    return Container(
-                      color: kPrimaryColor,
-                      padding: const EdgeInsets.fromLTRB(20, 20, 20, 45),
-                      child: Column(
-                        children: [
-                          const SizedBox(height: 12),
-                          const Icon(
-                            Icons.mood,
-                            size: 80,
-                            color: kContentDarkTheme,
-                          ),
-                          const Text(
-                            "Thanks for choosing us, Please rate the service",
-                            textAlign: TextAlign.center,
-                          ),
-                          const SizedBox(height: 42),
-                          SmoothStarRating(
-                              size: 40,
-                              rating: rating,
-                              halfFilledIconData: Icons.star_half,
-                              filledIconData: Icons.star,
-                              defaultIconData: Icons.star_border,
-                              starCount: 5,
-                              borderColor: kWarningColor,
-                              color: kWarningColor,
-                              allowHalfRating: false,
-                              spacing: 2.0,
-                              onRatingChanged: (value) {
-                                setState(() {
-                                  rating = value;
-                                });
-                              }),
-                          const Spacer(),
-                          ElevatedButton(
-                            onPressed: () {
-                              Navigator.pop(context, UserDashboard.id);
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: const [
-                                Text("Go back"),
-                                SizedBox(
-                                  width: 24,
-                                ),
-                                Icon(Icons.cancel)
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  }
-                  if (snapshot.data!["status"] == "ongoing") {
-                    var amount = snapshot.data!["amount"];
-                    return Container(
-                      color: kPrimaryColor,
-                      padding: const EdgeInsets.fromLTRB(20, 20, 20, 45),
-                      child: Column(
-                        children: [
-                          const SizedBox(height: 12),
-                          const Text("Ongoing transaction"),
-                          const SizedBox(height: 12),
-                          Container(
-                            height: 1,
-                            width: 100,
-                            color: kContentDarkTheme,
-                          ),
-                          const SizedBox(height: 12),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return FutureBuilder(
+      future: _determinePosition(),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.hasError) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        if (!snapshot.hasData) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else {
+          confirmLocation(snapshot.data.latitude, snapshot.data.longitude);
+          return StreamBuilder(
+              stream: _transaction.doc(widget.data).snapshots(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<DocumentSnapshot> snapshot) {
+                if (snapshot.data!["status"] == "completed") {
+                  return Container(
+                    color: kPrimaryColor,
+                    padding: const EdgeInsets.fromLTRB(50, 10, 20, 50),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const SizedBox(height: 12),
+                        const Icon(
+                          Icons.mood,
+                          size: 80,
+                          color: kContentDarkTheme,
+                        ),
+                        Text(
+                          S.of(context).rate,
+                          style: Theme.of(context).textTheme.bodyText1,
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 24),
+                        SmoothStarRating(
+                            size: 30,
+                            rating: rating,
+                            halfFilledIconData: Icons.star_half,
+                            filledIconData: Icons.star,
+                            defaultIconData: Icons.star_border,
+                            starCount: 5,
+                            borderColor: kWarningColor,
+                            color: kWarningColor,
+                            allowHalfRating: false,
+                            spacing: 2.0,
+                            onRatingChanged: (value) {
+                              setState(() {
+                                rating = value;
+                              });
+                            }),
+                        const SizedBox(height: 72),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, UserDashboard.id);
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(
-                                "Service",
-                                style: Theme.of(context).textTheme.bodyText1,
+                              Text(S.of(context).goback),
+                              const SizedBox(
+                                width: 24,
                               ),
-                              Text(
-                                snapshot.data!["service"],
-                                style: Theme.of(context).textTheme.bodyText1,
-                              )
+                              const Icon(Icons.cancel)
                             ],
                           ),
-                          const SizedBox(height: 12),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Carrier",
-                                style: Theme.of(context).textTheme.bodyText1,
-                              ),
-                              Text(
-                                snapshot.data!["carrier"],
-                                style: Theme.of(context).textTheme.bodyText1,
-                              )
-                            ],
-                          ),
-                          const SizedBox(height: 12),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Amount",
-                                style: Theme.of(context).textTheme.bodyText1,
-                              ),
-                              Text(
-                                snapshot.data!["amount"],
-                                style: Theme.of(context).textTheme.bodyText1,
-                              )
-                            ],
-                          ),
-                          const SizedBox(height: 24),
-                          StreamBuilder(
-                            stream: ttrips.doc(widget.data).snapshots(),
-                            builder:
-                                (BuildContext context, AsyncSnapshot snapshot) {
-                              if (!snapshot.hasData) {
-                                return Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: const [
-                                    Text('Connecting to nearby agent'),
-                                    CircularProgressIndicator(),
-                                  ],
-                                );
-                              }
-                              var agent = snapshot.data['agent'];
-                              return Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  Message(widget.data)));
-                                    },
-                                    child: const CircleAvatar(
-                                      backgroundColor: kContentDarkTheme,
-                                      radius: 25,
-                                      child: Icon(
-                                        Icons.message,
-                                        color: kPrimaryColor,
-                                      ),
-                                    ),
-                                  ),
-                                  StreamBuilder(
-                                      stream: FirebaseFirestore.instance
-                                          .collection('users')
-                                          .doc(agent)
-                                          .snapshots(),
-                                      builder: (BuildContext context,
-                                          AsyncSnapshot snapshot) {
-                                        if (!snapshot.hasData) {
-                                          return const CircularProgressIndicator();
-                                        }
-                                        var phonenumber = snapshot.data;
-
-                                        // FirebaseAuth.instance.currentUser.
-                                        return GestureDetector(
-                                          onTap: () {
-                                            launch("tel:");
-                                          },
-                                          child: const CircleAvatar(
-                                            backgroundColor: kContentDarkTheme,
-                                            radius: 25,
-                                            child: Icon(
-                                              Icons.phone,
-                                              color: kPrimaryColor,
-                                            ),
-                                          ),
-                                        );
-                                      }),
-                                ],
-                              );
-                            },
-                          ),
-                          const SizedBox(height: 24),
-                          const Text("Charges"),
-                          const SizedBox(height: 12),
-                          Container(
-                            height: 1,
-                            width: 100,
-                            color: kContentDarkTheme,
-                          ),
-                          const SizedBox(height: 24),
-                          snapshot.data!["service"] == "withdraw"
-                              ? showWithdrawrates(
-                                  double.parse(snapshot.data!["amount"]))
-                              : showDepositrates(
-                                  double.parse(snapshot.data!["amount"])),
-                          const SizedBox(height: 24),
-                        ],
-                      ),
-                    );
-                  }
-                  return Expanded(
-                    child: Container(
-                      color: kPrimaryColor,
-                      padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-                      child: Column(
-                        children: [
-                          const SizedBox(height: 12),
-                          const Text("Transaction Details"),
-                          const SizedBox(height: 12),
-                          Container(
-                            height: 1,
-                            width: 100,
-                            color: kContentDarkTheme,
-                          ),
-                          const SizedBox(height: 12),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Service",
-                                style: Theme.of(context).textTheme.bodyText1,
-                              ),
-                              Text(
-                                snapshot.data!["service"],
-                                style: Theme.of(context).textTheme.bodyText1,
-                              )
-                            ],
-                          ),
-                          const SizedBox(height: 12),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Carrier",
-                                style: Theme.of(context).textTheme.bodyText1,
-                              ),
-                              Text(
-                                snapshot.data!["carrier"],
-                                style: Theme.of(context).textTheme.bodyText1,
-                              )
-                            ],
-                          ),
-                          const SizedBox(height: 12),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Amount",
-                                style: Theme.of(context).textTheme.bodyText1,
-                              ),
-                              Text(
-                                snapshot.data!["amount"],
-                                style: Theme.of(context).textTheme.bodyText1,
-                              )
-                            ],
-                          ),
-                          const SizedBox(height: 24),
-                          const Text("Charges"),
-                          const SizedBox(height: 12),
-                          Container(
-                            height: 1,
-                            width: 100,
-                            color: kContentDarkTheme,
-                          ),
-                          const SizedBox(height: 24),
-                          snapshot.data!["service"] == "withdraw"
-                              ? showWithdrawrates(
-                                  double.parse(snapshot.data!["amount"]))
-                              : showDepositrates(
-                                  double.parse(snapshot.data!["amount"])),
-                          const SizedBox(height: 24),
-                          TextButton(
-                            style: TextButton.styleFrom(
-                                padding: const EdgeInsets.all(8),
-                                backgroundColor: kSecondaryColor),
-                            onPressed: () {
-                              cancelTransaction();
-                              Navigator.pop(context, UserDashboard.id);
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Cancell Transaction",
-                                  style: Theme.of(context).textTheme.bodyText2,
-                                ),
-                                const Padding(
-                                    padding: EdgeInsets.fromLTRB(20, 0, 0, 0)),
-                                const Icon(
-                                  Icons.cancel,
-                                  color: kContentDarkTheme,
-                                  size: 18,
-                                )
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   );
-                },
-              );
-            },
-          ),
-        ],
-      ),
+                }
+
+                if (snapshot.data!["status"] == "ongoing") {
+                  var amount = snapshot.data!["amount"];
+                  return Container(
+                    color: kPrimaryColor,
+                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 45),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const SizedBox(height: 12),
+                        Text(
+                          S.of(context).transactionInfo,
+                          style: Theme.of(context).textTheme.bodyText1,
+                        ),
+                        const SizedBox(height: 12),
+                        Container(
+                          height: 1,
+                          width: 100,
+                          color: kContentDarkTheme,
+                        ),
+                        const SizedBox(height: 12),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              S.of(context).service,
+                              style: Theme.of(context).textTheme.bodyText1,
+                            ),
+                            Text(
+                              snapshot.data!["service"],
+                              style: Theme.of(context).textTheme.bodyText1,
+                            )
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              S.of(context).serviceprovider,
+                              style: Theme.of(context).textTheme.bodyText1,
+                            ),
+                            Text(
+                              snapshot.data!["carrier"],
+                              style: Theme.of(context).textTheme.bodyText1,
+                            )
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              S.of(context).depositamount,
+                              style: Theme.of(context).textTheme.bodyText1,
+                            ),
+                            Text(
+                              snapshot.data!["amount"],
+                              style: Theme.of(context).textTheme.bodyText1,
+                            )
+                          ],
+                        ),
+                        const SizedBox(height: 24),
+                        StreamBuilder(
+                          stream: ttrips.doc(widget.data).snapshots(),
+                          builder:
+                              (BuildContext context, AsyncSnapshot snapshot) {
+                            if (!snapshot.hasData) {
+                              return Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(S.of(context).connecting),
+                                  const CircularProgressIndicator(),
+                                ],
+                              );
+                            }
+                            var userprofile = snapshot.data['agent'];
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                Message(widget.data)));
+                                  },
+                                  child: const CircleAvatar(
+                                    backgroundColor: kContentDarkTheme,
+                                    radius: 25,
+                                    child: Icon(
+                                      Icons.message,
+                                      color: kPrimaryColor,
+                                    ),
+                                  ),
+                                ),
+                                StreamBuilder(
+                                    stream: FirebaseFirestore.instance
+                                        .collection('user_profile')
+                                        .doc(userprofile)
+                                        .snapshots(),
+                                    builder: (BuildContext context,
+                                        AsyncSnapshot snapshot) {
+                                      if (!snapshot.hasData) {
+                                        return const CircularProgressIndicator();
+                                      }
+                                      var data = snapshot.data;
+                                      return GestureDetector(
+                                        onTap: () {
+                                          launch("tel:${data['phone']}");
+                                        },
+                                        child: const CircleAvatar(
+                                          backgroundColor: kContentDarkTheme,
+                                          radius: 25,
+                                          child: Icon(
+                                            Icons.phone,
+                                            color: kPrimaryColor,
+                                          ),
+                                        ),
+                                      );
+                                    }),
+                              ],
+                            );
+                          },
+                        ),
+                        const SizedBox(height: 24),
+                        Text(
+                          S.of(context).charges,
+                          style: Theme.of(context).textTheme.bodyText1,
+                        ),
+                        const SizedBox(height: 12),
+                        Container(
+                          height: 1,
+                          width: 100,
+                          color: kContentDarkTheme,
+                        ),
+                        const SizedBox(height: 24),
+                        snapshot.data!["service"] == "withdraw"
+                            ? showWithdrawrates(
+                            double.parse(snapshot.data!["amount"]))
+                            : showDepositrates(
+                            double.parse(snapshot.data!["amount"])),
+                        const SizedBox(height: 24),
+                      ],
+                    ),
+                  );
+                }
+                return Container(
+                  color: kPrimaryColor,
+                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: 12),
+                      Text(
+                        S.of(context).transactionInfo,
+                        style: Theme.of(context).textTheme.bodyText1,
+                      ),
+                      const SizedBox(height: 12),
+                      Container(
+                        height: 1,
+                        width: 100,
+                        color: kContentDarkTheme,
+                      ),
+                      const SizedBox(height: 12),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            S.of(context).service,
+                            style: Theme.of(context).textTheme.bodyText1,
+                          ),
+                          snapshot.data!["service"] == "deposit"
+                              ? Text(
+                            S.of(context).deposit,
+                            style: Theme.of(context).textTheme.bodyText1,
+                          )
+                              : Text(
+                            S.of(context).withdraw,
+                            style: Theme.of(context).textTheme.bodyText1,
+                          )
+                        ],
+                      ),
+                      const SizedBox(height: 12),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            S.of(context).serviceprovider,
+                            style: Theme.of(context).textTheme.bodyText1,
+                          ),
+                          Text(
+                            snapshot.data!["carrier"],
+                            style: Theme.of(context).textTheme.bodyText1,
+                          )
+                        ],
+                      ),
+                      const SizedBox(height: 12),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            S.of(context).depositamount,
+                            style: Theme.of(context).textTheme.bodyText1,
+                          ),
+                          Text(
+                            snapshot.data!["amount"],
+                            style: Theme.of(context).textTheme.bodyText1,
+                          )
+                        ],
+                      ),
+                      const SizedBox(height: 24),
+                      Text(
+                        S.of(context).charges,
+                        style: Theme.of(context).textTheme.bodyText1,
+                      ),
+                      const SizedBox(height: 12),
+                      Container(
+                        height: 1,
+                        width: 100,
+                        color: kContentDarkTheme,
+                      ),
+                      const SizedBox(height: 24),
+                      snapshot.data!["service"] == "withdraw"
+                          ? showWithdrawrates(
+                          double.parse(snapshot.data!["amount"]))
+                          : showDepositrates(
+                          double.parse(snapshot.data!["amount"])),
+                      const SizedBox(height: 24),
+                      TextButton(
+                        style: TextButton.styleFrom(
+                            padding: const EdgeInsets.all(8),
+                            backgroundColor: kSecondaryColor),
+                        onPressed: () {
+                          cancelTransaction();
+                          Navigator.pushNamed(context, UserDashboard.id);
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              S.of(context).cancelTransaction,
+                              style: Theme.of(context).textTheme.bodyText2,
+                            ),
+                            const Padding(
+                                padding: EdgeInsets.fromLTRB(20, 0, 0, 0)),
+                            const Icon(
+                              Icons.cancel,
+                              color: kContentDarkTheme,
+                              size: 18,
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              });
+        }
+      },
     );
   }
 }

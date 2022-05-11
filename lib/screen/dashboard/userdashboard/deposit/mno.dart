@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:we_exchange/constants/constants.dart';
+import 'package:we_exchange/generated/l10n.dart';
 import 'package:we_exchange/screen/dashboard/userdashboard/tabs/detailpage/deposit/mno.dart';
 import 'package:we_exchange/servicesProvided/mno.dart';
 
@@ -19,7 +20,7 @@ class _MnoState extends State<Mno> {
         Align(
           alignment: Alignment.topLeft,
           child: Text(
-            "Mobile Network Operators",
+            S.of(context).mno,
             style: Theme.of(context)
                 .textTheme
                 .bodyText1!
@@ -42,7 +43,7 @@ class _MnoState extends State<Mno> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => WithdrawDetail(mno[index]),
+                        builder: (context) => MnoDepositDetail(mno[index]),
                       ));
                 },
                 child: Column(

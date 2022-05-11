@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:we_exchange/constants/constants.dart';
+import 'package:we_exchange/generated/l10n.dart';
 import 'package:we_exchange/screen/dashboard/userdashboard/tabs/detailpage/deposit/banks.dart';
 import 'package:we_exchange/servicesProvided/banks.dart';
 
@@ -15,11 +16,11 @@ class _BanksWidgetState extends State<BanksWidget> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const SizedBox(height: 45),
+        const SizedBox(height: 18),
         Align(
           alignment: Alignment.topLeft,
           child: Text(
-            "Banks",
+            S.of(context).bank,
             style: Theme.of(context)
                 .textTheme
                 .bodyText1!
@@ -42,7 +43,7 @@ class _BanksWidgetState extends State<BanksWidget> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => WithdrawBank(banks[index]),
+                        builder: (context) => DepositDetailBanks(banks[index]),
                       ));
                 },
                 child: Column(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:we_exchange/constants/constants.dart';
+import 'package:we_exchange/generated/l10n.dart';
 import 'package:we_exchange/screen/registration/registerAgent.dart';
 import 'package:we_exchange/screen/registration/verifyPin.dart';
 
@@ -16,7 +17,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   String errorMessage = '';
-  final _formKey = GlobalKey<FormState>();
+  final _form = GlobalKey<FormState>();
   TextEditingController phoneNumberController = TextEditingController();
   bool _isObscure = true;
 
@@ -26,20 +27,23 @@ class _LoginScreenState extends State<LoginScreen> {
       backgroundColor: kPrimaryColor,
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 135, 20, 30),
+          padding:
+              const EdgeInsets.only(top: 100, left: 18, right: 18, bottom: 100),
           child: Form(
-            key: _formKey,
+            key: _form,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // SizedBox(height: 50),
-                SvgPicture.asset(
-                  'assets/images/logo.svg',
-                  color: kContentDarkTheme,
-                  height: 85.0,
+                Text(
+                  S.of(context).welcome,
+                  style: Theme.of(context).textTheme.headline3,
                 ),
-                const SizedBox(height: 100),
+                Text(
+                  S.of(context).ihaveaccount,
+                  style: Theme.of(context).textTheme.headline5,
+                ),
+                const SizedBox(height: 32),
                 TextFormField(
                   controller: phoneNumberController,
                   keyboardType: TextInputType.phone,
@@ -48,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       return ("Please Enter phone number");
                     }
                     if (!RegExp(r'(^(?:[+0]9)?[0-9]{10,12}$)')
-                        .hasMatch(value)) {
+                        .hasMatch("+255${value}")) {
                       return ("Enter the valid phone number");
                     }
                     return null;
@@ -77,32 +81,21 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 12),
-                Text(
-                  errorMessage,
-                  style: Theme.of(context)
-                      .textTheme
-                      .caption
-                      ?.copyWith(color: kErrorColor),
-                ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 32),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    Text(S.of(context).login),
                     NeumorphicButton(
-                      margin: const EdgeInsets.only(top: 12),
-                      padding: const EdgeInsets.all(25),
+                      margin: EdgeInsets.only(top: 12),
+                      padding: EdgeInsets.all(25),
                       onPressed: () {
-                        final formState = _formKey.currentState;
-                        if (formState!.validate()) {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => VerifyPin(
-                                        phoneNumber:
-                                            "+255${phoneNumberController.text.toString()}",
-                                      )));
-                        }
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => VerifyPin(
+                                    phoneNumber:
+                                        "+255${phoneNumberController.text}")));
                       },
                       style: const NeumorphicStyle(
                         lightSource: LightSource.topLeft,
@@ -117,40 +110,28 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 24),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    const Text("Forgot your password ?"),
-                    TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        "Reset Password",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyText2!
-                            .copyWith(color: kContentColorLightTheme),
+                const SizedBox(height: 100),
+                OutlinedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, RegisterUserAgent.id);
+                  },
+                  style: TextButton.styleFrom(
+                      padding: EdgeInsets.all(20),
+                      side: BorderSide(color: Colors.white)),
+                  child: Row(
+                    children: [
+                      Text(
+                        S.of(context).caccount,
+                        style: Theme.of(context).textTheme.headline5,
                       ),
-                    )
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    const Text("Dont have an account?"),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, RegisterUserAgent.id);
-                      },
-                      child: Text(
-                        "create account",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyText2!
-                            .copyWith(color: kContentColorLightTheme),
-                      ),
-                    )
-                  ],
+                      const Padding(padding: EdgeInsets.fromLTRB(20, 0, 0, 0)),
+                      const Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        color: kContentDarkTheme,
+                        size: 16,
+                      )
+                    ],
+                  ),
                 ),
               ],
             ),
