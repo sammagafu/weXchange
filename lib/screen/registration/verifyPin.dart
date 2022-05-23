@@ -1,0 +1,114 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:pinput/pinput.dart';
+import 'package:wexchange/constants/constants.dart';
+import 'package:wexchange/screen/dashboard/userdashboard/userdashboard.dart';
+
+class VerifyPin extends StatefulWidget {
+  const VerifyPin({Key? key, required this.phoneNumber}) : super(key: key);
+  final String phoneNumber;
+
+  @override
+  _VerifyPinState createState() => _VerifyPinState();
+}
+
+class _VerifyPinState extends State<VerifyPin> {
+  final _auth = FirebaseAuth.instance;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final TextEditingController _pinPutController = TextEditingController();
+  final FocusNode _pinPutFocusNode = FocusNode();
+  String? verificationCode;
+
+  BoxDecoration get _pinPutDecoration {
+    return BoxDecoration(
+      border: Border.all(color: kPrimaryColor),
+      borderRadius: BorderRadius.circular(15.0),
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    verifyPhoneNumber();
+  }
+
+  verifyPhoneNumber() async {
+    await _auth.verifyPhoneNumber(
+        phoneNumber: widget.phoneNumber,
+        verificationCompleted: (PhoneAuthCredential credential) async {
+          await _auth.signInWithCredential(credential).then((value) {
+            if (value.user != null) {
+              Navigator.pushNamed(context, UserDashboard.id);
+            }
+          });
+        },
+        verificationFailed: (FirebaseAuthException e) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(e.message.toString()),
+              duration: const Duration(seconds: 5),
+            ),
+          );
+        },
+        codeSent: (String verificationID, int? respondToken) {
+          verificationCode = verificationID;
+        },
+        timeout: const Duration(seconds: 90),
+        codeAutoRetrievalTimeout: (String verificationId) {
+          verificationCode = verificationId;
+        });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: kSecondaryColor,
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 156, 20, 100),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Enter 6 digits verification code sent to ${widget.phoneNumber}',
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText2!
+                  .copyWith(color: kPrimaryColor),
+            ),
+            const Spacer(
+              flex: 1,
+            ),
+            Pinput(
+              length: 6,
+              controller: _pinPutController,
+              focusNode: _pinPutFocusNode,
+              onCompleted: (pin) async{
+    try {
+          await _auth
+              .signInWithCredential(PhoneAuthProvider.credential(
+                  verificationId: verificationCode!, smsCode: pin))
+              .then((value) {
+            if (value.user != null) {
+              Navigator.pushNamed(context, UserDashboard.id);
+            }
+          });
+        } catch (e) {
+          FocusScope.of(context).unfocus();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(e.toString()),
+              duration: const Duration(seconds: 5),
+            ),
+          );
+        }
+              },
+            ),
+            const Spacer(
+              flex: 1,
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}

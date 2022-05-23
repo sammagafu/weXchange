@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "61485114230",
+    "project_id": "wexchange-765f8",
+    "storage_bucket": "wexchange-765f8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:61485114230:android:b3550c5465ceee85fbd057",
+        "android_client_info": {
+          "package_name": "co.tz.wexchange.afrisolutions"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "61485114230-rglfkfr7ouva6vj83rl77fd585nn6ae1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLzuI7WFeQUFtrfiS0QCADFQRIGRyxnDQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "61485114230-rglfkfr7ouva6vj83rl77fd585nn6ae1.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "61485114230-1e5ncib8ja9pc6l6p1ktiuhebspnv57u.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.tz.wexchange.afrisolutions"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
