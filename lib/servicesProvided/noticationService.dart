@@ -1,5 +1,20 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:timezone/timezone.dart' as tz;
+
+class ReceivedNotification {
+  ReceivedNotification({
+    required this.id,
+    required this.title,
+    required this.body,
+    required this.payload,
+  });
+
+  final int id;
+  final String? title;
+  final String? body;
+  final String? payload;
+}
 
 class NotificationService {
   static final NotificationService _notificationService =
@@ -12,6 +27,10 @@ class NotificationService {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
+  final BehaviorSubject<ReceivedNotification>
+      didReceiveLocalNotificationSubject =
+      BehaviorSubject<ReceivedNotification>();
+
   NotificationService._internal();
 
   Future<void> initNotification() async {
@@ -20,10 +39,18 @@ class NotificationService {
 
     final IOSInitializationSettings initializationSettingsIOS =
         IOSInitializationSettings(
-      requestAlertPermission: false,
-      requestBadgePermission: false,
-      requestSoundPermission: false,
-    );
+            requestAlertPermission: false,
+            requestBadgePermission: false,
+            requestSoundPermission: false,
+            onDidReceiveLocalNotification: (
+              int id,
+              String? title,
+              String? body,
+              String? payload,
+            ) async {
+              didReceiveLocalNotificationSubject.add(ReceivedNotification(
+                  id: id, title: title, body: body, payload: payload));
+            });
 
     final InitializationSettings initializationSettings =
         InitializationSettings(
