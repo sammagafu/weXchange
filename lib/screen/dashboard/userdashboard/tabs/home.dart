@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:we_exchange/constants/constants.dart';
 import 'package:we_exchange/generated/l10n.dart';
@@ -9,7 +10,7 @@ import 'package:we_exchange/screen/dashboard/userdashboard/transaction_on_move.d
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:we_exchange/screen/dashboard/userdashboard/tabs/withdraw.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:we_exchange/screen/dashboard/userdashboard/userdashboard.dart';
+import 'package:timezone/data/latest.dart' as tz;
 import 'package:we_exchange/services/location.dart';
 import 'package:we_exchange/servicesProvided/noticationService.dart';
 
@@ -23,6 +24,9 @@ class AdminDashboard extends StatefulWidget {
 }
 
 class _AdminDashboardState extends State<AdminDashboard> {
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      NotificationService().flutterLocalNotificationsPlugin;
+
   Future<Position> _determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -214,6 +218,19 @@ class _AdminDashboardState extends State<AdminDashboard> {
   void initState() {
     _getDeclinedTrips();
     super.initState();
+    _requestPermissions();
+    tz.initializeTimeZones();
+  }
+
+  void _requestPermissions() {
+    flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            IOSFlutterLocalNotificationsPlugin>()
+        ?.requestPermissions(
+          alert: true,
+          badge: true,
+          sound: true,
+        );
   }
 
   @override
@@ -244,7 +261,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                   volume: 1.0,
                 );
                 NotificationService().showNotification(1, "You have a request",
-                    "Some requested for your service", 20);
+                    "Some requested for your service", 2);
                 return Container(
                   color: kPrimaryColor,
                   padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),

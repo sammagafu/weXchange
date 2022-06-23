@@ -22,16 +22,16 @@ class SuccessScreen extends StatefulWidget {
 class _SuccessScreenState extends State<SuccessScreen> {
   PageController controller = PageController();
   final CollectionReference _transaction =
-      FirebaseFirestore.instance.collection('transaction');
+  FirebaseFirestore.instance.collection('transaction');
   double rating = 0;
   Future<void> cancelTransaction() {
     return _transaction
         .doc(widget.data)
         .update({
-          'is_active': false,
-          'is_completed': false,
-          'status': 'cancelled',
-        })
+      'is_active': false,
+      'is_completed': false,
+      'status': 'cancelled',
+    })
         .then((value) => print("Trip Cancelled"))
         .catchError((error) => print("Trip Cancelled: $error"));
   }
@@ -73,7 +73,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
   }
 
   final CollectionReference ttrips =
-      FirebaseFirestore.instance.collection("transaction_trips");
+  FirebaseFirestore.instance.collection("transaction_trips");
   final chargers = 0;
   showWithdrawrates(amount) {
     if (amount < 20000) {
@@ -432,7 +432,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
                             if (!snapshot.hasData) {
                               return Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(S.of(context).connecting),
                                   const CircularProgressIndicator(),
@@ -503,9 +503,9 @@ class _SuccessScreenState extends State<SuccessScreen> {
                         const SizedBox(height: 24),
                         snapshot.data!["service"] == "withdraw"
                             ? showWithdrawrates(
-                                double.parse(snapshot.data!["amount"]))
+                            double.parse(snapshot.data!["amount"]))
                             : showDepositrates(
-                                double.parse(snapshot.data!["amount"])),
+                            double.parse(snapshot.data!["amount"])),
                         const SizedBox(height: 24),
                       ],
                     ),
@@ -538,13 +538,13 @@ class _SuccessScreenState extends State<SuccessScreen> {
                           ),
                           snapshot.data!["service"] == "deposit"
                               ? Text(
-                                  S.of(context).deposit,
-                                  style: Theme.of(context).textTheme.bodyText1,
-                                )
+                            S.of(context).deposit,
+                            style: Theme.of(context).textTheme.bodyText1,
+                          )
                               : Text(
-                                  S.of(context).withdraw,
-                                  style: Theme.of(context).textTheme.bodyText1,
-                                )
+                            S.of(context).withdraw,
+                            style: Theme.of(context).textTheme.bodyText1,
+                          )
                         ],
                       ),
                       const SizedBox(height: 12),
@@ -589,9 +589,9 @@ class _SuccessScreenState extends State<SuccessScreen> {
                       const SizedBox(height: 24),
                       snapshot.data!["service"] == "withdraw"
                           ? showWithdrawrates(
-                              double.parse(snapshot.data!["amount"]))
+                          double.parse(snapshot.data!["amount"]))
                           : showDepositrates(
-                              double.parse(snapshot.data!["amount"])),
+                          double.parse(snapshot.data!["amount"])),
                       const SizedBox(height: 24),
                       TextButton(
                         style: TextButton.styleFrom(

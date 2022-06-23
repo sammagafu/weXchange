@@ -130,7 +130,7 @@ class _TransactionOnMoveState extends State<TransactionOnMove> {
                           style: TextButton.styleFrom(
                               backgroundColor: kPrimaryColor,
                               padding:
-                                  const EdgeInsets.fromLTRB(24, 16, 24, 16)),
+                              const EdgeInsets.fromLTRB(24, 16, 24, 16)),
                           onPressed: () {
                             _transaction.doc(widget.data).update({
                               "is_completed": true,
