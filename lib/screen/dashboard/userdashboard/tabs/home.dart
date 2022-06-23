@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:we_exchange/constants/constants.dart';
 import 'package:we_exchange/generated/l10n.dart';
@@ -9,7 +10,7 @@ import 'package:we_exchange/screen/dashboard/userdashboard/transaction_on_move.d
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:we_exchange/screen/dashboard/userdashboard/tabs/withdraw.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:we_exchange/screen/dashboard/userdashboard/userdashboard.dart';
+import 'package:timezone/data/latest.dart' as tz;
 import 'package:we_exchange/services/location.dart';
 import 'package:we_exchange/servicesProvided/noticationService.dart';
 
@@ -23,6 +24,9 @@ class AdminDashboard extends StatefulWidget {
 }
 
 class _AdminDashboardState extends State<AdminDashboard> {
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      NotificationService().flutterLocalNotificationsPlugin;
+
   Future<Position> _determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -58,10 +62,10 @@ class _AdminDashboardState extends State<AdminDashboard> {
       .where('is_completed', isEqualTo: false)
       .where("status", isEqualTo: "started")
       .limit(1)
-  //includeMetadataChanges: true
+      //includeMetadataChanges: true
       .snapshots();
   final CollectionReference ttrips =
-  FirebaseFirestore.instance.collection("transaction_trips");
+      FirebaseFirestore.instance.collection("transaction_trips");
   // late var requestingUser;
   final _storage = const FlutterSecureStorage();
   final _location = Location();
@@ -99,12 +103,12 @@ class _AdminDashboardState extends State<AdminDashboard> {
           Text(
             S.of(context).withdrawcharges,
             style:
-            Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
           ),
           Text(
             (amount + 5000).toString(),
             style:
-            Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
           ),
         ],
       );
@@ -115,12 +119,12 @@ class _AdminDashboardState extends State<AdminDashboard> {
           Text(
             S.of(context).withdrawcharges,
             style:
-            Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
           ),
           Text(
             (amount + 6000).toString(),
             style:
-            Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
           ),
         ],
       );
@@ -135,12 +139,12 @@ class _AdminDashboardState extends State<AdminDashboard> {
           Text(
             S.of(context).depositcharges,
             style:
-            Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
           ),
           Text(
             (amount + 2000).toString(),
             style:
-            Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
           ),
         ],
       );
@@ -152,12 +156,12 @@ class _AdminDashboardState extends State<AdminDashboard> {
           Text(
             S.of(context).depositcharges,
             style:
-            Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
           ),
           Text(
             (amount + 3000).toString(),
             style:
-            Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
           ),
         ],
       );
@@ -168,12 +172,12 @@ class _AdminDashboardState extends State<AdminDashboard> {
           Text(
             S.of(context).depositcharges,
             style:
-            Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
           ),
           Text(
             (amount + 4000).toString() + " TZS",
             style:
-            Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
           ),
         ],
       );
@@ -182,7 +186,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
   Future<void> setupInteractedMessage() async {
     RemoteMessage? initialMessage =
-    await FirebaseMessaging.instance.getInitialMessage();
+        await FirebaseMessaging.instance.getInitialMessage();
 
     if (initialMessage != null) {
       _handleMessage(initialMessage);
@@ -214,6 +218,19 @@ class _AdminDashboardState extends State<AdminDashboard> {
   void initState() {
     _getDeclinedTrips();
     super.initState();
+    _requestPermissions();
+    tz.initializeTimeZones();
+  }
+
+  void _requestPermissions() {
+    flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            IOSFlutterLocalNotificationsPlugin>()
+        ?.requestPermissions(
+          alert: true,
+          badge: true,
+          sound: true,
+        );
   }
 
   @override
@@ -244,7 +261,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                   volume: 1.0,
                 );
                 NotificationService().showNotification(1, "You have a request",
-                    "Some requested for your service", 20);
+                    "Some requested for your service", 2);
                 return Container(
                   color: kPrimaryColor,
                   padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
@@ -301,12 +318,12 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                   return const CircularProgressIndicator();
                                 } else {
                                   double distanceInMeters =
-                                  (Geolocator.distanceBetween(
-                                      latitude,
-                                      longitude,
-                                      snapshot.data.latitude,
-                                      snapshot.data.longitude) /
-                                      1000);
+                                      (Geolocator.distanceBetween(
+                                              latitude,
+                                              longitude,
+                                              snapshot.data.latitude,
+                                              snapshot.data.longitude) /
+                                          1000);
                                   return Text(
                                       "${distanceInMeters.toInt().toString()} KM");
                                 }
@@ -316,9 +333,9 @@ class _AdminDashboardState extends State<AdminDashboard> {
                       const Separator(),
                       _transactionData["service"] == "withdraw"
                           ? showWithdrawrates(
-                          double.parse(_transactionData["amount"]))
+                              double.parse(_transactionData["amount"]))
                           : showDepositrates(
-                          double.parse(_transactionData["amount"])),
+                              double.parse(_transactionData["amount"])),
                       const SizedBox(height: 12),
                       TextButton(
                         onPressed: () {
@@ -438,7 +455,7 @@ class _TripDetailsState extends State<TripDetails> {
   final _auth = FirebaseAuth.instance.currentUser;
 
   final CollectionReference ttrips =
-  FirebaseFirestore.instance.collection("transaction_trips");
+      FirebaseFirestore.instance.collection("transaction_trips");
 
   @override
   Widget build(BuildContext context) {
