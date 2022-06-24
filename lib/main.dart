@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -16,12 +18,19 @@ import 'package:we_exchange/theme/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:we_exchange/generated/l10n.dart';
+import 'package:workmanager/workmanager.dart';
 
 // import 'package:';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  Workmanager().initialize(
+      callbackDispatcher, // The top level function, aka callbackDispatcher
+      isInDebugMode:
+          true // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
+      );
+  // Workmanager().registerOneOffTask("task-identifier", "simpleTask");
 
   runApp(
     MultiProvider(
@@ -32,6 +41,18 @@ Future<void> main() async {
       child: const MyApp(),
     ),
   );
+}
+
+void callbackDispatcher() {
+  Workmanager().executeTask((task, inputData) {
+    switch (task) {
+      case Workmanager.iOSBackgroundTask:
+        stderr.writeln("The iOS background fetch was triggered");
+        break;
+    }
+    bool success = true;
+    return Future.value(success);
+  });
 }
 
 class MyApp extends StatelessWidget {
