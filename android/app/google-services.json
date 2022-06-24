@@ -7,12 +7,56 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:61485114230:android:bc625b4eafcca090fbd057",
+        "android_client_info": {
+          "package_name": "co.tz.weexchange.we_exchange"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "61485114230-rglfkfr7ouva6vj83rl77fd585nn6ae1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLzuI7WFeQUFtrfiS0QCADFQRIGRyxnDQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "61485114230-rglfkfr7ouva6vj83rl77fd585nn6ae1.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "61485114230-1e5ncib8ja9pc6l6p1ktiuhebspnv57u.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.tz.wexchange.afrisolutions"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:61485114230:android:b3550c5465ceee85fbd057",
         "android_client_info": {
           "package_name": "co.tz.wexchange.afrisolutions"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "61485114230-e34ocl5ual7himi3mkgstq15k6f84gb8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "co.tz.wexchange.afrisolutions",
+            "certificate_hash": "ec43c43160aace64caafd2a629cc38e9adb0938d"
+          }
+        },
         {
           "client_id": "61485114230-rglfkfr7ouva6vj83rl77fd585nn6ae1.apps.googleusercontent.com",
           "client_type": 3

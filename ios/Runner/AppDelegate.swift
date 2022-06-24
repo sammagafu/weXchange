@@ -4,10 +4,12 @@ import Firebase
 import GoogleMaps
 import workmanager
 import flutter_local_notifications
-
+import UIKit
 
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate {
+  var window: UIWindow?
+
     override func userNotificationCenter(_ center: UNUserNotificationCenter,
                                              willPresent notification: UNNotification,
                                              withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
