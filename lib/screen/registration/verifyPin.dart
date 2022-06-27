@@ -93,6 +93,7 @@ class _VerifyPinState extends State<VerifyPin> {
                 ),
               ),
               onSubmit: (pin) async {
+                print(verificationCode! + pin);
                 try {
                   await _auth
                       .signInWithCredential(PhoneAuthProvider.credential(
@@ -103,6 +104,7 @@ class _VerifyPinState extends State<VerifyPin> {
                     }
                   });
                 } catch (e) {
+                  print(e);
                   FocusScope.of(context).unfocus();
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
