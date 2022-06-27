@@ -218,7 +218,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
   void initState() {
     _getDeclinedTrips();
     super.initState();
-    _requestPermissions();
+    // _requestPermissions();
     tz.initializeTimeZones();
   }
 
