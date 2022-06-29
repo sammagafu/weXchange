@@ -5,6 +5,7 @@ import 'package:pinput/pin_put/pin_put.dart';
 import 'package:we_exchange/constants/constants.dart';
 import 'package:we_exchange/screen/dashboard/userdashboard/userdashboard.dart';
 import 'package:we_exchange/screen/updateProfile.dart';
+import 'package:we_exchange/servicesProvided/noticationService.dart';
 
 class VerifyUserRegistration extends StatefulWidget {
   VerifyUserRegistration({Key? key, required this.name, required this.phone})
@@ -18,6 +19,7 @@ class VerifyUserRegistration extends StatefulWidget {
 
 class _VerifyUserRegistrationState extends State<VerifyUserRegistration> {
   final _auth = FirebaseAuth.instance;
+  String? deviceToken;
   final _profile = FirebaseFirestore.instance.collection("user_profile");
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final TextEditingController _pinPutController = TextEditingController();
@@ -35,6 +37,7 @@ class _VerifyUserRegistrationState extends State<VerifyUserRegistration> {
   void initState() {
     super.initState();
     verifyPhoneNumber();
+    NotificationService.getAppToken().then((token) => deviceToken = token);
   }
 
   verifyPhoneNumber() async {
@@ -125,6 +128,7 @@ class _VerifyUserRegistrationState extends State<VerifyUserRegistration> {
                       _profile.doc(value.user!.uid).set({
                         "phone": widget.phone,
                         "fullname": widget.name,
+                        "notificationTokens": deviceToken
                       });
                     }
                   });

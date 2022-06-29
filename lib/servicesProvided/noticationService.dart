@@ -52,8 +52,8 @@ class NotificationService {
     }
   }
 
-  getAppToken() async {
-    final fcmToken = await FirebaseMessaging.instance.getToken();
+  static Future<String?> getAppToken() async {
+    return await FirebaseMessaging.instance.getToken();
   }
 
   checkFCMTokenRefresh() {

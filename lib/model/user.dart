@@ -4,8 +4,9 @@ class UserAccount {
   String phonenumber;
   String displayname;
   String password;
-  UserAccount(
-      this.uiid, this.email, this.phonenumber, this.password, this.displayname);
+  String userToken;
+  UserAccount(this.uiid, this.email, this.phonenumber, this.password,
+      this.displayname, this.userToken);
 
   Map<String, dynamic> createMap() {
     return {
