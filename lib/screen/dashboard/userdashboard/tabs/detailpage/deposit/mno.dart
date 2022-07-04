@@ -6,6 +6,8 @@ import 'package:we_exchange/constants/constants.dart';
 import 'package:we_exchange/generated/l10n.dart';
 import 'package:we_exchange/screen/dashboard/userdashboard/sucesstransfer.dart';
 import 'package:we_exchange/services/location.dart';
+import 'package:http/http.dart' as http;
+import 'package:we_exchange/servicesProvided/noticationService.dart';
 
 class MnoDepositDetail extends StatefulWidget {
   final mno;
@@ -21,6 +23,19 @@ class _MnoDepositDetail extends State<MnoDepositDetail> {
   final CollectionReference _transaction =
       FirebaseFirestore.instance.collection('transaction');
   TextEditingController amountController = TextEditingController();
+  var client = http.Client();
+  String? deviceToken;
+
+  sendNotification() async {
+    NotificationService.getAppToken().then((token) => deviceToken = token);
+    var url = Uri.parse(
+        'https://us-central1-wexchange-765f8.cloudfunctions.net/sendPushMessage');
+    var response = await http.post(url, body: {
+      'userId': deviceToken,
+    });
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,21 +119,21 @@ class _MnoDepositDetail extends State<MnoDepositDetail> {
   Future<void> deposit() async {
     final formState = _formKey.currentState;
     if (formState!.validate()) {
-      return _transaction
-          .add({
-            "amount": amountController.text,
-            "carrier": widget.mno.name,
-            "is_active": true,
-            "is_completed": false,
-            "request_time": DateTime.now(),
-            "service": "deposit",
-            "user": _auth!.uid,
-            "status": "started",
-            "users_location": GeoPoint(-6.7640978, 39.2484818)
-          })
-          .then((value) => Navigator.push(context,
-              MaterialPageRoute(builder: (context) => SuccessScreen(value.id))))
-          .catchError((error) => print("Failed to add user: $error"));
+      return _transaction.add({
+        "amount": amountController.text,
+        "carrier": widget.mno.name,
+        "is_active": true,
+        "is_completed": false,
+        "request_time": DateTime.now(),
+        "service": "deposit",
+        "user": _auth!.uid,
+        "status": "started",
+        "users_location": GeoPoint(-6.7640978, 39.2484818)
+      }).then((value) {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => SuccessScreen(value.id)));
+        sendNotification();
+      }).catchError((error) => print("Failed to add user: $error"));
     }
   }
 }
