@@ -3,14 +3,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:timezone/data/latest.dart' as tz;
 import 'package:we_exchange/constants/constants.dart';
 import 'package:we_exchange/generated/l10n.dart';
-import 'package:we_exchange/screen/dashboard/userdashboard/transaction_on_move.dart';
-import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:we_exchange/screen/dashboard/userdashboard/tabs/withdraw.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:timezone/data/latest.dart' as tz;
+import 'package:we_exchange/screen/dashboard/userdashboard/transaction_on_move.dart';
 import 'package:we_exchange/services/location.dart';
 import 'package:we_exchange/servicesProvided/noticationService.dart';
 
@@ -71,7 +71,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
   final _location = Location();
 
   showWithdrawrates(amount) {
-    if (amount <= 20000) {
+    if (amount <= 10000) {
       return Column(
         children: [
           Row(
@@ -85,7 +85,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                     .copyWith(fontSize: 14),
               ),
               Text(
-                (amount + 3000).toString(),
+                (amount + 2000).toString(),
                 style: Theme.of(context)
                     .textTheme
                     .bodyText1!
@@ -96,7 +96,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
         ],
       );
     }
-    if (amount > 20001 && amount < 50000) {
+    if (amount > 10000 && amount < 20000) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -106,7 +106,58 @@ class _AdminDashboardState extends State<AdminDashboard> {
                 Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
           ),
           Text(
-            (amount + 5000).toString(),
+            (amount + 2500).toString(),
+            style:
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+          ),
+        ],
+      );
+    }
+    if (amount > 20000 && amount < 40000) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            S.of(context).withdrawcharges,
+            style:
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+          ),
+          Text(
+            (amount + 3500).toString(),
+            style:
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+          ),
+        ],
+      );
+    }
+    if (amount > 40000 && amount < 50000) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            S.of(context).withdrawcharges,
+            style:
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+          ),
+          Text(
+            (amount + 4500).toString(),
+            style:
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+          ),
+        ],
+      );
+    }
+    if (amount > 50000 && amount < 100000) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            S.of(context).withdrawcharges,
+            style:
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+          ),
+          Text(
+            (amount + 5500).toString(),
             style:
                 Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
           ),
@@ -132,7 +183,41 @@ class _AdminDashboardState extends State<AdminDashboard> {
   }
 
   showDepositrates(amount) {
-    if (amount <= 20000) {
+    if (amount < 10000) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            S.of(context).depositcharges,
+            style:
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+          ),
+          Text(
+            (amount + 1000).toString(),
+            style:
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+          ),
+        ],
+      );
+    }
+    if (amount > 10000 && amount < 20000) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            S.of(context).depositcharges,
+            style:
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+          ),
+          Text(
+            (amount + 1500).toString(),
+            style:
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+          ),
+        ],
+      );
+    }
+    if (amount > 20000 && amount < 40000) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -149,7 +234,24 @@ class _AdminDashboardState extends State<AdminDashboard> {
         ],
       );
     }
-    if (amount > 20000 && amount <= 50000) {
+    if (amount > 40000 && amount < 50000) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            S.of(context).depositcharges,
+            style:
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+          ),
+          Text(
+            (amount + 2500).toString(),
+            style:
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+          ),
+        ],
+      );
+    }
+    if (amount > 50000 && amount < 100000) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -175,7 +277,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                 Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
           ),
           Text(
-            (amount + 4000).toString() + " TZS",
+            (amount + 3500).toString() + " TZS",
             style:
                 Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
           ),

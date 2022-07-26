@@ -22,16 +22,16 @@ class SuccessScreen extends StatefulWidget {
 class _SuccessScreenState extends State<SuccessScreen> {
   PageController controller = PageController();
   final CollectionReference _transaction =
-  FirebaseFirestore.instance.collection('transaction');
+      FirebaseFirestore.instance.collection('transaction');
   double rating = 0;
   Future<void> cancelTransaction() {
     return _transaction
         .doc(widget.data)
         .update({
-      'is_active': false,
-      'is_completed': false,
-      'status': 'cancelled',
-    })
+          'is_active': false,
+          'is_completed': false,
+          'status': 'cancelled',
+        })
         .then((value) => print("Trip Cancelled"))
         .catchError((error) => print("Trip Cancelled: $error"));
   }
@@ -73,171 +73,17 @@ class _SuccessScreenState extends State<SuccessScreen> {
   }
 
   final CollectionReference ttrips =
-  FirebaseFirestore.instance.collection("transaction_trips");
+      FirebaseFirestore.instance.collection("transaction_trips");
   final chargers = 0;
   showWithdrawrates(amount) {
-    if (amount < 20000) {
+    if (amount <= 10000) {
       return Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                S.of(context).depositcharges,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1!
-                    .copyWith(fontSize: 14),
-              ),
-              Text(
-                "3000",
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1!
-                    .copyWith(fontSize: 14),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                S.of(context).totalpay,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1!
-                    .copyWith(fontSize: 14),
-              ),
-              Text(
-                (amount + 3000).toString(),
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1!
-                    .copyWith(fontSize: 14),
-              ),
-            ],
-          ),
-        ],
-      );
-    }
-    if (amount > 20000 && amount < 50000) {
-      return Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                S.of(context).depositcharges,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1!
-                    .copyWith(fontSize: 14),
-              ),
-              Text(
-                "5000",
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1!
-                    .copyWith(fontSize: 14),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                S.of(context).totalpay,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1!
-                    .copyWith(fontSize: 14),
-              ),
-              Text(
-                (amount + 5000).toString(),
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1!
-                    .copyWith(fontSize: 14),
-              ),
-            ],
-          ),
-        ],
-      );
-    }
-    if (amount > 50000) {
-      return Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                S.of(context).depositcharges,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1!
-                    .copyWith(fontSize: 14),
-              ),
-              Text(
-                "6000",
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1!
-                    .copyWith(fontSize: 14),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                S.of(context).totalpay,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1!
-                    .copyWith(fontSize: 14),
-              ),
-              Text(
-                (amount + 6000).toString(),
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1!
-                    .copyWith(fontSize: 14),
-              ),
-            ],
-          ),
-        ],
-      );
-    }
-  }
-
-  showDepositrates(amount) {
-    if (amount < 20000) {
-      return Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                S.of(context).depositcharges,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1!
-                    .copyWith(fontSize: 14),
-              ),
-              Text(
-                "2000",
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1!
-                    .copyWith(fontSize: 14),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                S.of(context).totalpay,
+                S.of(context).withdrawcharges,
                 style: Theme.of(context)
                     .textTheme
                     .bodyText1!
@@ -255,17 +101,70 @@ class _SuccessScreenState extends State<SuccessScreen> {
         ],
       );
     }
-    if (amount > 20000 && amount < 50000) {
+    if (amount > 10000 && amount < 20000) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            "Deposit Charges",
-            style: Theme.of(context).textTheme.bodyText1,
+            S.of(context).withdrawcharges,
+            style:
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
           ),
           Text(
-            "3000",
-            style: Theme.of(context).textTheme.bodyText1,
+            (amount + 2500).toString(),
+            style:
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+          ),
+        ],
+      );
+    }
+    if (amount > 20000 && amount < 40000) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            S.of(context).withdrawcharges,
+            style:
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+          ),
+          Text(
+            (amount + 3500).toString(),
+            style:
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+          ),
+        ],
+      );
+    }
+    if (amount > 40000 && amount < 50000) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            S.of(context).withdrawcharges,
+            style:
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+          ),
+          Text(
+            (amount + 4500).toString(),
+            style:
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+          ),
+        ],
+      );
+    }
+    if (amount > 50000 && amount < 100000) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            S.of(context).withdrawcharges,
+            style:
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+          ),
+          Text(
+            (amount + 5500).toString(),
+            style:
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
           ),
         ],
       );
@@ -274,12 +173,118 @@ class _SuccessScreenState extends State<SuccessScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            "Deposit Charges",
-            style: Theme.of(context).textTheme.bodyText1,
+            S.of(context).withdrawcharges,
+            style:
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
           ),
           Text(
-            "4000",
-            style: Theme.of(context).textTheme.bodyText1,
+            (amount + 6000).toString(),
+            style:
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+          ),
+        ],
+      );
+    }
+  }
+
+  showDepositrates(amount) {
+    if (amount < 10000) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            S.of(context).depositcharges,
+            style:
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+          ),
+          Text(
+            (amount + 1000).toString(),
+            style:
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+          ),
+        ],
+      );
+    }
+    if (amount > 10000 && amount < 20000) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            S.of(context).depositcharges,
+            style:
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+          ),
+          Text(
+            (amount + 1500).toString(),
+            style:
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+          ),
+        ],
+      );
+    }
+    if (amount > 20000 && amount < 40000) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            S.of(context).depositcharges,
+            style:
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+          ),
+          Text(
+            (amount + 2000).toString(),
+            style:
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+          ),
+        ],
+      );
+    }
+    if (amount > 40000 && amount < 50000) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            S.of(context).depositcharges,
+            style:
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+          ),
+          Text(
+            (amount + 2500).toString(),
+            style:
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+          ),
+        ],
+      );
+    }
+    if (amount > 50000 && amount < 100000) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            S.of(context).depositcharges,
+            style:
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+          ),
+          Text(
+            (amount + 3000).toString(),
+            style:
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+          ),
+        ],
+      );
+    } else {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            S.of(context).depositcharges,
+            style:
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+          ),
+          Text(
+            (amount + 3500).toString() + " TZS",
+            style:
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
           ),
         ],
       );
@@ -432,7 +437,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
                             if (!snapshot.hasData) {
                               return Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(S.of(context).connecting),
                                   const CircularProgressIndicator(),
@@ -503,9 +508,9 @@ class _SuccessScreenState extends State<SuccessScreen> {
                         const SizedBox(height: 24),
                         snapshot.data!["service"] == "withdraw"
                             ? showWithdrawrates(
-                            double.parse(snapshot.data!["amount"]))
+                                double.parse(snapshot.data!["amount"]))
                             : showDepositrates(
-                            double.parse(snapshot.data!["amount"])),
+                                double.parse(snapshot.data!["amount"])),
                         const SizedBox(height: 24),
                       ],
                     ),
@@ -538,13 +543,13 @@ class _SuccessScreenState extends State<SuccessScreen> {
                           ),
                           snapshot.data!["service"] == "deposit"
                               ? Text(
-                            S.of(context).deposit,
-                            style: Theme.of(context).textTheme.bodyText1,
-                          )
+                                  S.of(context).deposit,
+                                  style: Theme.of(context).textTheme.bodyText1,
+                                )
                               : Text(
-                            S.of(context).withdraw,
-                            style: Theme.of(context).textTheme.bodyText1,
-                          )
+                                  S.of(context).withdraw,
+                                  style: Theme.of(context).textTheme.bodyText1,
+                                )
                         ],
                       ),
                       const SizedBox(height: 12),
@@ -589,9 +594,9 @@ class _SuccessScreenState extends State<SuccessScreen> {
                       const SizedBox(height: 24),
                       snapshot.data!["service"] == "withdraw"
                           ? showWithdrawrates(
-                          double.parse(snapshot.data!["amount"]))
+                              double.parse(snapshot.data!["amount"]))
                           : showDepositrates(
-                          double.parse(snapshot.data!["amount"])),
+                              double.parse(snapshot.data!["amount"])),
                       const SizedBox(height: 24),
                       TextButton(
                         style: TextButton.styleFrom(
