@@ -12,6 +12,8 @@ import 'package:we_exchange/generated/l10n.dart';
 import 'package:we_exchange/screen/dashboard/userdashboard/tabs/withdraw.dart';
 import 'package:we_exchange/screen/dashboard/userdashboard/transaction_on_move.dart';
 import 'package:we_exchange/services/location.dart';
+import 'package:we_exchange/services/locator.service.dart';
+import 'package:we_exchange/services/shared_preferences.helper.dart';
 import 'package:we_exchange/servicesProvided/noticationService.dart';
 
 import 'deposit.dart';
@@ -24,6 +26,9 @@ class AdminDashboard extends StatefulWidget {
 }
 
 class _AdminDashboardState extends State<AdminDashboard> {
+  final SharedPreferenceHelper sharedPreferenceHelper =
+      getIt.get<SharedPreferenceHelper>();
+
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       NotificationService().flutterLocalNotificationsPlugin;
 
@@ -307,7 +312,9 @@ class _AdminDashboardState extends State<AdminDashboard> {
   }
 
 //declined trip variable
+  List<String>? _declinedTripsList;
   String? _declinedTrip;
+
   Future<String?> _getDeclinedTrips() async {
     return _declinedTrip = await _storage.read(key: "declinedTrip");
   }
@@ -316,8 +323,25 @@ class _AdminDashboardState extends State<AdminDashboard> {
     return await _storage.write(key: "declinedTrip", value: trip);
   }
 
+  Future<void> _addDeclinedTripToList(String trip) async {
+    List<String> list = [];
+    if (trip.isEmpty) {
+      throw ('Error');
+    }
+    if (_declinedTripsList!.isNotEmpty) {
+      list = _declinedTripsList!.toList();
+    }
+    list.add(trip);
+    // try the above one when this below fails
+    return await sharedPreferenceHelper.setDeclinedTrips(
+        declinedTripIds: _declinedTripsList!.toList());
+  }
+
   @override
   void initState() {
+    // get declined trips
+    _declinedTripsList = sharedPreferenceHelper.getDeclinedTrips();
+    // Below is the previous version
     _getDeclinedTrips();
     super.initState();
     // _requestPermissions();
@@ -488,7 +512,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
                       const SizedBox(height: 12),
                       TextButton(
                         onPressed: () {
-                          _addDeclinedTrips(_transactionData.id.toString());
+                          _addDeclinedTripToList(
+                              _transactionData.id.toString());
                         },
                         style: TextButton.styleFrom(
                             padding: const EdgeInsets.all(8),

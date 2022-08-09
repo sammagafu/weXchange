@@ -14,6 +14,7 @@ import 'package:we_exchange/screen/registration/registerAgent.dart';
 import 'package:we_exchange/screen/welcomescreen/landingscreen.dart';
 import 'package:we_exchange/screen/welcomescreen/language.dart';
 import 'package:we_exchange/screen/welcomescreen/login.dart';
+import 'package:we_exchange/services/locator.service.dart';
 import 'package:we_exchange/servicesProvided/noticationService.dart';
 import 'package:we_exchange/theme/theme.dart';
 import 'package:provider/provider.dart';
@@ -43,6 +44,7 @@ Future<void> main() async {
       print('Message also contained a notification: ${message.notification}');
     }
   });
+  await setup();
 
   runApp(
     MultiProvider(
