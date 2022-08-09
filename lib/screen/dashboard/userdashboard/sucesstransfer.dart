@@ -311,211 +311,215 @@ class _SuccessScreenState extends State<SuccessScreen> {
               stream: _transaction.doc(widget.data).snapshots(),
               builder: (BuildContext context,
                   AsyncSnapshot<DocumentSnapshot> snapshot) {
-                if (snapshot.data!["status"] == "completed") {
-                  return Container(
-                    color: kPrimaryColor,
-                    padding: const EdgeInsets.fromLTRB(50, 10, 20, 50),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const SizedBox(height: 12),
-                        const Icon(
-                          Icons.mood,
-                          size: 80,
-                          color: kContentDarkTheme,
-                        ),
-                        Text(
-                          S.of(context).rate,
-                          style: Theme.of(context).textTheme.bodyText1,
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(height: 24),
-                        SmoothStarRating(
-                            size: 30,
-                            rating: rating,
-                            halfFilledIconData: Icons.star_half,
-                            filledIconData: Icons.star,
-                            defaultIconData: Icons.star_border,
-                            starCount: 5,
-                            borderColor: kWarningColor,
-                            color: kWarningColor,
-                            allowHalfRating: false,
-                            spacing: 2.0,
-                            onRatingChanged: (value) {
-                              setState(() {
-                                rating = value;
-                              });
-                            }),
-                        const SizedBox(height: 72),
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, UserDashboard.id);
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                if (snapshot.hasData) {
+                  if (snapshot.data!["status"] == "completed") {
+                    return Container(
+                      color: kPrimaryColor,
+                      padding: const EdgeInsets.fromLTRB(50, 10, 20, 50),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const SizedBox(height: 12),
+                          const Icon(
+                            Icons.mood,
+                            size: 80,
+                            color: kContentDarkTheme,
+                          ),
+                          Text(
+                            S.of(context).rate,
+                            style: Theme.of(context).textTheme.bodyText1,
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 24),
+                          SmoothStarRating(
+                              size: 30,
+                              rating: rating,
+                              halfFilledIconData: Icons.star_half,
+                              filledIconData: Icons.star,
+                              defaultIconData: Icons.star_border,
+                              starCount: 5,
+                              borderColor: kWarningColor,
+                              color: kWarningColor,
+                              allowHalfRating: false,
+                              spacing: 2.0,
+                              onRatingChanged: (value) {
+                                setState(() {
+                                  rating = value;
+                                });
+                              }),
+                          const SizedBox(height: 72),
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, UserDashboard.id);
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(S.of(context).goback),
+                                const SizedBox(
+                                  width: 24,
+                                ),
+                                const Icon(Icons.cancel)
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                  if (snapshot.data!["status"] == "ongoing") {
+                    var amount = snapshot.data!["amount"];
+                    return Container(
+                      color: kPrimaryColor,
+                      padding: const EdgeInsets.fromLTRB(20, 20, 20, 45),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const SizedBox(height: 12),
+                          Text(
+                            S.of(context).transactionInfo,
+                            style: Theme.of(context).textTheme.bodyText1,
+                          ),
+                          const SizedBox(height: 12),
+                          Container(
+                            height: 1,
+                            width: 100,
+                            color: kContentDarkTheme,
+                          ),
+                          const SizedBox(height: 12),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(S.of(context).goback),
-                              const SizedBox(
-                                width: 24,
+                              Text(
+                                S.of(context).service,
+                                style: Theme.of(context).textTheme.bodyText1,
                               ),
-                              const Icon(Icons.cancel)
+                              Text(
+                                snapshot.data!["service"],
+                                style: Theme.of(context).textTheme.bodyText1,
+                              )
                             ],
                           ),
-                        ),
-                      ],
-                    ),
-                  );
-                }
-
-                if (snapshot.data!["status"] == "ongoing") {
-                  var amount = snapshot.data!["amount"];
-                  return Container(
-                    color: kPrimaryColor,
-                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 45),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const SizedBox(height: 12),
-                        Text(
-                          S.of(context).transactionInfo,
-                          style: Theme.of(context).textTheme.bodyText1,
-                        ),
-                        const SizedBox(height: 12),
-                        Container(
-                          height: 1,
-                          width: 100,
-                          color: kContentDarkTheme,
-                        ),
-                        const SizedBox(height: 12),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              S.of(context).service,
-                              style: Theme.of(context).textTheme.bodyText1,
-                            ),
-                            Text(
-                              snapshot.data!["service"],
-                              style: Theme.of(context).textTheme.bodyText1,
-                            )
-                          ],
-                        ),
-                        const SizedBox(height: 12),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              S.of(context).serviceprovider,
-                              style: Theme.of(context).textTheme.bodyText1,
-                            ),
-                            Text(
-                              snapshot.data!["carrier"],
-                              style: Theme.of(context).textTheme.bodyText1,
-                            )
-                          ],
-                        ),
-                        const SizedBox(height: 12),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              S.of(context).depositamount,
-                              style: Theme.of(context).textTheme.bodyText1,
-                            ),
-                            Text(
-                              snapshot.data!["amount"],
-                              style: Theme.of(context).textTheme.bodyText1,
-                            )
-                          ],
-                        ),
-                        const SizedBox(height: 24),
-                        StreamBuilder(
-                          stream: ttrips.doc(widget.data).snapshots(),
-                          builder:
-                              (BuildContext context, AsyncSnapshot snapshot) {
-                            if (!snapshot.hasData) {
+                          const SizedBox(height: 12),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                S.of(context).serviceprovider,
+                                style: Theme.of(context).textTheme.bodyText1,
+                              ),
+                              Text(
+                                snapshot.data!["carrier"],
+                                style: Theme.of(context).textTheme.bodyText1,
+                              )
+                            ],
+                          ),
+                          const SizedBox(height: 12),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                S.of(context).depositamount,
+                                style: Theme.of(context).textTheme.bodyText1,
+                              ),
+                              Text(
+                                snapshot.data!["amount"],
+                                style: Theme.of(context).textTheme.bodyText1,
+                              )
+                            ],
+                          ),
+                          const SizedBox(height: 24),
+                          StreamBuilder(
+                            stream: ttrips.doc(widget.data).snapshots(),
+                            builder:
+                                (BuildContext context, AsyncSnapshot snapshot) {
+                              if (!snapshot.hasData) {
+                                return Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(S.of(context).connecting),
+                                    const CircularProgressIndicator(),
+                                  ],
+                                );
+                              }
+                              var userprofile = snapshot.data['agent'];
                               return Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(S.of(context).connecting),
-                                  const CircularProgressIndicator(),
-                                ],
-                              );
-                            }
-                            var userprofile = snapshot.data['agent'];
-                            return Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                Message(widget.data)));
-                                  },
-                                  child: const CircleAvatar(
-                                    backgroundColor: kContentDarkTheme,
-                                    radius: 25,
-                                    child: Icon(
-                                      Icons.message,
-                                      color: kPrimaryColor,
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  Message(widget.data)));
+                                    },
+                                    child: const CircleAvatar(
+                                      backgroundColor: kContentDarkTheme,
+                                      radius: 25,
+                                      child: Icon(
+                                        Icons.message,
+                                        color: kPrimaryColor,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                StreamBuilder(
-                                    stream: FirebaseFirestore.instance
-                                        .collection('user_profile')
-                                        .doc(userprofile)
-                                        .snapshots(),
-                                    builder: (BuildContext context,
-                                        AsyncSnapshot snapshot) {
-                                      if (!snapshot.hasData) {
-                                        return const CircularProgressIndicator();
-                                      }
-                                      var data = snapshot.data;
-                                      return GestureDetector(
-                                        onTap: () {
-                                          launch("tel:${data['phone']}");
-                                        },
-                                        child: const CircleAvatar(
-                                          backgroundColor: kContentDarkTheme,
-                                          radius: 25,
-                                          child: Icon(
-                                            Icons.phone,
-                                            color: kPrimaryColor,
+                                  StreamBuilder(
+                                      stream: FirebaseFirestore.instance
+                                          .collection('user_profile')
+                                          .doc(userprofile)
+                                          .snapshots(),
+                                      builder: (BuildContext context,
+                                          AsyncSnapshot snapshot) {
+                                        if (!snapshot.hasData) {
+                                          return const CircularProgressIndicator();
+                                        }
+                                        var data = snapshot.data;
+                                        return GestureDetector(
+                                          onTap: () {
+                                            launch("tel:${data['phone']}");
+                                          },
+                                          child: const CircleAvatar(
+                                            backgroundColor: kContentDarkTheme,
+                                            radius: 25,
+                                            child: Icon(
+                                              Icons.phone,
+                                              color: kPrimaryColor,
+                                            ),
                                           ),
-                                        ),
-                                      );
-                                    }),
-                              ],
-                            );
-                          },
-                        ),
-                        const SizedBox(height: 24),
-                        Text(
-                          S.of(context).charges,
-                          style: Theme.of(context).textTheme.bodyText1,
-                        ),
-                        const SizedBox(height: 12),
-                        Container(
-                          height: 1,
-                          width: 100,
-                          color: kContentDarkTheme,
-                        ),
-                        const SizedBox(height: 24),
-                        snapshot.data!["service"] == "withdraw"
-                            ? showWithdrawrates(
-                                double.parse(snapshot.data!["amount"]))
-                            : showDepositrates(
-                                double.parse(snapshot.data!["amount"])),
-                        const SizedBox(height: 24),
-                      ],
-                    ),
-                  );
+                                        );
+                                      }),
+                                ],
+                              );
+                            },
+                          ),
+                          const SizedBox(height: 24),
+                          Text(
+                            S.of(context).charges,
+                            style: Theme.of(context).textTheme.bodyText1,
+                          ),
+                          const SizedBox(height: 12),
+                          Container(
+                            height: 1,
+                            width: 100,
+                            color: kContentDarkTheme,
+                          ),
+                          const SizedBox(height: 24),
+                          snapshot.hasData &&
+                                  snapshot.data!["service"] == "withdraw"
+                              ? showWithdrawrates(
+                                  double.parse(snapshot.data!["amount"]))
+                              : showDepositrates(
+                                  double.parse(snapshot.data!["amount"])),
+                          const SizedBox(height: 24),
+                        ],
+                      ),
+                    );
+                  }
                 }
+
                 return Container(
                   color: kPrimaryColor,
                   padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
@@ -541,7 +545,8 @@ class _SuccessScreenState extends State<SuccessScreen> {
                             S.of(context).service,
                             style: Theme.of(context).textTheme.bodyText1,
                           ),
-                          snapshot.data!["service"] == "deposit"
+                          snapshot.hasData &&
+                                  snapshot.data!["service"] == "deposit"
                               ? Text(
                                   S.of(context).deposit,
                                   style: Theme.of(context).textTheme.bodyText1,
@@ -561,7 +566,12 @@ class _SuccessScreenState extends State<SuccessScreen> {
                             style: Theme.of(context).textTheme.bodyText1,
                           ),
                           Text(
-                            snapshot.data!["carrier"],
+                            snapshot.hasData &&
+                                    snapshot.data!["carrier"]
+                                        .toString()
+                                        .isNotEmpty
+                                ? snapshot.data!["carrier"]
+                                : 'Undefined',
                             style: Theme.of(context).textTheme.bodyText1,
                           )
                         ],
@@ -575,7 +585,12 @@ class _SuccessScreenState extends State<SuccessScreen> {
                             style: Theme.of(context).textTheme.bodyText1,
                           ),
                           Text(
-                            snapshot.data!["amount"],
+                            snapshot.hasData &&
+                                    snapshot.data!["amount"]
+                                        .toString()
+                                        .isNotEmpty
+                                ? snapshot.data!["amount"]
+                                : 'Not specified',
                             style: Theme.of(context).textTheme.bodyText1,
                           )
                         ],
@@ -592,11 +607,13 @@ class _SuccessScreenState extends State<SuccessScreen> {
                         color: kContentDarkTheme,
                       ),
                       const SizedBox(height: 24),
-                      snapshot.data!["service"] == "withdraw"
-                          ? showWithdrawrates(
-                              double.parse(snapshot.data!["amount"]))
-                          : showDepositrates(
-                              double.parse(snapshot.data!["amount"])),
+                      snapshot.hasData
+                          ? snapshot.data!["service"] == "withdraw"
+                              ? showWithdrawrates(
+                                  double.parse(snapshot.data!["amount"]))
+                              : showDepositrates(
+                                  double.parse(snapshot.data!["amount"]))
+                          : showDepositrates(double.parse('0.00')),
                       const SizedBox(height: 24),
                       TextButton(
                         style: TextButton.styleFrom(
