@@ -129,8 +129,9 @@ class _MnoDepositDetail extends State<MnoDepositDetail> {
         "service": "deposit",
         "user": _auth!.uid,
         "status": "started",
-        "users_location": {"latitude": -6.7640978, "longitude": 39.2484818}
-        // this is how we will be sending this to the database
+        "users_location": const GeoPoint(-6.7640978, 39.2484818)
+        // this is an
+        //instance, return object or value of the GeoPoint
       }).then((value) {
         // This value here does not return an object
         // returns DocumentReference<Map<String, dynamic>>
