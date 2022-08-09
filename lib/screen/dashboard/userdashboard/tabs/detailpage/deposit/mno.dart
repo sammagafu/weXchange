@@ -34,8 +34,8 @@ class _MnoDepositDetail extends State<MnoDepositDetail> {
     var response = await http.post(url,
         body: payload,
         headers: {"Accept": "*/*", "Content-Type": "application/json"});
-    // print('Response status: ${response.statusCode}');
-    // print('Response body: ${response.body}');
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
   }
 
   @override
@@ -129,8 +129,8 @@ class _MnoDepositDetail extends State<MnoDepositDetail> {
         "service": "deposit",
         "user": _auth!.uid,
         "status": "started",
-        // "users_location": GeoPoint(-6.7640978, 39.2484818) this is an
-        //instance, return object or value of the GeoPoint
+        "users_location": {"latitude": -6.7640978, "longitude": 39.2484818}
+        // this is how we will be sending this to the database
       }).then((value) {
         // This value here does not return an object
         // returns DocumentReference<Map<String, dynamic>>
