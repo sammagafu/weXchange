@@ -130,13 +130,11 @@ class _MnoDepositDetail extends State<MnoDepositDetail> {
         "user": _auth!.uid,
         "status": "started",
         "users_location": const GeoPoint(-6.7640978, 39.2484818)
-        // this is an
-        //instance, return object or value of the GeoPoint
       }).then((value) {
-        // This value here does not return an object
-        // returns DocumentReference<Map<String, dynamic>>
         value.get().then((value) {
           // dynamic data = value.data();
+          // Create a datatype model for transaction and then serialize
+          // it to json before sending
           Map<String, dynamic> data =
               Map<String, dynamic>.from(value.data() as Map<String, dynamic>);
           sendNotification(json.encode(data));
