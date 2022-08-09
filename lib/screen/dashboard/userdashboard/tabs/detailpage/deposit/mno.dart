@@ -6,6 +6,7 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:we_exchange/constants/constants.dart';
 import 'package:we_exchange/generated/l10n.dart';
+import 'package:we_exchange/model/transaction.model.dart';
 import 'package:we_exchange/screen/dashboard/userdashboard/sucesstransfer.dart';
 import 'package:we_exchange/services/location.dart';
 import 'package:http/http.dart' as http;
@@ -28,9 +29,9 @@ class _MnoDepositDetail extends State<MnoDepositDetail> {
   var client = http.Client();
 
   sendNotification(payload) async {
+    print(payload);
     var url = Uri.parse(
         'https://us-central1-wexchange-765f8.cloudfunctions.net/sendPushToAllMessage');
-
     var response = await http.post(url,
         body: payload,
         headers: {"Accept": "*/*", "Content-Type": "application/json"});
@@ -129,15 +130,16 @@ class _MnoDepositDetail extends State<MnoDepositDetail> {
         "service": "deposit",
         "user": _auth!.uid,
         "status": "started",
-        "users_location": const GeoPoint(-6.7640978, 39.2484818)
+        "users_location": GeoPoint(-6.7640978, 39.2484818)
       }).then((value) {
         value.get().then((value) {
           // dynamic data = value.data();
           // Create a datatype model for transaction and then serialize
           // it to json before sending
-          Map<String, dynamic> data =
-              Map<String, dynamic>.from(value.data() as Map<String, dynamic>);
-          sendNotification(json.encode(data));
+          // print(value.data);
+          TransactionModel data =
+              TransactionModel.fromJson(value.data() as Map<String, dynamic>);
+          sendNotification(jsonEncode(data));
         });
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => SuccessScreen(value.id)));
