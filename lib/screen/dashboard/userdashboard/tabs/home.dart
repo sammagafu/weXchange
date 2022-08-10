@@ -66,7 +66,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
       .where("is_active", isEqualTo: true)
       .where('is_completed', isEqualTo: false)
       .where("status", isEqualTo: "started")
-      .limit(1)
+      .limit(5)
       //includeMetadataChanges: true
       .snapshots();
   final CollectionReference ttrips =
@@ -312,7 +312,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
   }
 
 //declined trip variable
-  List<String>? _declinedTripsList;
+  List<String>? _declinedTripsList = [];
   String? _declinedTrip;
 
   Future<String?> _getDeclinedTrips() async {
@@ -328,13 +328,12 @@ class _AdminDashboardState extends State<AdminDashboard> {
     if (trip.isEmpty) {
       throw ('Error');
     }
-    if (_declinedTripsList!.isNotEmpty) {
+    if (_declinedTripsList != null && _declinedTripsList!.isNotEmpty) {
       list = _declinedTripsList!.toList();
     }
     list.add(trip);
     // try the above one when this below fails
-    return await sharedPreferenceHelper.setDeclinedTrips(
-        declinedTripIds: _declinedTripsList!.toList());
+    return await sharedPreferenceHelper.setDeclinedTrips(declinedTripIds: list);
   }
 
   @override
@@ -370,13 +369,16 @@ class _AdminDashboardState extends State<AdminDashboard> {
               if (snapshot.data!.docs.isEmpty) {
                 return const TripDetails();
               }
-              var _transactionData = snapshot.data!.docs.first;
+              var _transactionListData = snapshot.data!.docs as List;
+              var _transactionData = _transactionListData.first;
               var _requestingUser = _transactionData["user"];
-
               double latitude = _transactionData['users_location'].latitude;
               double longitude = _transactionData['users_location'].longitude;
 
-              if (_declinedTrip == _transactionData.id &&
+              print(_declinedTripsList);
+              print(_transactionData.id);
+              if (_declinedTripsList!.isNotEmpty &&
+                  _declinedTripsList?.first == _transactionData.id &&
                   _requestingUser == _auth?.uid) {
                 return const TripDetails();
               } else {
@@ -512,6 +514,12 @@ class _AdminDashboardState extends State<AdminDashboard> {
                       const SizedBox(height: 12),
                       TextButton(
                         onPressed: () {
+                          setState(() {
+                            if (_declinedTripsList != null) {
+                              _declinedTripsList!
+                                  .add(_transactionData.id.toString());
+                            }
+                          });
                           _addDeclinedTripToList(
                               _transactionData.id.toString());
                         },
